@@ -1,31 +1,22 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="flex items-stretch h-screen bg-black">
+      <VideoPlayer class="flex-1" />
+      <RouterView class="w-1/3 h-screen overflow-y-scroll" />
     </div>
-    <router-view/>
+    <ToastOverlay />
   </div>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
+<script lang="ts">
+import Vue from 'vue'
+import VideoPlayer from '@/modules/player/VideoPlayer.vue'
+import ToastOverlay from '@/modules/toast/view.vue'
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+export default Vue.extend({
+  components: {
+    VideoPlayer,
+    ToastOverlay,
+  },
+})
+</script>
