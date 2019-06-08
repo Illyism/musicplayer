@@ -19,11 +19,7 @@ export default function setupVueInstance() {
     Vue.use(PortalVue)
     Vue.use(MQ)
 
-    if (process.env.NODE_ENV === 'production') {
-        axios.defaults.baseURL = 'https://api.musicplayer.io'
-    } else {
-        axios.defaults.baseURL = process.env.BASE_URL
-    }
+    axios.defaults.baseURL = process.env.BASE_URL
     axios.interceptors.request.use(decache)
     axios.defaults.headers.post['X-TLC'] = '1'
     axios.interceptors.request.use(disableOnPOSTRequest)
