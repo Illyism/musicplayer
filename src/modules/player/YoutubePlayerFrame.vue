@@ -3,7 +3,7 @@
         ref="player"
         class="h-full w-full"
         type="text/html"
-        src="http://www.youtube.com/embed/hi4pzKvuEQM?enablejsapi=1"
+        src="http://www.youtube.com/embed/hi4pzKvuEQM?enablejsapi=1&controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3"
     />
 </template>
 

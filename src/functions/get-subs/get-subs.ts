@@ -1,5 +1,5 @@
 import Airtable from 'airtable'
-const base = new Airtable({ apiKey: 'keymhgkLPPEYWx27y' }).base('appOgTEA40adsbOV8')
+const base = new Airtable({ apiKey: process.env.AIRTABLE_KEY }).base('appOgTEA40adsbOV8')
 
 async function getAllSubs() {
   return await base('Imported table').select({ view: 'Grid view' }).all()

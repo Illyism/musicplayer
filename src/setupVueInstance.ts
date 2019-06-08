@@ -11,11 +11,13 @@ import axios from 'axios'
 import PortalVue from 'portal-vue'
 import Vue from 'vue'
 import Meta from 'vue-meta'
+import MQ from 'vue-match-media/src'
 
 export default function setupVueInstance() {
     // vendor plugins
     Vue.use(Meta)
     Vue.use(PortalVue)
+    Vue.use(MQ)
 
     if (process.env.NODE_ENV === 'production') {
         axios.defaults.baseURL = 'https://api.musicplayer.io'

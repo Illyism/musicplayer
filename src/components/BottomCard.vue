@@ -1,13 +1,13 @@
 <template>
     <div
-        class="h-32 p-2 rounded border border-gray-800 bg-gray-900 text-white flex flex-col justify-end cursor-pointer trans"
+        class="overflow-hidden h-full p-2 rounded border border-gray-800 bg-gray-900 text-white flex flex-col justify-end cursor-pointer trans"
         :class="{
             'hover:border-yellow-800': !isActive,
             'border-yellow-500 hover:border-yellow-600': isActive
         }"
         @click="$emit('onClick')"
     >
-        <div v-if="description" class="text-xs text-gray-500" :class="descriptionClass">
+        <div v-if="description" class="text-xs truncate text-gray-500" :class="descriptionClass">
             {{ description }}
         </div>
         <div class="text-sm truncate text-gray-100" :class="titleClass" lang="en-US">
