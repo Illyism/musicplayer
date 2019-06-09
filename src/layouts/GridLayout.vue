@@ -23,7 +23,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { mapState } from 'vuex'
 import { TweenLite, Back, CSSPlugin, AttrPlugin } from 'gsap/all'
-const _fixActivationTreeShake = { TweenLite, Back, CSSPlugin, AttrPlugin }
+const fixActivationTreeShake = { TweenLite, Back, CSSPlugin, AttrPlugin }
 
 const duration = 0.25
 
