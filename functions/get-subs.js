@@ -39,6 +39,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var airtable_1 = __importDefault(require("airtable"));
+var redis_1 = __importDefault(require("redis"));
+var redisClient = redis_1["default"].createClient({
+    host: process.env.REDIS_HOST,
+    port: parseInt(process.env.REDIS_PORT || '', 10),
+    auth_pass: process.env.REDIS_PASSWORD
+});
+var promisify = require('util').promisify;
+var getCache = promisify(redisClient.get).bind(redisClient);
+var setCache = promisify(redisClient.set).bind(redisClient);
 var base = new airtable_1["default"]({ apiKey: process.env.AIRTABLE_KEY }).base(process.env.AIRTABLE_BASE || '');
 function getAllSubs() {
     return __awaiter(this, void 0, void 0, function () {
@@ -52,20 +61,35 @@ function getAllSubs() {
 }
 function handler() {
     return __awaiter(this, void 0, void 0, function () {
-        var allSubs, rows, err_1;
+        var cachedBody, allSubs, rows, body, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, getAllSubs()];
+                    _a.trys.push([0, 4, , 5]);
+                    console.time('get-subs');
+                    return [4 /*yield*/, getCache('musicplayer-subs')];
                 case 1:
+                    cachedBody = _a.sent();
+                    if (cachedBody) {
+                        console.log('cache hit');
+                        console.timeEnd('get-subs');
+                        return [2 /*return*/, { statusCode: 200, body: cachedBody }];
+                    }
+                    return [4 /*yield*/, getAllSubs()];
+                case 2:
                     allSubs = _a.sent();
                     rows = allSubs.map(function (result) { return Object.assign({}, result.fields, { id: result.id }); });
-                    return [2 /*return*/, { statusCode: 200, body: JSON.stringify(rows) }];
-                case 2:
+                    body = JSON.stringify(rows);
+                    return [4 /*yield*/, setCache('musicplayer-subs', body, 'EX', 60 * 24)];
+                case 3:
+                    _a.sent();
+                    console.log('cache miss');
+                    console.timeEnd('get-subs');
+                    return [2 /*return*/, { statusCode: 200, body: body }];
+                case 4:
                     err_1 = _a.sent();
                     return [2 /*return*/, { statusCode: 500, body: err_1.toString() }];
-                case 3: return [2 /*return*/];
+                case 5: return [2 /*return*/];
             }
         });
     });
