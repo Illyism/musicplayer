@@ -47,6 +47,7 @@
     "babel-core": "7.0.0-bridge.0",
     "tailwindcss": "^1.0.3",
     "ts-jest": "^23.0.0",
+    "tslint": "^5.17.0",
     "typescript": "^3.4.3",
     "vue-template-compiler": "^2.6.10"
   }

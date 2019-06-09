@@ -3,7 +3,7 @@
         ref="player"
         class="h-full w-full"
         type="text/html"
-        src="https://www.youtube.com/embed/hi4pzKvuEQM?enablejsapi=1&controls=0&disablekb=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3"
+        :src="src"
     />
 </template>
 
@@ -17,6 +17,22 @@ export default class YoutubePlayerFrame extends Vue {
 
     private async mounted() {
         this.initPlayer()
+    }
+
+    private get src() {
+        const params = [
+            ['enablejsapi', 1],
+            ['controls', 0],
+            ['disablekb', 1],
+            ['modestbranding', 1],
+            ['showinfo', 0],
+            ['rel', 0],
+            ['iv_load_policy', 3],
+            ['origin', process.env.BASE_URL],
+        ]
+
+        const paramsStr = params.map((p) => p.join('=')).join('&')
+        return `https://www.youtube.com/embed/hi4pzKvuEQM?${paramsStr}`
     }
 
     private initPlayer() {
