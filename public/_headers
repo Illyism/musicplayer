@@ -1,6 +1,6 @@
 /*
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
-  # Referrer-Policy: no-referrer
+  Referrer-Policy: strict-origin
   X-Content-Type-Options: nosniff
   X-UA-Compatible: IE=Edge
