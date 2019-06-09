@@ -23,6 +23,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { mapState } from 'vuex'
 import { TweenLite, Back } from 'gsap/all'
+const plugins = [ TweenLite, Back ];
 
 const duration = 0.25
 
