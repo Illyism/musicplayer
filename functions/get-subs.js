@@ -39,8 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var airtable_1 = __importDefault(require("airtable"));
-var pako_1 = __importDefault(require("pako"));
-var base = new airtable_1["default"]({ apiKey: process.env.AIRTABLE_KEY || 'keyaTd6ddUH135q27' }).base('appOgTEA40adsbOV8');
+var base = new airtable_1["default"]({ apiKey: process.env.AIRTABLE_KEY }).base(process.env.AIRTABLE_BASE || '');
 function getAllSubs() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -53,7 +52,7 @@ function getAllSubs() {
 }
 function handler() {
     return __awaiter(this, void 0, void 0, function () {
-        var allSubs, rows, body, err_1;
+        var allSubs, rows, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -62,8 +61,7 @@ function handler() {
                 case 1:
                     allSubs = _a.sent();
                     rows = allSubs.map(function (result) { return Object.assign({}, result.fields, { id: result.id }); });
-                    body = pako_1["default"].deflate(JSON.stringify(rows), { to: 'string' });
-                    return [2 /*return*/, { statusCode: 200, body: body }];
+                    return [2 /*return*/, { statusCode: 200, body: JSON.stringify(rows) }];
                 case 2:
                     err_1 = _a.sent();
                     return [2 /*return*/, { statusCode: 500, body: err_1.toString() }];
