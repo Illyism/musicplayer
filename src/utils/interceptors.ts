@@ -14,15 +14,6 @@ export function disableOnPOSTResponse(config: AxiosResponse) {
     return config
 }
 
-export function decache(config: AxiosRequestConfig) {
-    if (config.url) {
-        config.url +=
-            (config.url.indexOf('?') > 0 ? '&' : '?') +
-            `t=${new Date().getTime()}`
-    }
-    return config
-}
-
 export function toastOnErrors(error: any) {
     controller.showError(error)
     return Promise.reject(error)

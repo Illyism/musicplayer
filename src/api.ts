@@ -13,7 +13,7 @@ export async function getRedditMusic(
     sortId: string,
     topSortId: string,
     after?: string,
-    limit: number = 12,
+    limit: number = 100,
 ): Promise< RawSubreddit> {
     const subsText = subs.map((s) => s.Subreddit).join('+')
     const params = {
@@ -22,6 +22,6 @@ export async function getRedditMusic(
         after,
         limit,
     }
-    const res = await axios.get(`${BASE_REDDIT_URL}/r/${subsText}.json`, { params })
+    const res = await axios.get(`${BASE_REDDIT_URL}/r/${subsText}/${sortId}.json`, { params })
     return res.data
 }

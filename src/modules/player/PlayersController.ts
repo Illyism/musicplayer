@@ -1,5 +1,4 @@
 import store, { State } from '@/store'
-import { MutationPayload } from 'vuex'
 import { RawPostData } from '@/typings/reddit'
 import isYoutubeType from '../playlist/util/isYoutubeType';
 import YoutubeService from './YoutubeService';
@@ -7,13 +6,13 @@ import PlayerService from './PlayerService';
 import isSoundcloudType from '../playlist/util/isSoundcloudType';
 import isVimeoType from '../playlist/util/isVimeoType';
 import isMP3Type from '../playlist/util/isMP3Type';
+import StoreListener from '@/utils/StoreListener';
 
-class PlayersController {
-    private services: PlayerService[] = [ YoutubeService ]
-
-    constructor() {
-        store.subscribe(this.onStoreMutation.bind(this))
+class PlayersController extends StoreListener {
+    protected on = {
+        SET_ACTIVE_POST: this.onPostChanged,
     }
+    private services: PlayerService[] = [ YoutubeService ]
 
     public pause() {
         YoutubeService.pause()
@@ -56,19 +55,13 @@ class PlayersController {
         this.forAllServiceExcept(currentService, (service) => service.stop())
     }
 
-    private onPostChanged(activePost: RawPostData | null) {
+    private onPostChanged(state: State) {
+        const activePost = state.activePost
         if (!activePost) {
             this.pause()
             return
         }
         this.switchSong(activePost)
-    }
-
-    private onStoreMutation({ type }: MutationPayload, state: State) {
-        switch (type) {
-            case 'SET_ACTIVE_POST':
-                this.onPostChanged(state.activePost)
-        }
     }
 }
 

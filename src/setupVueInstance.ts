@@ -1,7 +1,6 @@
 import IconsPlugin from '@/components/globalIcons'
 import toastPlugin from '@/modules/toast/plugin'
 import {
-    decache,
     disableOnPOSTRequest,
     disableOnPOSTResponse,
     toastOnErrors,
@@ -20,7 +19,6 @@ export default function setupVueInstance() {
     Vue.use(MQ)
 
     axios.defaults.baseURL = process.env.BASE_URL
-    axios.interceptors.request.use(decache)
     axios.defaults.headers.post['X-TLC'] = '1'
     axios.interceptors.request.use(disableOnPOSTRequest)
     axios.interceptors.response.use(disableOnPOSTResponse)

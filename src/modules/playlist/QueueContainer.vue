@@ -5,7 +5,7 @@
         </div>
 
         <GridLayout
-            :list="redditMusic"
+            :list="playlist"
         >
             <div
                 slot-scope="{ item }"
@@ -44,6 +44,7 @@ import { State, Getter, Action, Mutation, namespace} from 'vuex-class'
 import { RawPostData } from '@/typings/reddit'
 
 import GridLayout from '@/layouts/GridLayout.vue'
+import PlaylistController from '@/modules/playlist/PlaylistController'
 
 @Component({
     components: {
@@ -51,13 +52,12 @@ import GridLayout from '@/layouts/GridLayout.vue'
     },
 })
 export default class QueueContainer extends Vue {
-    @State public redditMusic!: RawPostData[]
+    @Getter public playlist!: RawPostData[]
     @State public activePost!: RawPostData
-    @Action public GET_REDDIT_MUSIC!: () => void
     @Action public TOGGLE_POST!: (post: RawPostData) => void
 
     public mounted() {
-        this.GET_REDDIT_MUSIC()
+        PlaylistController.getMusic()
     }
 
     public onClick(post: RawPostData) {

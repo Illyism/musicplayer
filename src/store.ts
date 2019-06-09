@@ -1,10 +1,9 @@
-import { getRedditMusic, getSubs } from '@/api';
+import { getSubs } from '@/api';
 import { RawPostData } from '@/typings/reddit';
 import keyBy from 'lodash/keyBy';
 import Vue from 'vue';
 import Vuex, { GetterTree, MutationTree } from 'vuex';
 import VuexPersistence from 'vuex-persist';
-import isPlayable from './modules/playlist/util/isPlayable';
 
 Vue.use(Vuex)
 
@@ -52,6 +51,11 @@ const defaultGetters: GetterTree< State, any> = {
   },
   subsMap({ subs }) {
     return keyBy(subs, 'Subreddit')
+  },
+  playlist({ redditMusic, activePost }) {
+    const currentIndex = activePost ? redditMusic.indexOf(activePost) : 0
+    const playlistIndex = Math.max(0, currentIndex - 1)
+    return redditMusic.slice(playlistIndex, 9)
   },
 }
 
@@ -127,17 +131,6 @@ export default new Vuex.Store< State>({
     },
     SET_ACTIVE_TOP_SORT({ commit }, sort: TopSortMethod) {
       commit('SET_ACTIVE_TOP_SORT', sort.id)
-    },
-    async GET_REDDIT_MUSIC({ commit, state }) {
-      const result = await getRedditMusic(
-        state.activeSubs,
-        state.activeSort,
-        state.activeTopSort,
-      )
-
-      const songs = result.data.children.map((d) => d.data).filter(isPlayable)
-
-      commit('SET_REDDIT_MUSIC', songs)
     },
     PLAY_POST({ commit }, post: RawPostData) {
       commit('SET_ACTIVE_POST', post)
