@@ -36,7 +36,7 @@ export default class YoutubePlayerFrame extends Vue {
     }
 
     private initPlayer() {
-        YoutubeService.initYoutube(this.$refs.player as HTMLElement)
+        YoutubeService.init(this.$refs.player as HTMLElement)
         YoutubeService.player!.loadVideoById('hi4pzKvuEQM')
         YoutubeService.player!.playVideo()
     }

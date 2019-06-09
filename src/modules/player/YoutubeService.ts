@@ -4,12 +4,13 @@ import { YouTubePlayer } from 'youtube-player/dist/types'
 import PlayerStates from 'youtube-player/dist/constants/PlayerStates'
 import { YoutubePostData } from '@/typings/player';
 import getYoutubeIdForPost from '../playlist/util/getYoutubeIdForPost';
+import PlayerService from './PlayerService'
 
-class YoutubeService {
+class YoutubeService implements PlayerService {
     /** @see https://github.com/gajus/youtube-player */
     public player: YouTubePlayer | null = null
 
-    public initYoutube(element: HTMLElement) {
+    public init(element: HTMLElement) {
         this.player = initYoutubePlayer(element)
         this.player.on('ready', () => {
             console.log('ready')
@@ -46,6 +47,13 @@ class YoutubeService {
     }
 
     public pause() {
+        if (!this.player) {
+            return
+        }
+        this.player.pauseVideo()
+    }
+
+    public stop() {
         if (!this.player) {
             return
         }
