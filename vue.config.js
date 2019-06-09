@@ -6,10 +6,6 @@ module.exports = {
     name: manifestJSON.short_name,
     themeColor: manifestJSON.theme_color,
     msTileColor: manifestJSON.background_color,
-    appleMobileWebAppStatusBarStyle: 'black-translucent',
-    workboxPluginMode: 'GenerateSW',
-    workboxOptions: {
-      importWorkboxFrom: 'local',
-    },
+    appleMobileWebAppStatusBarStyle: 'black-translucent'
   },
 }
