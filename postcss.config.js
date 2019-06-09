@@ -39,8 +39,7 @@ module.exports = {
                 /y-axis/,
             ],
             whitelistPatternsChildren: [
-                /y-bg-bars/,
-                /y-axis/,
+                /popper/,
             ],
         }) : null,
         require('cssnano')({
