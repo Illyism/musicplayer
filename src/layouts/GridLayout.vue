@@ -22,7 +22,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { mapState } from 'vuex'
-import { TweenMax, Back } from 'gsap'
+import { TweenLite, Back } from 'gsap'
 
 const duration = 0.25
 
@@ -49,7 +49,7 @@ export default class GridLayout extends Vue {
 
     private enter(el: HTMLElement, done: () => void) {
         setTimeout(() => {
-            TweenMax.set(el, {
+            TweenLite.set(el, {
                 opacity: 1,
                 padding: '0.5rem',
                 height: '8rem',
@@ -60,7 +60,7 @@ export default class GridLayout extends Vue {
                     done()
                 },
             })
-            TweenMax.from(el, duration, {
+            TweenLite.from(el, duration, {
                 opacity: '0',
                 height: '0',
                 width: '0',
@@ -70,7 +70,7 @@ export default class GridLayout extends Vue {
     }
 
     private leave(el: HTMLElement, done: () => void) {
-        TweenMax.to(el, duration, {
+        TweenLite.to(el, duration, {
             opacity: 0,
             height: 0,
             width: 0,
