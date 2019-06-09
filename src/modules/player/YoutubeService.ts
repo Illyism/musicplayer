@@ -13,8 +13,8 @@ class YoutubeService {
             console.log('ready')
         })
 
-        this.player.on('error', () => {
-            console.log('error')
+        this.player.on('error', (e) => {
+            console.log('error', e)
         })
 
         this.player.on('stateChange', async () => {
