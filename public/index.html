@@ -11,7 +11,10 @@
     <noscript>
       <strong>We're sorry but musicplayer doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+      <div class="loading-app"></div>
+    </div>
+    <style>body{background:#0f0f0f}@-webkit-keyframes loading-app{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes loading-app{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.loading-app:before{content:'';box-sizing:border-box;position:absolute;top:50%;left:50%;width:20px;height:20px;margin-top:-10px;margin-left:-10px;border-radius:50%;border:1px solid #ED64A6;border-top-color:#48BB78;border-right-color:#ECC94B;border-bottom-color:#4299E1;-webkit-animation:loading-app .6s linear infinite;animation:loading-app .6s linear infinite}</style>
     <!-- built files will be auto injected -->
     <script async type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
     <script async type="text/javascript" src="https://w.soundcloud.com/player/api.js"></script>
