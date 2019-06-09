@@ -6,6 +6,13 @@ module.exports = {
     name: manifestJSON.short_name,
     themeColor: manifestJSON.theme_color,
     msTileColor: manifestJSON.background_color,
-    appleMobileWebAppStatusBarStyle: 'black-translucent'
+    appleMobileWebAppStatusBarStyle: 'black-translucent',
+    workboxOptions: {
+      exclude: [
+        /\.map$/, // don't cache source maps
+        /^manifest.*\.js$/, // don't cache manifest script that is injected
+        /^_/, // don't cache _headers, _redirects from netlify
+      ]
+    }
   },
 }
