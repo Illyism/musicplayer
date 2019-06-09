@@ -28,7 +28,7 @@ export default class YoutubePlayerFrame extends Vue {
             ['showinfo', 0],
             ['rel', 0],
             ['iv_load_policy', 3],
-            ['origin', process.env.BASE_URL],
+            ['origin', window.location.origin],
         ]
 
         const paramsStr = params.map((p) => p.join('=')).join('&')
