@@ -48,7 +48,6 @@ import { mapState } from 'vuex'
 import GridLayout from '@/layouts/GridLayout.vue'
 import LoadingCardGrid from '@/components/loading/LoadingCardGrid.vue'
 import BottomCard from '@/components/BottomCard.vue'
-import { SubredditListItem } from '../../shims-vue';
 
 @Component({
   components: {

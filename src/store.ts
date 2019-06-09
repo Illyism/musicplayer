@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex, { GetterTree } from 'vuex'
 import { getSubs } from '@/api'
 import VuexPersistence from 'vuex-persist'
-import { SubredditListItem, SortMethod, TopSortMethod } from './shims-vue';
 import keyBy from 'lodash/keyBy'
 
 Vue.use(Vuex)
@@ -18,14 +17,14 @@ export interface State {
 
 export const defaultState: State = {
   subs: [],
-  subsLoaded: false,
+  subsLoaded: false ,
   activeSubs: [],
   activeSort: 'hot',
   activeTopSort: 'm',
 }
 
 
-const vuexLocal = new VuexPersistence<State>({
+const vuexLocal = new VuexPersistence< State>({
   storage: window.localStorage,
   reducer: ({ activeSort, activeTopSort, activeSubs }) => ({ activeSort, activeTopSort, activeSubs }),
   filter: (mutation) => {
@@ -38,10 +37,10 @@ const vuexLocal = new VuexPersistence<State>({
       default:
         return false
     }
-  }
+  },
 })
 
-const defaultGetters: GetterTree<State, any> = {
+const defaultGetters: GetterTree< State, any> = {
   activeSubsMap({ activeSubs }) {
     return keyBy(activeSubs, 'Subreddit')
   },
@@ -50,7 +49,7 @@ const defaultGetters: GetterTree<State, any> = {
   },
 }
 
-export default new Vuex.Store<State>({
+export default new Vuex.Store< State>({
   plugins: [vuexLocal.plugin],
   state: defaultState,
   getters: defaultGetters,
@@ -82,7 +81,7 @@ export default new Vuex.Store<State>({
   },
   actions: {
     async FETCH_SUBS({ commit, state, getters }) {
-      commit('SET_SUBS_LOADED', false)
+      commit('SET_SUBS_LOADED', false )
       const allSubs = await getSubs()
       commit('STORE_SUBS', allSubs)
 

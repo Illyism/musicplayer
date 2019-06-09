@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var airtable_1 = __importDefault(require("airtable"));
-var base = new airtable_1["default"]({ apiKey: 'keymhgkLPPEYWx27y' }).base('appOgTEA40adsbOV8');
+var base = new airtable_1["default"]({ apiKey: process.env.AIRTABLE_KEY }).base('appOgTEA40adsbOV8');
 function getAllSubs() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -60,7 +60,7 @@ function handler() {
                     return [4 /*yield*/, getAllSubs()];
                 case 1:
                     body = _a.sent();
-                    rows = body.map(function (result) { return result.fields; });
+                    rows = body.map(function (result) { return Object.assign({}, result.fields, { id: result.id }); });
                     return [2 /*return*/, { statusCode: 200, body: JSON.stringify(rows, null, 2) }];
                 case 2:
                     err_1 = _a.sent();

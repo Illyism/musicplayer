@@ -7,7 +7,7 @@
         :id="toggle.id"
         :color="toggle.color"
         :isActive="activeSort === toggle.id"
-        @onClick="setActiveSort(toggle)"
+        @onClick="SET_ACTIVE_SORT(toggle)"
       />
 
       <div v-if="activeSort === 'top'" class="flex flex-col h-16 flex-wrap">
@@ -18,7 +18,7 @@
           :title="toggle.title"
           :color="toggle.color"
           :isActive="activeTopSort === toggle.id"
-          @onClick="setActiveTopSort(toggle)"
+          @onClick="SET_ACTIVE_TOP_SORT(toggle)"
         />
       </div>
 
@@ -29,7 +29,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import SortToggleItem from '@/modules/playlist/SortToggleItem.vue'
 import TopSortToggleItem from '@/modules/playlist/TopSortToggleItem.vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 @Component({
   components: {
@@ -38,6 +38,9 @@ import { mapState } from 'vuex'
   },
   computed: {
     ...mapState(['activeSort', 'activeTopSort']),
+  },
+  methods: {
+    ...mapActions(['SET_ACTIVE_SORT', 'SET_ACTIVE_TOP_SORT']),
   },
 })
 export default class SortToggle extends Vue {
@@ -57,13 +60,5 @@ export default class SortToggle extends Vue {
       { id: 'y', title: 'Year', color: 'yellow-200' },
       { id: 'a', title: 'All time', color: 'yellow-100' },
     ]
-
-    private setActiveSort(sort: SortMethod) {
-      this.$store.dispatch('SET_ACTIVE_SORT', sort)
-    }
-
-    private setActiveTopSort(sort: TopSortMethod) {
-      this.$store.dispatch('SET_ACTIVE_TOP_SORT', sort)
-    }
 }
 </script>
