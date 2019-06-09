@@ -15,4 +15,7 @@ module.exports = {
       ]
     }
   },
+  transpileDependencies: [
+    'vue-match-media',
+  ],
 }
