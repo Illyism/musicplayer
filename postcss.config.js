@@ -26,7 +26,7 @@ module.exports = {
                 /material-design-icon/,
                 /fade-/,
                 /page-/,
-                /border-/,
+                /^border-/,
                 /transition/,
                 /tooltip/,
                 /y-bg-bars/,
