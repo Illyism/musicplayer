@@ -87,6 +87,9 @@ export default new Vuex.Store< State>({
 
       const activeSubs = []
       for (const oldActiveSub of state.activeSubs) {
+        if (!oldActiveSub || !oldActiveSub.Subreddit) {
+          continue
+        }
         activeSubs.push(getters.subsMap[oldActiveSub.Subreddit])
       }
       commit('SET_ACTIVE_SUBS', activeSubs)

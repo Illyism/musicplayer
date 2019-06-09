@@ -39,7 +39,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var airtable_1 = __importDefault(require("airtable"));
-var base = new airtable_1["default"]({ apiKey: process.env.AIRTABLE_KEY }).base('appOgTEA40adsbOV8');
+var pako_1 = __importDefault(require("pako"));
+var base = new airtable_1["default"]({ apiKey: process.env.AIRTABLE_KEY || 'keyaTd6ddUH135q27' }).base('appOgTEA40adsbOV8');
 function getAllSubs() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -52,16 +53,17 @@ function getAllSubs() {
 }
 function handler() {
     return __awaiter(this, void 0, void 0, function () {
-        var body, rows, err_1;
+        var allSubs, rows, body, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, getAllSubs()];
                 case 1:
-                    body = _a.sent();
-                    rows = body.map(function (result) { return Object.assign({}, result.fields, { id: result.id }); });
-                    return [2 /*return*/, { statusCode: 200, body: JSON.stringify(rows, null, 2) }];
+                    allSubs = _a.sent();
+                    rows = allSubs.map(function (result) { return Object.assign({}, result.fields, { id: result.id }); });
+                    body = pako_1["default"].deflate(JSON.stringify(rows), { to: 'string' });
+                    return [2 /*return*/, { statusCode: 200, body: body }];
                 case 2:
                     err_1 = _a.sent();
                     return [2 /*return*/, { statusCode: 500, body: err_1.toString() }];

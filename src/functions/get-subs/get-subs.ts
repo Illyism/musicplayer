@@ -1,5 +1,8 @@
 import Airtable from 'airtable'
-const base = new Airtable({ apiKey: process.env.AIRTABLE_KEY }).base('appOgTEA40adsbOV8')
+import pako from 'pako'
+import redis from 'redis'
+
+const base = new Airtable({ apiKey: process.env.AIRTABLE_KEY || 'keyaTd6ddUH135q27' }).base('appOgTEA40adsbOV8')
 
 async function getAllSubs() {
   return await base('Imported table').select({ view: 'Grid view' }).all()
@@ -7,9 +10,10 @@ async function getAllSubs() {
 
 export async function handler() {
   try {
-    const body = await getAllSubs()
-    const rows = body.map((result) => Object.assign({}, result.fields, { id: result.id }))
-    return { statusCode: 200, body: JSON.stringify(rows, null, 2) };
+    const allSubs = await getAllSubs()
+    const rows = allSubs.map((result) => Object.assign({}, result.fields, { id: result.id }))
+    const body = pako.deflate(JSON.stringify(rows), { to: 'string' });
+    return { statusCode: 200, body }
   } catch (err) {
     return { statusCode: 500, body: err.toString() };
   }
