@@ -2,6 +2,8 @@
 import initYoutubePlayer from 'youtube-player'
 import { YouTubePlayer } from 'youtube-player/dist/types'
 import PlayerStates from 'youtube-player/dist/constants/PlayerStates'
+import { YoutubePostData } from '@/typings/player';
+import getYoutubeIdForPost from '../playlist/util/getYoutubeIdForPost';
 
 class YoutubeService {
     /** @see https://github.com/gajus/youtube-player */
@@ -29,6 +31,25 @@ class YoutubeService {
                 default: console.log('unknown state', newState)
             }
         })
+    }
+
+    public switchSong(post: YoutubePostData) {
+        if (!this.player) {
+            return
+        }
+        const id = getYoutubeIdForPost(post)
+        if (!id) {
+            console.log('could not find id')
+            return
+        }
+        this.player.loadVideoById(id)
+    }
+
+    public pause() {
+        if (!this.player) {
+            return
+        }
+        this.player.stopVideo()
     }
 }
 

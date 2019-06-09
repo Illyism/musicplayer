@@ -28,6 +28,19 @@
         <div class="text-gray-100 font-light text-sm mx-2 mb-2">
             All subreddits
         </div>
+
+        <div class="mx-2 mb-2">
+          <div class="w-full relative">
+            <input v-model="subredditSearch"
+              class="bg-gray-900 text-gray-200 pr-16 text-xs w-full rounded-lg px-4 py-2 outline-none border border-gray-700 focus:border-yellow-500 focus:text-gray-100"
+              placeholder="Search for subreddits..."
+              type="text" autocomplete="off" autocorrect="off">
+            <div class="absolute right-0 inset-y-0 mr-4 text-gray-700 flex items-center justify-center pointer-events-none">
+              <IconMagnify class="" />
+            </div>
+          </div>
+        </div>
+
         <GridLayout
             :list="inactiveSubs"
         >
@@ -43,11 +56,12 @@
 
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { mapState } from 'vuex'
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import { mapState, mapGetters } from 'vuex'
 import GridLayout from '@/layouts/GridLayout.vue'
 import LoadingCardGrid from '@/components/loading/LoadingCardGrid.vue'
 import BottomCard from '@/components/BottomCard.vue'
+import { Dictionary } from 'lodash';
 
 @Component({
   components: {
@@ -57,19 +71,36 @@ import BottomCard from '@/components/BottomCard.vue'
   },
   computed: {
     ...mapState(['subsLoaded', 'subs', 'activeSubs']),
+    ...mapGetters(['activeSubsMap']),
   },
 })
 export default class SubredditContainer extends Vue {
   public subsLoaded!: boolean
   public subs!: SubredditListItem[]
   public activeSubs!: SubredditListItem[]
+  public subredditSearch: string = ''
+  public activeSubsMap!: Dictionary< SubredditListItem >
 
   private created() {
     this.$store.dispatch('FETCH_SUBS')
   }
 
+  private isSubVisible(sub: SubredditListItem) {
+    if (this.activeSubsMap[sub.Subreddit]) {
+      return false // is active
+    }
+
+    if (this.subredditSearch && this.subredditSearch.length > 3) {
+      if (sub.Subreddit.indexOf(this.subredditSearch) === -1) {
+        return false // filtered by search
+      }
+    }
+
+    return true
+  }
+
   private get inactiveSubs() {
-    return this.subs.filter((sub) => this.activeSubs.indexOf(sub) === -1)
+    return this.subs.filter(this.isSubVisible)
   }
 
   private toggleActiveSub(sub: SubredditListItem) {

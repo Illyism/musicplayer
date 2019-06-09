@@ -1,8 +1,10 @@
-import Vue from 'vue'
-import Vuex, { GetterTree } from 'vuex'
-import { getSubs } from '@/api'
-import VuexPersistence from 'vuex-persist'
-import keyBy from 'lodash/keyBy'
+import { getRedditMusic, getSubs } from '@/api';
+import { RawPostData } from '@/typings/reddit';
+import keyBy from 'lodash/keyBy';
+import Vue from 'vue';
+import Vuex, { GetterTree, MutationTree } from 'vuex';
+import VuexPersistence from 'vuex-persist';
+import isPlayable from './modules/playlist/util/isPlayable';
 
 Vue.use(Vuex)
 
@@ -12,6 +14,8 @@ export interface State {
   activeSubs: SubredditListItem[]
   activeSort: 'hot'|'top'|'new'
   activeTopSort: 'h'|'d'|'m'|'y'|'a'
+  redditMusic: RawPostData[]
+  activePost: RawPostData | null
 }
 
 
@@ -21,6 +25,8 @@ export const defaultState: State = {
   activeSubs: [],
   activeSort: 'hot',
   activeTopSort: 'm',
+  redditMusic: [],
+  activePost: null,
 }
 
 
@@ -49,36 +55,44 @@ const defaultGetters: GetterTree< State, any> = {
   },
 }
 
+const mutationsTree: MutationTree< State> = {
+  STORE_SUBS(state, subs) {
+    state.subs = subs
+  },
+  SET_SUBS_LOADED(state, isLoaded) {
+    state.subsLoaded = isLoaded
+  },
+  ADD_ACTIVE_SUB(state, sub) {
+    state.activeSubs.push(sub)
+  },
+  SET_ACTIVE_SUBS(state, subs) {
+    state.activeSubs = subs
+  },
+  REMOVE_ACTIVE_SUB(state, { index, sub }) {
+    if (sub && typeof index === 'undefined') {
+      index = state.activeSubs.indexOf(sub)
+    }
+    state.activeSubs.splice(index, 1)
+  },
+  SET_ACTIVE_SORT(state, sortId) {
+    state.activeSort = sortId
+  },
+  SET_ACTIVE_TOP_SORT(state, sortId) {
+    state.activeTopSort = sortId
+  },
+  SET_REDDIT_MUSIC(state, songs) {
+    state.redditMusic = songs
+  },
+  SET_ACTIVE_POST(state, post) {
+    state.activePost = post
+  },
+}
+
 export default new Vuex.Store< State>({
   plugins: [vuexLocal.plugin],
   state: defaultState,
   getters: defaultGetters,
-  mutations: {
-    STORE_SUBS(state, subs) {
-      state.subs = subs
-    },
-    SET_SUBS_LOADED(state, isLoaded) {
-      state.subsLoaded = isLoaded
-    },
-    ADD_ACTIVE_SUB(state, sub) {
-      state.activeSubs.push(sub)
-    },
-    SET_ACTIVE_SUBS(state, subs) {
-      state.activeSubs = subs
-    },
-    REMOVE_ACTIVE_SUB(state, { index, sub }) {
-      if (sub && typeof index === 'undefined') {
-        index = state.activeSubs.indexOf(sub)
-      }
-      state.activeSubs.splice(index, 1)
-    },
-    SET_ACTIVE_SORT(state, sortId) {
-      state.activeSort = sortId
-    },
-    SET_ACTIVE_TOP_SORT(state, sortId) {
-      state.activeTopSort = sortId
-    },
-  },
+  mutations: mutationsTree,
   actions: {
     async FETCH_SUBS({ commit, state, getters }) {
       commit('SET_SUBS_LOADED', false )
@@ -94,8 +108,7 @@ export default new Vuex.Store< State>({
       }
       commit('SET_ACTIVE_SUBS', activeSubs)
 
-      // find default subs
-      if (!getters.activeSubsMap.listentothis) {
+      if (!activeSubs.length) {
         commit('ADD_ACTIVE_SUB', getters.subsMap.listentothis)
       }
 
@@ -114,6 +127,27 @@ export default new Vuex.Store< State>({
     },
     SET_ACTIVE_TOP_SORT({ commit }, sort: TopSortMethod) {
       commit('SET_ACTIVE_TOP_SORT', sort.id)
+    },
+    async GET_REDDIT_MUSIC({ commit, state }) {
+      const result = await getRedditMusic(
+        state.activeSubs,
+        state.activeSort,
+        state.activeTopSort,
+      )
+
+      const songs = result.data.children.map((d) => d.data).filter(isPlayable)
+
+      commit('SET_REDDIT_MUSIC', songs)
+    },
+    PLAY_POST({ commit }, post: RawPostData) {
+      commit('SET_ACTIVE_POST', post)
+    },
+    TOGGLE_POST({ commit, state }, post: RawPostData) {
+      if (state.activePost === post) {
+        commit('SET_ACTIVE_POST', null)
+        return
+      }
+      commit('SET_ACTIVE_POST', post)
     },
   },
 });

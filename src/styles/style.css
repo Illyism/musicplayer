@@ -4,8 +4,12 @@
 
 @tailwind utilities;
 
+body {
+  @apply bg-black font-sans;
+}
+
 .trans {
-    transition: all .25s;
+    transition: all .25s cubic-bezier(0.0,0.0,0.2,1);
 }
 
 .trans-bg {
@@ -86,6 +90,10 @@
   margin-right: 0;
 }
 
+.popper.border-yellow-600[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.600') }
+.popper.border-yellow-600[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.600') }
+.popper.border-yellow-600[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.600') }
+.popper.border-yellow-600[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.600') }
 
 .popper.border-yellow-500[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.500') }
 .popper.border-yellow-500[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.500') }
@@ -107,10 +115,10 @@
 .popper.border-yellow-200[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.200') }
 .popper.border-yellow-200[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.200') }
 
-.popper.border-yellow-500[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.500') }
-.popper.border-yellow-500[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.500') }
-.popper.border-yellow-500[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.500') }
-.popper.border-yellow-500[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.500') }
+.popper.border-yellow-100[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.100') }
+.popper.border-yellow-100[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.100') }
+.popper.border-yellow-100[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.100') }
+.popper.border-yellow-100[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.100') }
 
 .pace {
   -webkit-pointer-events: none;
@@ -133,4 +141,24 @@
   right: 100%;
   width: 100%;
   height: 2px;
+}
+
+
+.material-design-icon {
+  display: inline-flex;
+  align-self: center;
+  position: relative;
+  height: 1em;
+  width: 1em;
+}
+
+.material-design-icon > .material-design-icon__svg {
+  height: 1em;
+  width: 1em;
+  fill: currentColor;
+  position: absolute;
+}
+
+.mdi-fix > .material-design-icon__svg {
+  bottom: -0.05em;
 }

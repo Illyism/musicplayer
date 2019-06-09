@@ -10,11 +10,11 @@
         @onClick="SET_ACTIVE_SORT(toggle)"
       />
 
-      <div v-if="activeSort === 'top'" class="flex flex-col h-16 flex-wrap">
+      <div v-if="activeSort === 'top'" class="flex w-24 h-16 flex-wrap">
         <TopSortToggleItem
           v-for="toggle in topToggles"
           :key="toggle.id"
-          :id="toggle.id"
+          :id="toggle.id[0]"
           :title="toggle.title"
           :color="toggle.color"
           :isActive="activeTopSort === toggle.id"
@@ -54,11 +54,12 @@ export default class SortToggle extends Vue {
     ]
 
     public topToggles: TopSortMethod[] = [
-      { id: 'h', title: 'Hour', color: 'yellow-500' },
-      { id: 'd', title: 'day', color: 'yellow-400' },
-      { id: 'm', title: 'Month', color: 'yellow-300' },
-      { id: 'y', title: 'Year', color: 'yellow-200' },
-      { id: 'a', title: 'All time', color: 'yellow-100' },
+      { id: 'hour', title: 'Last hour', color: 'yellow-100' },
+      { id: 'day', title: 'Today', color: 'yellow-200' },
+      { id: 'week', title: 'This week', color: 'yellow-300' },
+      { id: 'month', title: 'This month', color: 'yellow-400' },
+      { id: 'year', title: 'This year', color: 'yellow-500' },
+      { id: 'all', title: 'All time', color: 'yellow-600' },
     ]
 }
 </script>
