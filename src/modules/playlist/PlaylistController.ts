@@ -2,6 +2,7 @@ import StoreListener from '@/utils/StoreListener';
 import store, { State } from '@/store';
 import { getRedditMusic } from '@/api';
 import isPlayable from './util/isPlayable';
+import { RawPostData } from '@/typings/reddit';
 
 class PlaylistController extends StoreListener {
     protected on = {
@@ -10,6 +11,29 @@ class PlaylistController extends StoreListener {
         REMOVE_ACTIVE_SUB: this.onActiveSubsChanged,
         SET_ACTIVE_SORT: this.onActiveSubsChanged,
         SET_ACTIVE_TOP_SORT: this.onActiveSubsChanged,
+    }
+
+    /**
+     * On app start, load all the songs and play the first one
+     */
+    public async init() {
+        await this.getMusic()
+        const firstSong = store.state.redditMusic[0]
+        await this.playSong(firstSong)
+    }
+
+    /**
+     * Plays a song
+     */
+    public playSong(post: RawPostData) {
+        store.dispatch('PLAY_POST', post)
+    }
+
+    /**
+     * Plays a new song, or pauses current song
+     */
+    public toggleSong(post: RawPostData) {
+        store.dispatch('TOGGLE_POST', post)
     }
 
     public async getMusic(state: State = store.state) {

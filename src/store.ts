@@ -2,8 +2,9 @@ import { getSubs } from '@/api';
 import { RawPostData } from '@/typings/reddit';
 import keyBy from 'lodash/keyBy';
 import Vue from 'vue';
-import Vuex, { GetterTree, MutationTree } from 'vuex';
+import Vuex, { GetterTree, MutationTree, ActionTree } from 'vuex';
 import VuexPersistence from 'vuex-persist';
+import PlayerStates from 'youtube-player/dist/constants/PlayerStates';
 
 Vue.use(Vuex)
 
@@ -15,6 +16,8 @@ export interface State {
   activeTopSort: 'h'|'d'|'m'|'y'|'a'
   redditMusic: RawPostData[]
   activePost: RawPostData | null
+  playerState: PlayerStates
+  playerReady: boolean
 }
 
 
@@ -26,6 +29,8 @@ export const defaultState: State = {
   activeTopSort: 'm',
   redditMusic: [],
   activePost: null,
+  playerState: PlayerStates.UNSTARTED,
+  playerReady: false,
 }
 
 
@@ -54,8 +59,11 @@ const defaultGetters: GetterTree< State, any> = {
   },
   playlist({ redditMusic, activePost }) {
     const currentIndex = activePost ? redditMusic.indexOf(activePost) : 0
-    const playlistIndex = Math.max(0, currentIndex - 1)
+    const playlistIndex = Math.max(0, currentIndex - 4)
     return redditMusic.slice(playlistIndex, 9)
+  },
+  isPlaying({ playerState }) {
+    return playerState === PlayerStates.PLAYING
   },
 }
 
@@ -90,6 +98,59 @@ const mutationsTree: MutationTree< State> = {
   SET_ACTIVE_POST(state, post) {
     state.activePost = post
   },
+  SET_PLAYER_STATE(state, playerState) {
+    state.playerState = playerState
+  },
+  SET_PLAYER_READY(state) {
+    state.playerReady = true
+  },
+}
+
+const actionsTree: ActionTree< State, State> = {
+  async FETCH_SUBS({ commit, state, getters }) {
+    commit('SET_SUBS_LOADED', false )
+    const allSubs = await getSubs()
+    commit('STORE_SUBS', allSubs)
+
+    const activeSubs = []
+    for (const oldActiveSub of state.activeSubs) {
+      if (!oldActiveSub || !oldActiveSub.Subreddit) {
+        continue
+      }
+      activeSubs.push(getters.subsMap[oldActiveSub.Subreddit])
+    }
+    commit('SET_ACTIVE_SUBS', activeSubs)
+
+    if (!activeSubs.length) {
+      commit('ADD_ACTIVE_SUB', getters.subsMap.listentothis)
+    }
+
+    commit('SET_SUBS_LOADED', true)
+  },
+  TOGGLE_ACTIVE_SUB({ commit, state }, sub) {
+    const index = state.activeSubs.indexOf(sub)
+    if (index === -1) {
+      commit('ADD_ACTIVE_SUB', sub)
+      return
+    }
+    commit('REMOVE_ACTIVE_SUB', { index, sub })
+  },
+  SET_ACTIVE_SORT({ commit }, sort: SortMethod) {
+    commit('SET_ACTIVE_SORT', sort.id)
+  },
+  SET_ACTIVE_TOP_SORT({ commit }, sort: TopSortMethod) {
+    commit('SET_ACTIVE_TOP_SORT', sort.id)
+  },
+  PLAY_POST({ commit }, post: RawPostData) {
+    commit('SET_ACTIVE_POST', post)
+  },
+  TOGGLE_POST({ commit, state }, post: RawPostData) {
+    if (state.activePost === post) {
+      commit('SET_ACTIVE_POST', null)
+      return
+    }
+    commit('SET_ACTIVE_POST', post)
+  },
 }
 
 export default new Vuex.Store< State>({
@@ -97,50 +158,5 @@ export default new Vuex.Store< State>({
   state: defaultState,
   getters: defaultGetters,
   mutations: mutationsTree,
-  actions: {
-    async FETCH_SUBS({ commit, state, getters }) {
-      commit('SET_SUBS_LOADED', false )
-      const allSubs = await getSubs()
-      commit('STORE_SUBS', allSubs)
-
-      const activeSubs = []
-      for (const oldActiveSub of state.activeSubs) {
-        if (!oldActiveSub || !oldActiveSub.Subreddit) {
-          continue
-        }
-        activeSubs.push(getters.subsMap[oldActiveSub.Subreddit])
-      }
-      commit('SET_ACTIVE_SUBS', activeSubs)
-
-      if (!activeSubs.length) {
-        commit('ADD_ACTIVE_SUB', getters.subsMap.listentothis)
-      }
-
-      commit('SET_SUBS_LOADED', true)
-    },
-    TOGGLE_ACTIVE_SUB({ commit, state }, sub) {
-      const index = state.activeSubs.indexOf(sub)
-      if (index === -1) {
-        commit('ADD_ACTIVE_SUB', sub)
-        return
-      }
-      commit('REMOVE_ACTIVE_SUB', { index, sub })
-    },
-    SET_ACTIVE_SORT({ commit }, sort: SortMethod) {
-      commit('SET_ACTIVE_SORT', sort.id)
-    },
-    SET_ACTIVE_TOP_SORT({ commit }, sort: TopSortMethod) {
-      commit('SET_ACTIVE_TOP_SORT', sort.id)
-    },
-    PLAY_POST({ commit }, post: RawPostData) {
-      commit('SET_ACTIVE_POST', post)
-    },
-    TOGGLE_POST({ commit, state }, post: RawPostData) {
-      if (state.activePost === post) {
-        commit('SET_ACTIVE_POST', null)
-        return
-      }
-      commit('SET_ACTIVE_POST', post)
-    },
-  },
-});
+  actions: actionsTree,
+})

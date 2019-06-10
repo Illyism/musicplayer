@@ -1,5 +1,4 @@
 import store, { State } from '@/store'
-import { RawPostData } from '@/typings/reddit'
 import isYoutubeType from '../playlist/util/isYoutubeType';
 import YoutubeService from './YoutubeService';
 import PlayerService from './PlayerService';
@@ -11,6 +10,7 @@ import StoreListener from '@/utils/StoreListener';
 class PlayersController extends StoreListener {
     protected on = {
         SET_ACTIVE_POST: this.onPostChanged,
+        SET_PLAYER_READY: this.switchSong,
     }
     private services: PlayerService[] = [ YoutubeService ]
 
@@ -18,9 +18,14 @@ class PlayersController extends StoreListener {
         YoutubeService.pause()
     }
 
-    public switchSong(post: RawPostData) {
+    public switchSong() {
+        const post = store.state.activePost
+        if (!post) {
+            return
+        }
+
         if (isYoutubeType(post)) {
-            YoutubeService.switchSong(post)
+            YoutubeService.switchSong()
             this.stopAllExcept(YoutubeService)
             return
         }
@@ -56,12 +61,16 @@ class PlayersController extends StoreListener {
     }
 
     private onPostChanged(state: State) {
+        if (!state.playerReady) {
+            return
+        }
+
         const activePost = state.activePost
         if (!activePost) {
             this.pause()
             return
         }
-        this.switchSong(activePost)
+        this.switchSong()
     }
 }
 

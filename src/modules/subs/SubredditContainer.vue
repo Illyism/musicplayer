@@ -62,6 +62,7 @@ import GridLayout from '@/layouts/GridLayout.vue'
 import LoadingCardGrid from '@/components/loading/LoadingCardGrid.vue'
 import BottomCard from '@/components/BottomCard.vue'
 import { Dictionary } from 'lodash';
+import { State, Getter, Action, Mutation, namespace} from 'vuex-class'
 
 @Component({
   components: {
@@ -71,18 +72,19 @@ import { Dictionary } from 'lodash';
   },
   computed: {
     ...mapState(['subsLoaded', 'subs', 'activeSubs']),
-    ...mapGetters(['activeSubsMap']),
   },
 })
 export default class SubredditContainer extends Vue {
-  public subsLoaded!: boolean
-  public subs!: SubredditListItem[]
-  public activeSubs!: SubredditListItem[]
+  @State public subsLoaded!: boolean
+  @State public subs!: SubredditListItem[]
+  @State public activeSubs!: SubredditListItem[]
+  @Getter public activeSubsMap!: Dictionary< SubredditListItem >
+  @Action public FETCH_SUBS!: () => void
+
   public subredditSearch: string = ''
-  public activeSubsMap!: Dictionary< SubredditListItem >
 
   private created() {
-    this.$store.dispatch('FETCH_SUBS')
+    this.FETCH_SUBS()
   }
 
   private isSubVisible(sub: SubredditListItem) {
@@ -91,7 +93,7 @@ export default class SubredditContainer extends Vue {
     }
 
     if (this.subredditSearch && this.subredditSearch.length > 3) {
-      if (sub.Subreddit.indexOf(this.subredditSearch) === -1) {
+      if (sub.Subreddit.toLowerCase().indexOf(this.subredditSearch.toLowerCase()) === -1) {
         return false // filtered by search
       }
     }

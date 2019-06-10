@@ -1,5 +1,5 @@
 <template>
-    <YoutubePlayerFrame />
+    <YoutubePlayerFrame :style="{ background: '#000' }" />
 </template>
 
 <script lang="ts">

@@ -1,7 +1,7 @@
 <template>
   <div class="antialiased">
     <SortToggle />
-    <QueueContainer />
+    <PlaylistContainer />
     <SubredditContainer />
   </div>
 </template>
@@ -10,13 +10,13 @@
 import { Component, Vue } from 'vue-property-decorator'
 import SubredditContainer from '@/modules/subs/SubredditContainer.vue'
 import SortToggle from '@/modules/playlist/SortToggle.vue'
-import QueueContainer from '@/modules/playlist/QueueContainer.vue'
+import PlaylistContainer from '@/modules/playlist/PlaylistContainer.vue'
 
 @Component({
   components: {
     SubredditContainer,
     SortToggle,
-    QueueContainer,
+    PlaylistContainer,
   },
 })
 export default class Home extends Vue {
