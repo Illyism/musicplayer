@@ -36,7 +36,7 @@ class YoutubeService implements PlayerService {
 
         this.player.on('stateChange', async () => {
             const newState = await this.player!.getPlayerState()
-            store.commit('SET_PLAYER_STATE', newState)
+            store.dispatch('SET_PLAYER_STATE', newState)
             switch (newState) {
                 case PlayerStates.UNSTARTED: console.log('UNSTARTED'); break;
                 case PlayerStates.PLAYING: console.log('PLAYING'); break;

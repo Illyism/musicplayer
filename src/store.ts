@@ -30,7 +30,7 @@ export const defaultState: State = {
   redditMusic: [],
   activePost: null,
   playerState: PlayerStates.UNSTARTED,
-  playerReady: false,
+  playerReady: false ,
 }
 
 
@@ -57,10 +57,15 @@ const defaultGetters: GetterTree< State, any> = {
   subsMap({ subs }) {
     return keyBy(subs, 'Subreddit')
   },
-  playlist({ redditMusic, activePost }) {
-    const currentIndex = activePost ? redditMusic.indexOf(activePost) : 0
-    const playlistIndex = Math.max(0, currentIndex - 4)
-    return redditMusic.slice(playlistIndex, 9)
+  currentIndex({ redditMusic, activePost }) {
+    return activePost ? redditMusic.indexOf(activePost) : -1
+  },
+  nextSong({ redditMusic }, { currentIndex }) {
+    return redditMusic[currentIndex + 1]
+  },
+  playlist({ redditMusic }, { currentIndex }) {
+    const playlistCutoffStart = Math.max(0, currentIndex - 4)
+    return redditMusic.slice(playlistCutoffStart, playlistCutoffStart + 9)
   },
   isPlaying({ playerState }) {
     return playerState === PlayerStates.PLAYING
@@ -150,6 +155,15 @@ const actionsTree: ActionTree< State, State> = {
       return
     }
     commit('SET_ACTIVE_POST', post)
+  },
+  SET_PLAYER_STATE({ dispatch, commit, getters }, playerState) {
+    commit('SET_PLAYER_STATE', playerState)
+    if (playerState === PlayerStates.ENDED) {
+      // current video ended, play next
+      if (getters.nextSong) {
+        dispatch('PLAY_POST', getters.nextSong)
+      }
+    }
   },
 }
 
