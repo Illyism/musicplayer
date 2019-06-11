@@ -14,6 +14,7 @@ class PlaylistController extends StoreListener {
         REMOVE_ACTIVE_SUB: this.onActiveSubsChanged,
         SET_ACTIVE_SORT: this.onActiveSubsChanged,
         SET_ACTIVE_TOP_SORT: this.onActiveSubsChanged,
+        SET_PLAYER_STATE: this.onPlayerStateChanged,
     }
 
     /**
@@ -21,37 +22,46 @@ class PlaylistController extends StoreListener {
      */
     public async init() {
         await this.getMusic()
-        const firstSong = store.state.redditMusic[0]
-        await this.playSong(firstSong)
+        this.playFirstSong()
     }
 
     /**
      * Plays a song
      */
-    public playSong(post: RawPostData) {
+    public loadSong(post: RawPostData) {
         store.dispatch('PLAY_POST', post)
+        this.getMoreMusicIfPlaylistEnding()
     }
 
     /**
      * Plays a new song, or pauses current song
      */
     public toggleSong(post: RawPostData) {
+
+        // if we clicked on the current post, just play or pause it
         if (isPostEqual(store.state.activePost, post)) {
             if (store.state.playerState === PlayerStates.PLAYING) {
                 PlayersController.pause()
             } else {
                 PlayersController.play()
             }
+
             return
         }
-        store.dispatch('PLAY_POST', post)
+
+        this.loadSong(post)
     }
 
-    public async getMusic(state: State = store.state) {
+    public async getMusic({ activeSubs, activeSort, activeTopSort }: State = store.state) {
+        if (!activeSubs.length) {
+            console.error('called getMusic without activeSubs')
+            return
+        }
+
         const result = await getRedditMusic(
-            state.activeSubs,
-            state.activeSort,
-            state.activeTopSort,
+            activeSubs,
+            activeSort,
+            activeTopSort,
         )
 
         const songs = result.data.children.map((d) => d.data).filter(isPlayable)
@@ -59,8 +69,73 @@ class PlaylistController extends StoreListener {
         store.commit('SET_REDDIT_MUSIC', songs)
     }
 
+    private async getMoreMusic({ redditMusic, activeSubs, activeSort, activeTopSort }: State = store.state) {
+        const lastSong = redditMusic[redditMusic.length - 1]
+        if (!lastSong) {
+            console.error('No lastSong available to get more music')
+            return
+        }
+
+        const result = await getRedditMusic(
+            activeSubs,
+            activeSort,
+            activeTopSort,
+            lastSong.name,
+        )
+
+        const newSongs = result.data.children.map((d) => d.data).filter(isPlayable)
+
+        // leave the current visible songs
+        const currentSongs = store.getters.playlist
+        const newPlaylist = currentSongs.concat(newSongs)
+
+        store.commit('SET_REDDIT_MUSIC', newPlaylist)
+    }
+
+    private async getMoreMusicIfPlaylistEnding() {
+        // should we load more songs? Check if our playlist is running out
+        const currentIndex = store.getters.currentIndex
+        const songsCount = store.state.redditMusic.length
+        if (currentIndex >= songsCount - 6) { // first column of previous row
+            this.getMoreMusic()
+        }
+    }
+
+    private async playFirstSong({ redditMusic }: State = store.state) {
+        const firstSong = redditMusic[0]
+        if (!firstSong) {
+            console.error('No firstSong to play')
+            return
+        }
+
+        await this.loadSong(firstSong)
+    }
+
+    private async playNextSong() {
+        const nextSong = store.getters.nextSong
+        if (!nextSong) {
+            console.error('No nextSong to play')
+            return
+        }
+
+        this.loadSong(nextSong)
+    }
+
+
+    // events
     private async onActiveSubsChanged(state: State) {
         this.getMusic(state)
+    }
+
+    private async onSongEnded() {
+        this.playNextSong()
+        this.getMoreMusic()
+    }
+
+    private async onPlayerStateChanged({ playerState }: State) {
+        if (playerState === PlayerStates.ENDED) {
+            this.onSongEnded()
+        }
     }
 }
 

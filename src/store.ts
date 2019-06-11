@@ -152,14 +152,8 @@ const actionsTree: ActionTree< State, State> = {
   PLAY_POST({ commit }, post: RawPostData) {
     commit('SET_ACTIVE_POST', post)
   },
-  SET_PLAYER_STATE({ dispatch, commit, getters }, playerState) {
+  SET_PLAYER_STATE({ commit }, playerState) {
     commit('SET_PLAYER_STATE', playerState)
-    if (playerState === PlayerStates.ENDED) {
-      // current video ended, play next
-      if (getters.nextSong) {
-        dispatch('PLAY_POST', getters.nextSong)
-      }
-    }
   },
 }
 
