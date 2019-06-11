@@ -60,6 +60,9 @@ const defaultGetters: GetterTree< State, any> = {
   currentIndex({ redditMusic, activePost }) {
     return activePost ? redditMusic.indexOf(activePost) : -1
   },
+  prevSong({ redditMusic }, { currentIndex }) {
+    return redditMusic[currentIndex - 1]
+  },
   nextSong({ redditMusic }, { currentIndex }) {
     return redditMusic[currentIndex + 1]
   },
@@ -147,13 +150,6 @@ const actionsTree: ActionTree< State, State> = {
     commit('SET_ACTIVE_TOP_SORT', sort.id)
   },
   PLAY_POST({ commit }, post: RawPostData) {
-    commit('SET_ACTIVE_POST', post)
-  },
-  TOGGLE_POST({ commit, state }, post: RawPostData) {
-    if (state.activePost === post) {
-      commit('SET_ACTIVE_POST', null)
-      return
-    }
     commit('SET_ACTIVE_POST', post)
   },
   SET_PLAYER_STATE({ dispatch, commit, getters }, playerState) {

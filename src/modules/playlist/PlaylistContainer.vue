@@ -14,6 +14,8 @@
                 :ups="item.ups"
                 :numComments="item.num_comments"
                 :isActivePost="isActivePost(item)"
+                :isPrevSong="isPrevSong(item)"
+                :isNextSong="isNextSong(item)"
                 @onClick="onClick(item)"
             />
         </GridLayout>
@@ -39,6 +41,8 @@ import PlaylistCard from '@/modules/playlist/PlaylistCard.vue'
 export default class PlaylistContainer extends Vue {
     @Getter public playlist!: RawPostData[]
     @State public activePost?: RawPostData
+    @Getter public nextSong?: RawPostData
+    @Getter public prevSong?: RawPostData
 
     public async mounted() {
         await PlaylistController.init()
@@ -53,6 +57,20 @@ export default class PlaylistContainer extends Vue {
             return false
         }
         return isPostEqual(post, this.activePost)
+    }
+
+    private isNextSong(post: RawPostData) {
+        if (!this.nextSong) {
+            return false
+        }
+        return isPostEqual(post, this.nextSong)
+    }
+
+    private isPrevSong(post: RawPostData) {
+        if (!this.prevSong) {
+            return false
+        }
+        return isPostEqual(post, this.prevSong)
     }
 }
 </script>

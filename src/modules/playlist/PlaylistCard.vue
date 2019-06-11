@@ -25,6 +25,8 @@
         </div>
         <div class="z-20 queue-card-action absolute w-full h-full flex items-center justify-center">
             <IconPause v-if="isActivePost && isPlaying" class="text-4xl" />
+            <IconSkipBackward v-else-if="isPrevSong" class="text-4xl" />
+            <IconSkipForward v-else-if="isNextSong" class="text-4xl" />
             <IconYoutube v-else class="text-4xl" />
         </div>
     </div>
@@ -38,6 +40,8 @@ import { Getter } from 'vuex-class'
 @Component
 export default class PlaylistCard extends Vue {
     @Prop({ default: false }) public isActivePost!: boolean
+    @Prop({ default: false }) public isPrevSong!: boolean
+    @Prop({ default: false }) public isNextSong!: boolean
     @Prop({}) public title!: string
     @Prop({}) public thumbnail!: string
     @Prop({}) public numComments!: number

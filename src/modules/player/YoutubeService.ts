@@ -65,7 +65,7 @@ class YoutubeService implements PlayerService {
         }
 
         this.player.loadVideoById(id)
-        this.playUntilStarted()
+        this.play()
     }
 
     public pause() {
@@ -73,6 +73,13 @@ class YoutubeService implements PlayerService {
             return
         }
         this.player.pauseVideo()
+    }
+
+    public play() {
+        if (!this.player) {
+            return
+        }
+        this.player.playVideo()
     }
 
     public stop() {

@@ -15,19 +15,37 @@ class PlayersController extends StoreListener {
     private services: PlayerService[] = [ YoutubeService ]
 
     public pause() {
-        YoutubeService.pause()
+        if (!this.activeService) {
+            return
+        }
+        this.stopAllExcept(this.activeService)
+        this.activeService.pause()
+    }
+
+    public play() {
+        if (!this.activeService) {
+            return
+        }
+        this.stopAllExcept(this.activeService)
+        this.activeService.play()
     }
 
     public switchSong() {
+        if (!this.activeService) {
+            return
+        }
+        this.stopAllExcept(this.activeService)
+        this.activeService.switchSong()
+    }
+
+    private get activeService() {
         const post = store.state.activePost
         if (!post) {
             return
         }
 
         if (isYoutubeType(post)) {
-            YoutubeService.switchSong()
-            this.stopAllExcept(YoutubeService)
-            return
+            return YoutubeService
         }
 
         if (isSoundcloudType(post)) {

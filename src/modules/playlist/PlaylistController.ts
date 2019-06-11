@@ -3,6 +3,9 @@ import store, { State } from '@/store';
 import { getRedditMusic } from '@/api';
 import isPlayable from './util/isPlayable';
 import { RawPostData } from '@/typings/reddit';
+import isPostEqual from './util/isPostEqual';
+import PlayersController from '../player/PlayersController';
+import PlayerStates from 'youtube-player/dist/constants/PlayerStates';
 
 class PlaylistController extends StoreListener {
     protected on = {
@@ -33,7 +36,15 @@ class PlaylistController extends StoreListener {
      * Plays a new song, or pauses current song
      */
     public toggleSong(post: RawPostData) {
-        store.dispatch('TOGGLE_POST', post)
+        if (isPostEqual(store.state.activePost, post)) {
+            if (store.state.playerState === PlayerStates.PLAYING) {
+                PlayersController.pause()
+            } else {
+                PlayersController.play()
+            }
+            return
+        }
+        store.dispatch('PLAY_POST', post)
     }
 
     public async getMusic(state: State = store.state) {

@@ -4,6 +4,8 @@ const icons = [
     require('vue-material-design-icons/Youtube.vue'),
     require('vue-material-design-icons/Magnify.vue'),
     require('vue-material-design-icons/Pause.vue'),
+    require('vue-material-design-icons/SkipForward.vue'),
+    require('vue-material-design-icons/SkipBackward.vue'),
 ]
 import { VueConstructor } from 'vue'
 
