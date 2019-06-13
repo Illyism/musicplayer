@@ -1,16 +1,18 @@
 <template>
-    <div class="p-4 flex items-center leading-tight">
-      <SortToggleItem
-        v-for="toggle in toggles"
-        :key="toggle.id"
-        :image="toggle.image"
-        :id="toggle.id"
-        :color="toggle.color"
-        :isActive="activeSort === toggle.id"
-        @onClick="SET_ACTIVE_SORT(toggle)"
-      />
+    <div class="p-4 leading-tight">
+      <div class="flex">
+        <SortToggleItem
+          v-for="toggle in toggles"
+          :key="toggle.id"
+          :image="toggle.image"
+          :id="toggle.id"
+          :color="toggle.color"
+          :isActive="activeSort === toggle.id"
+          @onClick="SET_ACTIVE_SORT(toggle)"
+        />
+      </div>
 
-      <div v-if="activeSort === 'top'" class="flex flex-wrap">
+      <div v-if="activeSort === 'top'" class="flex">
         <TopSortToggleItem
           v-for="toggle in topToggles"
           :key="toggle.id"

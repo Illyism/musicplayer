@@ -1,5 +1,5 @@
 <template>
-    <div class="p-1">
+    <div class="p-1 w-full">
          <popper
             trigger="hover"
             :options="{
@@ -12,7 +12,7 @@
             </div>
 
             <div
-                class="h-6 w-6 trans flex flex-col items-center justify-center rounded border bg-gray-900 text-white"
+                class="h-6 w-full trans flex flex-col items-center justify-center rounded border bg-gray-900 text-white"
                 slot="reference"
                 :class="cardClasses"
                 @click="$emit('onClick')"
