@@ -10,7 +10,7 @@
         @onClick="SET_ACTIVE_SORT(toggle)"
       />
 
-      <div v-if="activeSort === 'top'" class="flex w-24 h-16 flex-wrap">
+      <div v-if="activeSort === 'top'" class="flex flex-wrap">
         <TopSortToggleItem
           v-for="toggle in topToggles"
           :key="toggle.id"

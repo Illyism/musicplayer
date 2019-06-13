@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <div class="flex items-stretch h-screen bg-black">
+    <div class="flex flex-col md:flex-row items-stretch h-screen bg-black">
       <VideoPlayer class="flex-1" />
-      <RouterView class="w-1/3 h-screen overflow-y-scroll" />
+      <RouterView class="w-full md:w-1/3 h-screen overflow-y-scroll" />
     </div>
     <ToastOverlay />
   </div>
