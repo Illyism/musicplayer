@@ -1,22 +1,32 @@
 <template>
   <div id="app">
-    <div class="flex flex-col md:flex-row items-stretch h-screen bg-black">
-      <VideoPlayer class="flex-1" />
-      <RouterView class="w-full md:w-1/3 h-screen overflow-y-scroll" />
-    </div>
+
+    <OrientationLayout>
+      <VideoPlayer
+        slot="main"
+      />
+
+      <RouterView
+        slot="side"
+      />
+    </OrientationLayout>
+
     <ToastOverlay />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue, Prop } from 'vue-property-decorator';
 import VideoPlayer from '@/modules/player/VideoPlayer.vue'
 import ToastOverlay from '@/modules/toast/view.vue'
+import OrientationLayout from '@/layouts/OrientationLayout.vue'
 
-export default Vue.extend({
+@Component({
   components: {
+    OrientationLayout,
     VideoPlayer,
     ToastOverlay,
   },
 })
+export default class App extends Vue {}
 </script>
