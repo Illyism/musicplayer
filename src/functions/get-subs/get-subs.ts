@@ -29,7 +29,7 @@ export async function handler() {
     const allSubs = await getAllSubs()
     const rows = allSubs.map((result) => Object.assign({}, result.fields, { id: result.id }))
     const body = JSON.stringify(rows)
-    await setCache('musicplayer-subs', body, 'EX', 60 * 24)
+    await setCache('musicplayer-subs', body, 'EX', 60 * 24) // EX = expire in seconds
     console.log('cache miss')
     console.timeEnd('get-subs')
     return { statusCode: 200, body }
