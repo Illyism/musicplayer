@@ -4,6 +4,9 @@ module.exports = {
             colors: {
                 black: '#0f0f0f',
             }
-        }
+        },
+        borderWidth: {
+            default: '2px',
+        },
     }
 }

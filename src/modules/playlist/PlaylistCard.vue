@@ -1,14 +1,14 @@
 <template>
     <div
-        class="queue-card h-full w-full relative rounded border border-gray-800 bg-gray-900 text-white cursor-pointer trans"
+        class="queue-card h-full w-full relative rounded border bg-gray-900 text-white cursor-pointer trans"
         :class="{
             'queue-card--active': isActivePost,
-            'queue-card--playing': isActivePost && isPlaying,
+            'queue-card--playing': isThisPlaying,
         }"
         @click="$emit('onClick')"
     >
         <div class="absolute rounded h-full w-full bg-cover bg-center" :style="{ backgroundImage: `url(${thumbnail})` }"></div>
-        <div class="z-10 queue-card-info p-2 overflow-hidden absolute w-full h-full flex flex-col justify-between leading-tight">
+        <div class="z-10 queue-card-info rounded p-2 overflow-hidden absolute w-full h-full flex flex-col justify-between leading-tight">
             <div class="flex justify-between">
                 <div class="font-medium text-orange-400">
                     {{ ups }}
@@ -23,8 +23,8 @@
                 </div>
             </div>
         </div>
-        <div class="z-20 queue-card-action absolute w-full h-full flex items-center justify-center">
-            <IconPause v-if="isActivePost && isPlaying" class="text-4xl" />
+        <div class="z-20 queue-card-action absolute rounded w-full h-full flex items-center justify-center">
+            <IconPause v-if="isThisPlaying" class="text-4xl" />
             <IconSkipBackward v-else-if="isPrevSong" class="text-4xl" />
             <IconSkipForward v-else-if="isNextSong" class="text-4xl" />
             <IconYoutube v-else class="text-4xl" />
@@ -47,6 +47,10 @@ export default class PlaylistCard extends Vue {
     @Prop({}) public numComments!: number
     @Prop({}) public ups!: number
     @Getter public isPlaying!: boolean
+
+    get isThisPlaying() {
+        return this.isActivePost && this.isPlaying
+    }
 }
 </script>
 
@@ -70,5 +74,19 @@ export default class PlaylistCard extends Vue {
 .queue-card:hover .queue-card-action,
 .queue-card--active .queue-card-action {
     opacity: 1;
+}
+
+.queue-card {
+    @apply border-gray-800;
+}
+.queue-card:hover {
+    @apply border-yellow-800;
+}
+.queue-card--active {
+    @apply border-yellow-800;
+}
+.queue-card--playing,
+.queue-card--playing:hover {
+    @apply border-yellow-500;
 }
 </style>

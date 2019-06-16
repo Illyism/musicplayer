@@ -5,6 +5,7 @@ import Vue from 'vue';
 import Vuex, { GetterTree, MutationTree, ActionTree } from 'vuex';
 import VuexPersistence from 'vuex-persist';
 import PlayerStates from 'youtube-player/dist/constants/PlayerStates';
+import localforage from 'localforage'
 
 Vue.use(Vuex)
 
@@ -35,14 +36,15 @@ export const defaultState: State = {
 
 
 const vuexLocal = new VuexPersistence< State>({
-  storage: window.localStorage,
-  reducer: ({ activeSort, activeTopSort, activeSubs }) => ({ activeSort, activeTopSort, activeSubs }),
+  storage: localforage,
+  reducer: ({ activeSort, activeTopSort, activeSubs, subs }) => ({ activeSort, activeTopSort, activeSubs, subs }),
   filter: (mutation) => {
     switch (mutation.type) {
       case 'SET_ACTIVE_SORT':
       case 'SET_ACTIVE_TOP_SORT':
       case 'ADD_ACTIVE_SUB':
       case 'REMOVE_ACTIVE_SUB':
+      case 'STORE_SUBS':
         return true
       default:
         return false
