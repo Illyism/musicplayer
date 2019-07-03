@@ -11,10 +11,14 @@ import YoutubeService from '@/modules/player/YoutubeService'
 
 @Component
 export default class YoutubePlayerFrame extends Vue {
-    private service = YoutubeService
+    public service = YoutubeService
 
-    private async mounted() {
-        YoutubeService.init(this.$refs.player as HTMLElement)
+    public async mounted() {
+        await YoutubeService.init(this.$refs.player as HTMLElement)
+    }
+
+    public async beforeDestroy() {
+        await YoutubeService.beforeDestroy()
     }
 }
 </script>

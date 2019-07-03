@@ -55,6 +55,14 @@ class YoutubeService extends StoreListener implements PlayerService {
         })
     }
 
+    public async beforeDestroy() {
+        this.stopIntervalProgressWatchers()
+        if (!this.player) {
+            return
+        }
+        await this.player.destroy()
+    }
+
     public async switchSong() {
         if (!this.isYoutubePlaying) {
             return
