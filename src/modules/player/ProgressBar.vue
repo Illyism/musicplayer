@@ -11,6 +11,11 @@
                 class="absolute h-full rounded-full bg-yellow-600"
                 :style="currentVolumeStyles"
             ></div>
+
+            <div
+                class="absolute h-4 w-4 -ml-1 -mt-1 rounded-full bg-yellow-600 cursor-grab"
+                :style="seekBarStyles"
+            ></div>
        </div>
        <div>{{ progressDuration | formatSeconds }}</div>
    </div>
@@ -56,10 +61,19 @@ export default class ProgressBar extends Vue {
     }
 
     public get currentVolumeStyles() {
-        const progressCurrentPercentage = (this.progressCurrent / this.progressDuration) * 100
         return {
-            width: `${progressCurrentPercentage}%`,
+            width: `${this.progressCurrentPercentage}%`,
         }
+    }
+
+    public get seekBarStyles() {
+        return {
+            left: `${this.progressCurrentPercentage}%`,
+        }
+    }
+
+    private get progressCurrentPercentage() {
+        return (this.progressCurrent / this.progressDuration) * 100
     }
 }
 </script>
