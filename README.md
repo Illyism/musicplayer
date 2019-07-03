@@ -35,3 +35,13 @@ npm run test:unit
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+# Authors
+
+This project is maintained by [Ilias Ismanalijev](https://il.ly).
+
+# License
+
+GNU General Public License v3.0
+
+See [LICENSE](LICENSE.md) to see the full text.
