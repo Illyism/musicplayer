@@ -9,7 +9,7 @@
         }"
         @mousemove="enableActiveState"
     >
-        <div class="flex-1 p-4 flex flex-col items-start w-full">
+        <div class="flex-1 px-4 pt-4 flex flex-col items-start w-full">
             <div class="text-xl font-bold">{{ activePost.title }}</div>
             <div class="font-medium text-grey-50">
                 <span class="text-orange-400">{{ activePost.ups }}</span> •
@@ -118,11 +118,12 @@ export default class VideoOverlay extends Vue {
             } else {
                 document.documentElement.requestFullscreen()
             }
-        } catch(e) { console.error('Could not enable fullscreen', { e }) }
+        } catch (e) {
+            console.error('Could not enable fullscreen', { e })
+        }
     }
 
     public enableActiveState() {
-        console.log('enablePassThroughEvents')
         // we have hovered over the element, so it's actively being hovered of
         // so we should increase opacity and enable controls
         this.activeState = true
@@ -131,7 +132,6 @@ export default class VideoOverlay extends Vue {
 
     private disableActiveState() {
         this.activeState = false
-        console.log('disableActiveState', this)
     }
 
     private get isOverlayVisible() {
