@@ -1,5 +1,8 @@
 # musicplayer
 
+- It's like https://github.com/musicplayer-io/redditmusicplayer
+- But in TypeScript, Tailwind CSS and Vue.js
+
 ## Project setup
 ```
 npm install
