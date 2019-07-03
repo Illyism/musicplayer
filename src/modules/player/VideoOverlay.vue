@@ -52,12 +52,12 @@
             />
         </div>
 
-        <div class="flex-1 p-4 flex items-end w-full">
-            <div class="flex items-center w-full mx-2">
+        <div class="flex-1 flex items-end w-full">
+            <div class="flex items-center w-full p-6 pointer-events-auto">
                 <VolumeControl />
                 <ProgressBar class="flex-1 mx-8" />
                 <IconFullscreen
-                    class="pointer-events-auto cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
+                    class="cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
                     @click="toggleFullscreen"
                 />
             </div>

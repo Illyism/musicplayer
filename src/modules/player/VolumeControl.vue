@@ -2,7 +2,7 @@
    <div class="flex items-center">
         <IconVolumeVariantOff
             v-if="isMuted"
-            class="pointer-events-auto cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
+            class="cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
             @click="unMute"
         />
         <IconVolumeLow
@@ -12,12 +12,12 @@
         />
         <IconVolumeMedium
             v-else-if="volume <= 75"
-            class="pointer-events-auto cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
+            class="cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
             @click="setVolume(100)"
         />
         <IconVolumeHigh
             v-else
-            class="pointer-events-auto cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
+            class="cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
             @click="mute"
         />
    </div>

@@ -1,7 +1,7 @@
 <template>
    <div class="w-full h-full flex items-center justify-center">
        <div>{{ progressCurrent | formatSeconds }}</div>
-       <div class="pointer-events-auto relative w-full h-2 mx-4">
+       <div class="relative w-full h-2 mx-4">
             <div class="absolute w-full h-full rounded-full bg-gray-900"></div>
             <div
                 class="absolute h-full rounded-full bg-gray-800"
