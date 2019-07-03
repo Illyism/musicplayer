@@ -5,4 +5,8 @@ export default interface PlayerService {
     pause: () => void
     stop: () => void
     switchSong: (post: RawPostData) => void
+
+    setVolume: (newVolume: number) => void
+    mute: () => void
+    unMute: () => void
 }

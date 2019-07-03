@@ -14,6 +14,17 @@ class PlayersController extends StoreListener {
     }
     private services: PlayerService[] = [ YoutubeService ]
 
+    public playPause({ isPlaying } = store.getters) {
+        if (!this.activeService) {
+            return
+        }
+        if (isPlaying) {
+            this.pause()
+            return
+        }
+        this.play()
+    }
+
     public pause() {
         if (!this.activeService) {
             return
@@ -36,6 +47,30 @@ class PlayersController extends StoreListener {
         }
         this.stopAllExcept(this.activeService)
         this.activeService.switchSong()
+    }
+
+    public setVolume(newVolume: number) {
+        store.dispatch('SET_VOLUME', newVolume)
+        if (!this.activeService) {
+            return
+        }
+        this.activeService.setVolume(newVolume)
+    }
+
+    public mute() {
+        store.dispatch('SET_MUTE_STATE', true)
+        if (!this.activeService) {
+            return
+        }
+        this.activeService.mute()
+    }
+
+    public unMute() {
+        store.dispatch('SET_MUTE_STATE', false)
+        if (!this.activeService) {
+            return
+        }
+        this.activeService.unMute()
     }
 
     private get activeService() {

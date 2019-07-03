@@ -25,8 +25,8 @@
         </div>
         <div class="z-20 queue-card-action absolute rounded w-full h-full flex items-center justify-center">
             <IconPause v-if="isThisPlaying" class="text-4xl" />
-            <IconSkipBackward v-else-if="isPrevSong" class="text-4xl" />
-            <IconSkipForward v-else-if="isNextSong" class="text-4xl" />
+            <IconSkipPrevious v-else-if="isPrevSong" class="text-4xl" />
+            <IconSkipNext v-else-if="isNextSong" class="text-4xl" />
             <IconYoutube v-else class="text-4xl" />
         </div>
     </div>

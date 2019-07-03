@@ -19,6 +19,11 @@ export interface State {
   activePost: RawPostData | null
   playerState: PlayerStates
   playerReady: boolean
+  volume: number
+  isMuted: boolean
+  progressDuration: number
+  progressCurrent: number
+  progressLoaded: number
 }
 
 
@@ -32,12 +37,18 @@ export const defaultState: State = {
   activePost: null,
   playerState: PlayerStates.UNSTARTED,
   playerReady: false ,
+  volume: 100,
+  isMuted: false ,
+  progressDuration: 1,
+  progressCurrent: 0,
+  progressLoaded: 0,
 }
 
 
 const vuexLocal = new VuexPersistence< State>({
   storage: localforage,
-  reducer: ({ activeSort, activeTopSort, activeSubs, subs }) => ({ activeSort, activeTopSort, activeSubs, subs }),
+  reducer: ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted }) =>
+           ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted }),
   filter: (mutation) => {
     switch (mutation.type) {
       case 'SET_ACTIVE_SORT':
@@ -45,6 +56,8 @@ const vuexLocal = new VuexPersistence< State>({
       case 'ADD_ACTIVE_SUB':
       case 'REMOVE_ACTIVE_SUB':
       case 'STORE_SUBS':
+      case 'SET_VOLUME':
+      case 'SET_MUTE_STATE':
         return true
       default:
         return false
@@ -114,6 +127,21 @@ const mutationsTree: MutationTree< State> = {
   SET_PLAYER_READY(state) {
     state.playerReady = true
   },
+  SET_VOLUME(state, currentVolume: number) {
+    state.volume = currentVolume
+  },
+  SET_MUTE_STATE(state, isMuted: boolean) {
+    state.isMuted = isMuted
+  },
+  SET_PROGRESS_DURATION(state, timeInSecs) {
+    state.progressDuration = timeInSecs
+  },
+  SET_PROGRESS_CURRENT(state, timeInSecs) {
+    state.progressCurrent = timeInSecs
+  },
+  SET_PROGRESS_LOADED(state, loadedPercentage) {
+    state.progressLoaded = loadedPercentage
+  },
 }
 
 const actionsTree: ActionTree< State, State> = {
@@ -156,6 +184,21 @@ const actionsTree: ActionTree< State, State> = {
   },
   SET_PLAYER_STATE({ commit }, playerState) {
     commit('SET_PLAYER_STATE', playerState)
+  },
+  SET_VOLUME({ commit }, currentVolume: number) {
+    commit('SET_VOLUME', currentVolume)
+  },
+  SET_MUTE_STATE({ commit }, isMuted: boolean) {
+    commit('SET_MUTE_STATE', isMuted)
+  },
+  SET_PROGRESS_DURATION({ commit }, timeInSecs) {
+    commit('SET_PROGRESS_DURATION', timeInSecs)
+  },
+  SET_PROGRESS_CURRENT({ commit }, timeInSecs) {
+    commit('SET_PROGRESS_CURRENT', timeInSecs)
+  },
+  SET_PROGRESS_LOADED({ commit }, loadedPercentage) {
+    commit('SET_PROGRESS_LOADED', loadedPercentage)
   },
 }
 

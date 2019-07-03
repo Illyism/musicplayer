@@ -2,10 +2,16 @@ const icons = [
     require('vue-material-design-icons/Home.vue'),
     require('vue-material-design-icons/Close.vue'),
     require('vue-material-design-icons/Youtube.vue'),
+    require('vue-material-design-icons/Play.vue'),
     require('vue-material-design-icons/Magnify.vue'),
     require('vue-material-design-icons/Pause.vue'),
-    require('vue-material-design-icons/SkipForward.vue'),
-    require('vue-material-design-icons/SkipBackward.vue'),
+    require('vue-material-design-icons/SkipNext.vue'),
+    require('vue-material-design-icons/SkipPrevious.vue'),
+    require('vue-material-design-icons/VolumeVariantOff.vue'),
+    require('vue-material-design-icons/VolumeLow.vue'),
+    require('vue-material-design-icons/VolumeMedium.vue'),
+    require('vue-material-design-icons/VolumeHigh.vue'),
+    require('vue-material-design-icons/Fullscreen.vue'),
 ]
 import { VueConstructor } from 'vue'
 

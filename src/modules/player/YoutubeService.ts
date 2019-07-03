@@ -4,13 +4,19 @@ import { YouTubePlayer } from 'youtube-player/dist/types'
 import PlayerStates from 'youtube-player/dist/constants/PlayerStates'
 import getYoutubeIdForPost from '../playlist/util/getYoutubeIdForPost';
 import PlayerService from './PlayerService'
-import { sleep } from '@/utils'
 import store from '@/store';
 import isYoutubeType from '../playlist/util/isYoutubeType';
+import StoreListener from '@/utils/StoreListener';
 
-class YoutubeService implements PlayerService {
+class YoutubeService extends StoreListener implements PlayerService {
     /** @see https://github.com/gajus/youtube-player */
     public player: YouTubePlayer | null = null
+
+    protected on = {
+        SET_PLAYER_STATE: this.onPlayerStateChanged,
+    }
+
+    private interval?: number
 
     public init(element: HTMLElement) {
         this.player = initYoutubePlayer(element, {
@@ -49,9 +55,8 @@ class YoutubeService implements PlayerService {
         })
     }
 
-    public switchSong() {
-        const post = store.state.activePost
-        if (!isYoutubeType(post)) {
+    public async switchSong() {
+        if (!this.isYoutubePlaying) {
             return
         }
 
@@ -59,60 +64,111 @@ class YoutubeService implements PlayerService {
             return
         }
 
-        const id = getYoutubeIdForPost(post)
+        const post = store.state.activePost
+        const id = getYoutubeIdForPost(post!)
         if (!id) {
             return
         }
 
-        this.player.loadVideoById(id)
-        this.play()
+        await this.player.loadVideoById(id)
+        await this.play()
     }
 
-    public pause() {
+    public async pause() {
         if (!this.player) {
             return
         }
-        this.player.pauseVideo()
+        await this.player.pauseVideo()
     }
 
-    public play() {
+    public async play() {
         if (!this.player) {
             return
         }
-        this.player.playVideo()
+        await this.player.playVideo()
     }
 
-    public stop() {
+    public async stop() {
         if (!this.player) {
             return
         }
-        this.player.stopVideo()
+        await this.player.stopVideo()
     }
 
-    /**
-     * Keeps attempting to play the song
-     * Will attempt playback increasingly
-     * - 1,2,4,8,16,32 sec
-     * - 1,2,4,8,17,34,68,128,... min
-     *
-     *
-     * This because the player might be in a background tab
-     * and this service was ordered to play, so it must play eventually
-     */
-    private async playUntilStarted(i = 1) {
+    public async setVolume(newVolume: number) {
         if (!this.player) {
             return
         }
+        await this.player.setVolume(newVolume)
+    }
 
-        const playerState = await this.player.getPlayerState()
-        if (playerState === PlayerStates.PLAYING) {
+    public async mute() {
+        if (!this.player) {
+            return
+        }
+        await this.player.mute()
+    }
+
+    public async unMute() {
+        if (!this.player) {
+            return
+        }
+        await this.player.unMute()
+    }
+
+    private get isYoutubePlaying() {
+        const post = store.state.activePost
+        return isYoutubeType(post)
+    }
+
+    private async startIntervalProgressWatchers() {
+        if (!this.player) {
+            return
+        }
+        if (this.interval) {
             return
         }
 
-        this.player.playVideo()
+        // set the volume on the youtube iframe based on our preferred volume
+        await this.player.setVolume(store.state.volume)
 
-        await sleep(1000 * i)
-        this.playUntilStarted(i * 2)
+        // get the duration, current time and loaded time
+        store.dispatch('SET_PROGRESS_DURATION', await this.player.getDuration()) // secs
+        this.updateProgressState()
+
+        // and continue updating every 200ms, because there are no events to watch
+        this.interval = window.setInterval(() => this.updateProgressState(), 200)
+        console.log(this.interval)
+    }
+
+    private async updateProgressState() {
+        if (!this.player) {
+            return
+        }
+        store.dispatch('SET_PROGRESS_CURRENT', await this.player.getCurrentTime()) // secs
+        store.dispatch('SET_PROGRESS_LOADED', await this.player.getVideoLoadedFraction()) // %
+        console.log(store.state.progressCurrent, store.state.progressLoaded)
+    }
+
+    private stopIntervalProgressWatchers() {
+        if (!this.interval) {
+            return
+        }
+        window.clearInterval(this.interval)
+        this.interval = undefined
+    }
+
+    // events
+    private async onPlayerStateChanged() {
+        if (store.getters.isPlaying) {
+            if (!this.isYoutubePlaying) {
+                return
+            }
+
+            this.startIntervalProgressWatchers()
+        } else {
+            this.stopIntervalProgressWatchers()
+        }
     }
 }
 

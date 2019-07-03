@@ -69,6 +69,26 @@ class PlaylistController extends StoreListener {
         store.commit('SET_REDDIT_MUSIC', songs)
     }
 
+    public async playNextSong() {
+        const nextSong = store.getters.nextSong
+        if (!nextSong) {
+            console.error('No nextSong to play')
+            return
+        }
+
+        this.loadSong(nextSong)
+    }
+
+    public async playPrevSong() {
+        const prevSong = store.getters.prevSong
+        if (!prevSong) {
+            console.error('No prevSong to play')
+            return
+        }
+
+        this.loadSong(prevSong)
+    }
+
     private async getMoreMusic({ redditMusic, activeSubs, activeSort, activeTopSort }: State = store.state) {
         const lastSong = redditMusic[redditMusic.length - 1]
         if (!lastSong) {
@@ -109,16 +129,6 @@ class PlaylistController extends StoreListener {
         }
 
         await this.loadSong(firstSong)
-    }
-
-    private async playNextSong() {
-        const nextSong = store.getters.nextSong
-        if (!nextSong) {
-            console.error('No nextSong to play')
-            return
-        }
-
-        this.loadSong(nextSong)
     }
 
 

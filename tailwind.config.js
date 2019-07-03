@@ -8,5 +8,8 @@ module.exports = {
         borderWidth: {
             default: '2px',
         },
+    },
+    variants: {
+        opacity: ['responsive', 'hover'],
     }
 }
