@@ -1,4 +1,8 @@
 export default function formatSeconds(secs: number) {
+    if (secs < 0 || isNaN(secs)) {
+        return '00:00'
+    }
+
     const hours = Math.floor(secs / 3600)
     let mins
 
