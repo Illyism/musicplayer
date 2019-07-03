@@ -146,7 +146,6 @@ class YoutubeService extends StoreListener implements PlayerService {
 
         // and continue updating every 200ms, because there are no events to watch
         this.interval = window.setInterval(() => this.updateProgressState(), 200)
-        console.log(this.interval)
     }
 
     private async updateProgressState() {
@@ -155,7 +154,6 @@ class YoutubeService extends StoreListener implements PlayerService {
         }
         store.dispatch('SET_PROGRESS_CURRENT', await this.player.getCurrentTime()) // secs
         store.dispatch('SET_PROGRESS_LOADED', await this.player.getVideoLoadedFraction()) // %
-        console.log(store.state.progressCurrent, store.state.progressLoaded)
     }
 
     private stopIntervalProgressWatchers() {
