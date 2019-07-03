@@ -10,7 +10,7 @@
         >
             <div
                 v-for="(item, index) in list"
-                :key="index"
+                :key="index + 0"
                 class="p-2 h-32"
                 :style="{ width: widthPerColumn }"
             >
