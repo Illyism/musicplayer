@@ -12,6 +12,7 @@
             </div>
 
             <div
+                v-show="isMenuOpen"
                 class="h-screen overflow-y-scroll"
                 :class="{
                     'w-1/3': this.isHorizontalOrientation,
@@ -26,6 +27,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import { State } from 'vuex-class'
 import elementSize, { ResizeState } from '@/plugins/elementSize'
 
 @Component({
@@ -34,6 +36,7 @@ import elementSize, { ResizeState } from '@/plugins/elementSize'
   },
 })
 export default class OrientationLayout extends Vue {
+    @State public isMenuOpen!: boolean
     public containerWidth: number = 0
     public containerHeight: number = 0
 

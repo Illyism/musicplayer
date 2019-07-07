@@ -12,7 +12,7 @@ const icons = [
     require('vue-material-design-icons/VolumeMedium.vue'),
     require('vue-material-design-icons/VolumeHigh.vue'),
     require('vue-material-design-icons/Fullscreen.vue'),
-    require('vue-material-design-icons/MenuRightOutline.vue'),
+    require('vue-material-design-icons/Menu.vue'),
     require('vue-material-design-icons/ArrowUpBold.vue'),
 ]
 import { VueConstructor } from 'vue'

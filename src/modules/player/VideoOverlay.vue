@@ -29,18 +29,19 @@
                     />
                     <div class="text-xs font-medium">Upvote</div>
                 </div>
-                <div class="px-4 cursor-pointer trans opacity-75 hover:opacity-100">
-                    <IconMenuRightOutline
+                <div class="px-4 cursor-pointer trans opacity-75 hover:opacity-100"
+                    @click="SET_MENU_OPEN_STATE(!isMenuOpen)">
+                    <IconMenu
                         class="text-4xl"
                     />
-                    <div class="text-xs font-medium">Close menu</div>
+                    <div class="text-xs font-medium">Toggle menu</div>
                 </div>
             </div>
         </div>
 
         <div class="flex-1 flex items-center">
             <IconSkipPrevious
-                class="text-4xl cursor-pointer trans"
+                class="pointer-events-auto text-4xl cursor-pointer trans"
                 :class="{
                     'opacity-50 pointer-events-none': !prevSong,
                     'opacity-75 hover:opacity-100': !!prevSong,
@@ -50,17 +51,17 @@
 
             <IconPause
                 v-if="isPlaying"
-                class="text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
+                class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
                 @click="playPause"
             />
             <IconPlay
                 v-else
-                class="text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
+                class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
                 @click="playPause"
             />
 
             <IconSkipNext
-                class="text-4xl cursor-pointer trans"
+                class="pointer-events-auto text-4xl cursor-pointer trans"
                 :class="{
                     'opacity-50 pointer-events-none': !nextSong,
                     'opacity-75 hover:opacity-100': !!nextSong,
@@ -70,7 +71,7 @@
         </div>
 
         <div class="flex-1 flex items-end w-full">
-            <div class="flex items-center w-full p-6">
+            <div class="pointer-events-auto flex items-center w-full p-6">
                 <VolumeControl />
                 <ProgressBar class="flex-1 mx-8" />
                 <IconFullscreen
@@ -84,7 +85,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { Getter, State } from 'vuex-class'
+import { Getter, State, Action } from 'vuex-class'
 import { RawPostData } from '@/typings/reddit'
 import PlayersController from './PlayersController'
 import PlaylistController from '@/modules/playlist/PlaylistController'
@@ -104,9 +105,11 @@ import { distanceInWordsToNow } from 'date-fns'
 })
 export default class VideoOverlay extends Vue {
     @State public activePost?: RawPostData
+    @State public isMenuOpen!: boolean
     @Getter public isPlaying!: boolean
     @Getter public prevSong?: RawPostData
     @Getter public nextSong?: RawPostData
+    @Action public SET_MENU_OPEN_STATE!: () => void
 
     public activeState: boolean = false
 
