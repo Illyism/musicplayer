@@ -29,45 +29,49 @@
                     />
                     <div class="text-xs font-medium">Upvote</div>
                 </div>
-                <div class="px-4 cursor-pointer trans opacity-75 hover:opacity-100"
-                    @click="SET_MENU_OPEN_STATE(!isMenuOpen)">
-                    <IconMenu
-                        class="text-4xl"
-                    />
-                    <div class="text-xs font-medium">Toggle menu</div>
-                </div>
             </div>
         </div>
 
-        <div class="flex-1 flex items-center">
-            <IconSkipPrevious
-                class="pointer-events-auto text-4xl cursor-pointer trans"
-                :class="{
-                    'opacity-50 pointer-events-none': !prevSong,
-                    'opacity-75 hover:opacity-100': !!prevSong,
-                }"
-                @click="playPrevSong"
-            />
+        <div class="flex-1 flex items-center justify-between w-full">
+            <div class="w-64"></div>
+            <div class="flex items-center">
+                <IconSkipPrevious
+                    class="pointer-events-auto text-4xl cursor-pointer trans"
+                    :class="{
+                        'opacity-50 pointer-events-none': !prevSong,
+                        'opacity-75 hover:opacity-100': !!prevSong,
+                    }"
+                    @click="playPrevSong"
+                />
 
-            <IconPause
-                v-if="isPlaying"
-                class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
-                @click="playPause"
-            />
-            <IconPlay
-                v-else
-                class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
-                @click="playPause"
-            />
+                <IconPause
+                    v-if="isPlaying"
+                    class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
+                    @click="playPause"
+                />
+                <IconPlay
+                    v-else
+                    class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
+                    @click="playPause"
+                />
 
-            <IconSkipNext
-                class="pointer-events-auto text-4xl cursor-pointer trans"
-                :class="{
-                    'opacity-50 pointer-events-none': !nextSong,
-                    'opacity-75 hover:opacity-100': !!nextSong,
-                }"
-                @click="playNextSong" 
-            />
+                <IconSkipNext
+                    class="pointer-events-auto text-4xl cursor-pointer trans"
+                    :class="{
+                        'opacity-50 pointer-events-none': !nextSong,
+                        'opacity-75 hover:opacity-100': !!nextSong,
+                    }"
+                    @click="playNextSong" 
+                />
+            </div>
+
+            <div class="w-64 flex items-center justify-end mr-6">
+                <IconMenu
+                    v-if="isHorizontalOrientation"
+                    class="pointer-events-auto text-4xl cursor-pointer trans opacity-75 hover:opacity-100"
+                    @click="SET_MENU_OPEN_STATE(!isMenuOpen)"
+                />
+            </div>
         </div>
 
         <div class="flex-1 flex items-end w-full">
@@ -106,6 +110,7 @@ import { distanceInWordsToNow } from 'date-fns'
 export default class VideoOverlay extends Vue {
     @State public activePost?: RawPostData
     @State public isMenuOpen!: boolean
+    @State public isHorizontalOrientation!: boolean
     @Getter public isPlaying!: boolean
     @Getter public prevSong?: RawPostData
     @Getter public nextSong?: RawPostData

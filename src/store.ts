@@ -25,6 +25,7 @@ export interface State {
   progressCurrent: number
   progressLoaded: number
   isMenuOpen: boolean
+  isHorizontalOrientation: boolean
 }
 
 
@@ -44,6 +45,7 @@ export const defaultState: State = {
   progressCurrent: 0,
   progressLoaded: 0,
   isMenuOpen: true,
+  isHorizontalOrientation: true,
 }
 
 
@@ -147,6 +149,9 @@ const mutationsTree: MutationTree< State> = {
   SET_MENU_OPEN_STATE(state, isMenuOpen) {
     state.isMenuOpen = isMenuOpen
   },
+  SET_ORIENTATION(state, isHorizontalOrientation) {
+    state.isHorizontalOrientation = isHorizontalOrientation
+  },
 }
 
 const actionsTree: ActionTree< State, State> = {
@@ -207,6 +212,9 @@ const actionsTree: ActionTree< State, State> = {
   },
   SET_MENU_OPEN_STATE({ commit }, isMenuOpen) {
     commit('SET_MENU_OPEN_STATE', isMenuOpen)
+  },
+  SET_ORIENTATION({ commit }, isHorizontalOrientation) {
+    commit('SET_ORIENTATION', isHorizontalOrientation)
   },
 }
 
