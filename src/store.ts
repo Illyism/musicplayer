@@ -5,7 +5,6 @@ import Vue from 'vue';
 import Vuex, { GetterTree, MutationTree, ActionTree } from 'vuex';
 import VuexPersistence from 'vuex-persist';
 import PlayerStates from 'youtube-player/dist/constants/PlayerStates';
-import localforage from 'localforage'
 
 Vue.use(Vuex)
 
@@ -50,7 +49,7 @@ export const defaultState: State = {
 
 
 const vuexLocal = new VuexPersistence< State>({
-  storage: localforage,
+  storage: window.localStorage,
   reducer: ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted }) =>
            ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted }),
   filter: (mutation) => {
@@ -156,6 +155,11 @@ const mutationsTree: MutationTree< State> = {
 
 const actionsTree: ActionTree< State, State> = {
   async FETCH_SUBS({ commit, state, getters }) {
+    if (state.subs.length > 0) {
+      // already loaded subs
+      return
+    }
+
     commit('SET_SUBS_LOADED', false )
     const allSubs = await getSubs()
     commit('STORE_SUBS', allSubs)
