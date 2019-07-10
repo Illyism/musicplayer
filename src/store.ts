@@ -14,7 +14,7 @@ export interface State {
   subsLoaded: boolean
   activeSubs: SubredditListItem[]
   activeSort: 'hot'|'top'|'new'
-  activeTopSort: 'h'|'d'|'m'|'y'|'a'
+  activeTopSort: 'hour'|'day'|'week'|'month'|'year'|'all'
   redditMusic: RawPostData[]
   activePost: RawPostData | null
   playerState: PlayerStates
@@ -34,7 +34,7 @@ export const defaultState: State = {
   subsLoaded: false ,
   activeSubs: [],
   activeSort: 'hot',
-  activeTopSort: 'm',
+  activeTopSort: 'month',
   redditMusic: [],
   activePost: null,
   playerState: PlayerStates.UNSTARTED,
