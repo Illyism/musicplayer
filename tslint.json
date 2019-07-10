@@ -19,6 +19,7 @@
     "no-require-imports": false,
     "no-var-requires": false,
     "eofline": false,
-    "no-console": false
+    "no-console": false,
+    "align": false
   }
 }
