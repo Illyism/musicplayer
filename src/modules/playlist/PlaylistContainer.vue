@@ -44,10 +44,6 @@ export default class PlaylistContainer extends Vue {
     @Getter public nextSong?: RawPostData
     @Getter public prevSong?: RawPostData
 
-    public async mounted() {
-        await PlaylistController.init()
-    }
-
     public onClick(post: RawPostData) {
         PlaylistController.toggleSong(post)
     }

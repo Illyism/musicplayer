@@ -15,14 +15,7 @@ class PlaylistController extends StoreListener {
         SET_ACTIVE_SORT: this.onActiveSubsChanged,
         SET_ACTIVE_TOP_SORT: this.onActiveSubsChanged,
         SET_PLAYER_STATE: this.onPlayerStateChanged,
-    }
-
-    /**
-     * On app start, load all the songs and play the first one
-     */
-    public async init() {
-        await this.getMusic()
-        this.playFirstSong()
+        SET_REDDIT_MUSIC: this.onNewPlaylistLoaded,
     }
 
     /**
@@ -121,7 +114,11 @@ class PlaylistController extends StoreListener {
         }
     }
 
-    private async playFirstSong({ redditMusic }: State = store.state) {
+    private async playFirstSongIfNoActivePost({ redditMusic, activePost }: State = store.state) {
+        if (activePost) {
+            return // already have a song loaded
+        }
+
         const firstSong = redditMusic[0]
         if (!firstSong) {
             console.error('No firstSong to play')
@@ -131,18 +128,21 @@ class PlaylistController extends StoreListener {
         await this.loadSong(firstSong)
     }
 
-
     // events
-    private async onActiveSubsChanged(state: State) {
-        this.getMusic(state)
+    private onActiveSubsChanged(state: State) {
+        this.getMusic(state) // will cause onNewPlaylistLoaded to trigger
     }
 
-    private async onSongEnded() {
+    private onNewPlaylistLoaded() {
+        this.playFirstSongIfNoActivePost()
+    }
+
+    private onSongEnded() {
         this.playNextSong()
         this.getMoreMusic()
     }
 
-    private async onPlayerStateChanged({ playerState }: State) {
+    private onPlayerStateChanged({ playerState }: State) {
         if (playerState === PlayerStates.ENDED) {
             this.onSongEnded()
         }
