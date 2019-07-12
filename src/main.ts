@@ -5,11 +5,7 @@ import pace from '@/utils/pace.ts'
 import setupVueInstance from './setupVueInstance'
 import './styles/style.css';
 import './registerServiceWorker';
-
-import { installSentry, installVueErrorHandler } from '@/utils/errorHandler'
-
-installSentry()
-installVueErrorHandler()
+import '@/utils/installSentry'
 
 // @ts-ignore
 myUndefinedFunction();
