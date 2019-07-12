@@ -12,6 +12,8 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@sentry/browser": "5.5.0",
+    "@sentry/integrations": "5.5.0",
     "@types/lodash": "4.14.136",
     "@types/youtube-player": "5.5.1",
     "airtable": "0.6.0",
