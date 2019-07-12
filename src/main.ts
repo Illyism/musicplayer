@@ -7,9 +7,6 @@ import './styles/style.css';
 import './registerServiceWorker';
 import '@/utils/installSentry'
 
-// @ts-ignore
-myUndefinedFunction();
-
 const Vue = setupVueInstance()
 pace.install()
 
