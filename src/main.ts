@@ -6,6 +6,11 @@ import setupVueInstance from './setupVueInstance'
 import './styles/style.css';
 import './registerServiceWorker';
 
+import { installSentry, installVueErrorHandler } from '@/utils/errorHandler'
+
+installSentry()
+installVueErrorHandler()
+
 const Vue = setupVueInstance()
 pace.install()
 
