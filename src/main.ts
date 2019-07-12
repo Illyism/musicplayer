@@ -11,6 +11,9 @@ import { installSentry, installVueErrorHandler } from '@/utils/errorHandler'
 installSentry()
 installVueErrorHandler()
 
+// @ts-ignore
+myUndefinedFunction();
+
 const Vue = setupVueInstance()
 pace.install()
 
