@@ -14,6 +14,7 @@ export interface ResizeState extends HTMLElement {
 
 const directive: DirectiveOptions = {
     inserted(el, binding) {
+        console.log('inserted')
         const resizeEl = el as ResizeElement
         const callback = binding.value
         const options = { passive: true }
@@ -30,9 +31,10 @@ const directive: DirectiveOptions = {
             options,
         }
 
-        if (!binding.modifiers || !binding.modifiers.quiet) {
+        onUpdate()
+        setTimeout(() => {
             onUpdate()
-        }
+        }, 100)
     },
     unbind(el) {
         const resizeEl = el as ResizeElement
