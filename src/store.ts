@@ -155,14 +155,11 @@ const mutationsTree: MutationTree< State> = {
 
 const actionsTree: ActionTree< State, State> = {
   async FETCH_SUBS({ commit, state, getters }) {
-    if (state.subs.length > 0) {
-      // already loaded subs
-      return
+    if (state.subs.length === 0) {
+      commit('SET_SUBS_LOADED', false )
+      const allSubs = await getSubs()
+      commit('STORE_SUBS', allSubs)
     }
-
-    commit('SET_SUBS_LOADED', false )
-    const allSubs = await getSubs()
-    commit('STORE_SUBS', allSubs)
 
     const activeSubs = []
     for (const oldActiveSub of state.activeSubs) {
