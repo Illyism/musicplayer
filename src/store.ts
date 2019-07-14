@@ -18,7 +18,7 @@ export interface State {
   activePost: RawPostData | null
   playerState: PlayerStates
   playerReady: boolean
-  volume: number
+  volume: number // from 0 to 100
   isMuted: boolean
   progressDuration: number
   progressCurrent: number

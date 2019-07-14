@@ -7,6 +7,7 @@ import PlayerService from './PlayerService'
 import store from '@/store';
 import isYoutubeType from '../playlist/util/isYoutubeType';
 import StoreListener from '@/utils/StoreListener';
+import PlaylistController from '../playlist/PlaylistController';
 
 class YoutubeService extends StoreListener implements PlayerService {
     /** @see https://github.com/gajus/youtube-player */
@@ -36,8 +37,9 @@ class YoutubeService extends StoreListener implements PlayerService {
             store.commit('SET_PLAYER_READY')
         })
 
-        this.player.on('error', (e) => {
-            console.log('error', e)
+        this.player.on('error', (err) => {
+            console.log('YoutubeService :: error', { err })
+            PlaylistController.playNextSong()
         })
 
         this.player.on('stateChange', async () => {
