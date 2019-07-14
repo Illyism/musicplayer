@@ -12,7 +12,7 @@ declare var SC: any; // Magic
 
 class SoundcloudService extends StoreListener implements PlayerService {
     /** @see https://github.com/gajus/youtube-player */
-    public player: any
+    public player?: any
     public soundCloudTrack?: SoundcloudTrack
 
     public init(element: HTMLElement, attempts: number = 0) {

@@ -11,7 +11,7 @@ import PlaylistController from '../playlist/PlaylistController';
 
 class YoutubeService extends StoreListener implements PlayerService {
     /** @see https://github.com/gajus/youtube-player */
-    public player: YouTubePlayer | null = null
+    public player?: YouTubePlayer
 
     protected on = {
         SET_PLAYER_STATE: this.onPlayerStateChanged,
