@@ -72,8 +72,7 @@ class SoundcloudService extends StoreListener implements PlayerService {
                 visual: true,
             })
         } catch (err) {
-            console.error(err)
-            PlaylistController.playNextSong()
+            store.dispatch('POST_PLAY_ERROR', err)
         }
     }
 
