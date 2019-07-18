@@ -1,10 +1,16 @@
 <template>
     <div class="h-full w-full relative">
-        <div v-show="isYoutubePlaying" >
-            <YoutubePlayerFrame class="absolute" :style="{ background: '#000' }" />
+        <div :class="{ 'hide-player': !isYoutubePlaying }">
+            <YoutubePlayerFrame
+                class="absolute"
+                :style="{ background: '#000' }"
+            />
         </div>
-        <div v-show="isSoundcloudPlaying" >
-            <SoundcloudPlayerFrame class="absolute" :style="{ background: '#000' }" />
+        <div :class="{ 'hide-player': !isSoundcloudPlaying }">
+            <SoundcloudPlayerFrame
+                class="absolute"
+                :style="{ background: '#000' }"
+            />
         </div>
         <VideoOverlay class="absolute z-10" />
     </div>

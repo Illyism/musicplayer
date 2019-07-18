@@ -7,7 +7,6 @@ import PlayerService from './PlayerService'
 import store from '@/store';
 import isYoutubeType from '../playlist/util/isYoutubeType';
 import StoreListener from '@/utils/StoreListener';
-import PlaylistController from '../playlist/PlaylistController';
 
 class YoutubeService extends StoreListener implements PlayerService {
     /** @see https://github.com/gajus/youtube-player */

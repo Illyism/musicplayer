@@ -3,7 +3,6 @@ import PlayerStates from 'youtube-player/dist/constants/PlayerStates'
 import PlayerService from './PlayerService'
 import store from '@/store'
 import StoreListener from '@/utils/StoreListener'
-import PlaylistController from '../playlist/PlaylistController'
 import isSoundcloudType from '../playlist/util/isSoundcloudType'
 import { getSoundcloudTrack } from '../playlist/util/getSoundcloudTrack'
 import { SoundcloudTrack, SoundcloudProgressData } from '@/typings/soundcloud'
@@ -67,6 +66,9 @@ class SoundcloudService extends StoreListener implements PlayerService {
 
         try {
             this.soundCloudTrack = await getSoundcloudTrack(post)
+            if (!this.soundCloudTrack.uri) {
+                throw new Error('Could not play soundcloud track: ' + this.soundCloudTrack.uri)
+            }
             await this.player.load(this.soundCloudTrack.uri, {
                 auto_play: true,
                 visual: true,

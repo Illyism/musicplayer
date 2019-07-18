@@ -32,7 +32,10 @@ body {
     transition-duration: .075s;
 }
 
-
+.hide-player {
+  z-index: -1;
+  position: relative;
+}
 
 .popper {
   display: inline-block;
