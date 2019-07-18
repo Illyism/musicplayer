@@ -38,8 +38,7 @@ class YoutubeService extends StoreListener implements PlayerService {
         })
 
         this.player.on('error', (err) => {
-            console.log('YoutubeService :: error', { err })
-            PlaylistController.playNextSong()
+            store.dispatch('POST_PLAY_ERROR', err)
         })
 
         this.player.on('stateChange', async () => {

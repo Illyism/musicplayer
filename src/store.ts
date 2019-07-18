@@ -151,6 +151,12 @@ const mutationsTree: MutationTree< State> = {
   SET_ORIENTATION(state, isHorizontalOrientation) {
     state.isHorizontalOrientation = isHorizontalOrientation
   },
+  REMOVE_POST(state, post) {
+    const postIndex = state.redditMusic.indexOf(post)
+    if (postIndex > -1) {
+      state.redditMusic.splice(postIndex, 1)
+    }
+  },
 }
 
 const actionsTree: ActionTree< State, State> = {
@@ -216,6 +222,15 @@ const actionsTree: ActionTree< State, State> = {
   },
   SET_ORIENTATION({ commit }, isHorizontalOrientation) {
     commit('SET_ORIENTATION', isHorizontalOrientation)
+  },
+  POST_PLAY_ERROR({ commit, state, getters, dispatch }, err) {
+    const offendingPost = state.activePost
+    const nextSong = getters.nextSong
+    if (offendingPost) {
+      commit('REMOVE_POST', offendingPost)
+    }
+    dispatch('PLAY_POST', nextSong)
+    console.log('POST_PLAY_ERROR', { err })
   },
 }
 

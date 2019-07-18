@@ -166,8 +166,7 @@ class SoundcloudService extends StoreListener implements PlayerService {
     }
 
     private onPlayerError(err: Error) {
-        console.log('YoutubeService :: error', { err })
-        PlaylistController.playNextSong()
+        store.dispatch('POST_PLAY_ERROR', err)
     }
 }
 
