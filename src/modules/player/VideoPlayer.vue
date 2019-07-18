@@ -12,6 +12,7 @@
                 :style="{ background: '#000' }"
             />
         </div>
+        <div v-if="notPlaying" class="absolute w-full h-full bg-black"></div>
         <VideoOverlay class="absolute z-10" />
     </div>
 </template>
@@ -43,6 +44,10 @@ export default class VideoPlayer extends Vue {
 
     public get isSoundcloudPlaying() {
         return isSoundcloudType(this.activePost)
+    }
+
+    public get notPlaying() {
+        return !this.isYoutubePlaying && !this.isSoundcloudPlaying
     }
 }
 </script>
