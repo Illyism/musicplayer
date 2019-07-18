@@ -1,7 +1,7 @@
 <template>
    <div
         v-if="activePost"
-        class="h-full w-full video-overlay text-gray-100 flex flex-col justify-between items-center bg-black trans trans-slow"
+        class="h-full w-full video-overlay text-gray-100 flex flex-col justify-between items-center trans trans-slow"
         :class="{
             'opacity-100': isOverlayVisible,
             'opacity-0': !isOverlayVisible,
@@ -9,10 +9,10 @@
         }"
         @mousemove="enableActiveState"
     >
-        <div class="flex-1 p-2 flex items-start justify-between w-full">
-            <div class="flex flex-col">
-                <div class="text-xl font-bold">{{ activePost.title }}</div>
-                <div class="font-medium text-grey-50">
+        <div class="xs:flex-1 p-2 flex items-start justify-between w-full">
+            <div class="flex flex-col w-full sm:w-auto">
+                <div class="text-xs sm:text-lg truncate sm:overflow-visible sm:whitespace-normal font-bold">{{ activePost.title }}</div>
+                <div class="hidden xs:inline-block text-xs sm:text-base font-medium text-grey-50">
                     <span class="text-orange-400">{{ activePost.ups }}</span> •
                     <span>{{ activePost.author }}</span> •
                     <span>{{ activePost.subreddit }}</span> •
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <div class="flex text-center pointer-events-auto">
+            <div class="hidden sm:flex text-center pointer-events-auto">
                 <div class="px-4 cursor-pointer trans opacity-75 hover:opacity-100">
                     <IconArrowUpBold
                         class="text-4xl"
@@ -33,7 +33,7 @@
         </div>
 
         <div class="flex-1 flex items-center justify-between w-full">
-            <div class="w-64"></div>
+            <div class="xs:w-64"></div>
             <div class="flex items-center">
                 <IconSkipPrevious
                     class="pointer-events-auto text-4xl cursor-pointer trans"
@@ -65,23 +65,23 @@
                 />
             </div>
 
-            <div class="w-64 flex items-center justify-end mr-6">
+            <div class="xs:w-64 flex items-center justify-end mr-6">
                 <div class="group flex items-center" @click="SET_MENU_OPEN_STATE(!isMenuOpen)">
-                    <div class="opacity-0 group-hover:opacity-100 trans text-white mr-4">Toggle menu</div>
+                    <div class="hidden sm:inline-block opacity-0 group-hover:opacity-100 trans text-white mr-4">Toggle menu</div>
                     <IconMenu
                         v-if="isHorizontalOrientation"
-                        class="pointer-events-auto text-4xl cursor-pointer trans opacity-75 group-hover:opacity-100"
+                        class="pointer-events-auto text-lg xs:text-4xl cursor-pointer trans opacity-75 group-hover:opacity-100"
                     />
                 </div>
             </div>
         </div>
 
-        <div class="flex-1 flex items-end w-full">
-            <div class="pointer-events-auto flex items-center w-full p-6">
+        <div class="xs:flex-1 flex items-end w-full">
+            <div class="pointer-events-auto flex items-center w-full p-2 xs:p-4 sm:p-6">
                 <VolumeControl />
-                <ProgressBar class="flex-1 mx-8" />
+                <ProgressBar class="flex-1 xs:mx-4 sm:mx-8" />
                 <IconFullscreen
-                    class="cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
+                    class="hidden xs:inline-flex cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
                     @click="toggleFullscreen"
                 />
             </div>
@@ -174,9 +174,3 @@ export default class VideoOverlay extends Vue {
     }
 }
 </script>
-
-<style scoped>
-.video-overlay {
-    background: linear-gradient(rgba(0,0,0,.9) 10%,rgba(0,0,0,.2) 35%, rgba(0,0,0,.2) 70%,rgba(0,0,0,.8) 100%);
-}
-</style>

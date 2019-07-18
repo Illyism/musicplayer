@@ -1,5 +1,5 @@
 <template>
-   <div class="w-full h-full flex items-center justify-center">
+   <div class="w-full h-full flex items-center justify-center text-xs xs:text-base">
        <div>{{ progressCurrent | formatSeconds }}</div>
        <div class="relative w-full h-2 mx-4">
             <div class="absolute w-full h-full rounded-full bg-gray-900"></div>

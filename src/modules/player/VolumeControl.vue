@@ -1,5 +1,5 @@
 <template>
-   <div class="flex items-center">
+   <div class="hidden xs:flex items-center">
         <IconVolumeVariantOff
             v-if="isMuted"
             class="cursor-pointer text-4xl trans opacity-75 hover:opacity-100"

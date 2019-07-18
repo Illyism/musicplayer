@@ -2,8 +2,6 @@
 
 @tailwind components;
 
-@tailwind utilities;
-
 body {
   @apply bg-black font-sans;
 }
@@ -30,6 +28,11 @@ body {
 
 .trans-faster {
     transition-duration: .075s;
+}
+
+.video-overlay {
+  background: linear-gradient(rgba(0,0,0,.9) 10%,rgba(0,0,0,.2) 35%, rgba(0,0,0,.2) 70%,rgba(0,0,0,.8) 100%);
+  overflow: hidden;
 }
 
 .hide-player {
@@ -175,3 +178,5 @@ body {
 .fade-leave-to {
   opacity: 0;
 }
+
+@tailwind utilities;
