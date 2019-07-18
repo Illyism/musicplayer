@@ -145,8 +145,8 @@ class YoutubeService extends StoreListener implements PlayerService {
         store.dispatch('SET_PROGRESS_DURATION', await this.player.getDuration()) // secs
         this.updateProgressState()
 
-        // and continue updating every 200ms, because there are no events to watch
-        this.interval = window.setInterval(() => this.updateProgressState(), 200)
+        // and continue updating every 500ms, because there are no events to watch
+        this.interval = window.setInterval(() => this.updateProgressState(), 500)
     }
 
     private async updateProgressState() {
