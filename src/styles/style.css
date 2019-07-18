@@ -162,3 +162,13 @@ body {
 .mdi-fix > .material-design-icon__svg {
   bottom: -0.05em;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
