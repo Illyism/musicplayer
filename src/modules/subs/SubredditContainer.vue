@@ -1,7 +1,7 @@
 <template>
     <div v-if="!subsLoaded" class="p-4">
         <div class="text-gray-100 font-light text-sm mx-2 mb-2">
-            Loading subreddits...
+            Loading channels...
         </div>
         <LoadingCardGrid :count="15" />
     </div>
@@ -9,7 +9,7 @@
     <div v-else class="p-4">
         <div v-if="activeSubs.length > 0">
             <div class="text-gray-100 font-light text-sm mx-2 mb-2">
-                Subreddits in playlist
+                Active channels
             </div>
             <GridLayout
                 :list="activeSubs"
@@ -26,7 +26,7 @@
         </div>
 
         <div class="text-gray-100 font-light text-sm mx-2 mb-2">
-            All subreddits
+            All channels
         </div>
 
         <div class="mx-2 mb-2">

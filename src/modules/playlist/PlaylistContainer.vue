@@ -1,7 +1,7 @@
 <template>
     <div v-if="playlist.length > 0" class="p-4">
         <div class="text-gray-100 font-light text-sm mx-2 mb-2">
-            Queue
+            Playlist
         </div>
 
         <GridLayout
