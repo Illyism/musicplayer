@@ -1,6 +1,7 @@
 import store, { State } from '@/store'
 import isYoutubeType from '../playlist/util/isYoutubeType';
 import YoutubeService from './YoutubeService';
+import SoundcloudService from './SoundcloudService';
 import PlayerService from './PlayerService';
 import isSoundcloudType from '../playlist/util/isSoundcloudType';
 import isVimeoType from '../playlist/util/isVimeoType';
@@ -12,7 +13,11 @@ class PlayersController extends StoreListener {
         SET_ACTIVE_POST: this.onPostChanged,
         SET_PLAYER_READY: this.switchSong,
     }
-    private services: PlayerService[] = [ YoutubeService ]
+
+    private services: PlayerService[] = [
+        YoutubeService,
+        SoundcloudService,
+    ]
 
     public playPause({ isPlaying } = store.getters) {
         if (!this.activeService) {
@@ -66,7 +71,7 @@ class PlayersController extends StoreListener {
     }
 
     public unMute() {
-        store.dispatch('SET_MUTE_STATE', false)
+        store.dispatch('SET_MUTE_STATE', false )
         if (!this.activeService) {
             return
         }
@@ -84,8 +89,7 @@ class PlayersController extends StoreListener {
         }
 
         if (isSoundcloudType(post)) {
-            console.log('soundcloud player missing')
-            return
+            return SoundcloudService
         }
 
         if (isVimeoType(post)) {
@@ -99,8 +103,12 @@ class PlayersController extends StoreListener {
         }
     }
 
-    private forAllServiceExcept(currentService: PlayerService, action: (service: PlayerService) => void) {
+    private forAllServiceExcept(currentService: PlayerService | null, action: (service: PlayerService) => void) {
         for (const service of this.services) {
+            if (!service) {
+                continue
+            }
+
             if (service === currentService) {
                 continue
             }

@@ -10,7 +10,7 @@ import StoreListener from '@/utils/StoreListener';
 
 class YoutubeService extends StoreListener implements PlayerService {
     /** @see https://github.com/gajus/youtube-player */
-    public player: YouTubePlayer | null = null
+    public player?: YouTubePlayer
 
     protected on = {
         SET_PLAYER_STATE: this.onPlayerStateChanged,
@@ -36,8 +36,8 @@ class YoutubeService extends StoreListener implements PlayerService {
             store.commit('SET_PLAYER_READY')
         })
 
-        this.player.on('error', (e) => {
-            console.log('error', e)
+        this.player.on('error', (err) => {
+            store.dispatch('POST_PLAY_ERROR', err)
         })
 
         this.player.on('stateChange', async () => {
@@ -144,8 +144,8 @@ class YoutubeService extends StoreListener implements PlayerService {
         store.dispatch('SET_PROGRESS_DURATION', await this.player.getDuration()) // secs
         this.updateProgressState()
 
-        // and continue updating every 200ms, because there are no events to watch
-        this.interval = window.setInterval(() => this.updateProgressState(), 200)
+        // and continue updating every 500ms, because there are no events to watch
+        this.interval = window.setInterval(() => this.updateProgressState(), 500)
     }
 
     private async updateProgressState() {
