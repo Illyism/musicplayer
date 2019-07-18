@@ -67,7 +67,7 @@
 
             <div class="xs:w-64 flex items-center justify-end mr-6">
                 <div class="group flex items-center" @click="SET_MENU_OPEN_STATE(!isMenuOpen)">
-                    <div class="hidden sm:inline-block opacity-0 group-hover:opacity-100 trans text-white mr-4">Toggle menu</div>
+                    <div class="hidden sm:inline-block opacity-0 group-hover:opacity-100 trans text-white mr-4 text-xs">Toggle menu</div>
                     <IconMenu
                         v-if="isHorizontalOrientation"
                         class="pointer-events-auto text-lg xs:text-4xl cursor-pointer trans opacity-75 group-hover:opacity-100"
