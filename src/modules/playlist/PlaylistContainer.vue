@@ -8,8 +8,10 @@
             :list="playlist"
         >
             <PlaylistCard
+                :key="item.id"
                 slot-scope="{ item }"
                 :title="item.title"
+                :thumbnailHD="item.secure_media && item.secure_media.oembed ? item.secure_media.oembed.thumbnail_url : null"
                 :thumbnail="item.thumbnail"
                 :ups="item.ups"
                 :numComments="item.num_comments"

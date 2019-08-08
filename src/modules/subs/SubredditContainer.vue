@@ -14,6 +14,7 @@
             <GridLayout
                 :list="activeSubs"
                 class="mb-8"
+                :isAnimated="true"
             >
               <BottomCard
                 slot-scope="{ item }"
@@ -43,6 +44,7 @@
 
         <GridLayout
             :list="inactiveSubs"
+            :isAnimated="true"
         >
             <BottomCard
                 slot-scope="{ item }"

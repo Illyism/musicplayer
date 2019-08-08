@@ -7,7 +7,12 @@
         }"
         @click="$emit('onClick')"
     >
-        <div class="absolute rounded h-full w-full bg-cover bg-center" :style="{ backgroundImage: `url(${thumbnail})` }"></div>
+        <LazyImage
+            class="absolute rounded h-full w-full"
+            :thumbnail="thumbnail"
+            :thumbnailHD="thumbnailHD"
+        />
+
         <div class="z-10 queue-card-info rounded p-2 overflow-hidden absolute w-full h-full flex flex-col justify-between leading-tight">
             <div class="flex justify-between">
                 <div class="font-medium text-orange-400">
@@ -36,13 +41,19 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
+import LazyImage from '@/components/LazyImage.vue'
 
-@Component
+@Component({
+    components: {
+        LazyImage,
+    },
+})
 export default class PlaylistCard extends Vue {
     @Prop({ default: false }) public isActivePost!: boolean
     @Prop({ default: false }) public isPrevSong!: boolean
     @Prop({ default: false }) public isNextSong!: boolean
     @Prop({}) public title!: string
+    @Prop({}) public thumbnailHD!: string
     @Prop({}) public thumbnail!: string
     @Prop({}) public numComments!: number
     @Prop({}) public ups!: number
