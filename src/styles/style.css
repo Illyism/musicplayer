@@ -35,6 +35,13 @@ body {
   overflow: hidden;
 }
 
+/* https://codepen.io/robinrendle/pen/LmzLEL */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .video-overlay {
+    backdrop-filter: brightness(1.1) saturate(.5) contrast(1.2);
+  }
+}
+
 .hide-player {
   z-index: -1;
   position: relative;
