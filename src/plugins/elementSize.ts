@@ -14,7 +14,6 @@ export interface ResizeState extends HTMLElement {
 
 const directive: DirectiveOptions = {
     inserted(el, binding) {
-        console.log('inserted')
         const resizeEl = el as ResizeElement
         const callback = binding.value
         const options = { passive: true }
@@ -26,6 +25,7 @@ const directive: DirectiveOptions = {
         }
 
         window.addEventListener('resize', onUpdate, options)
+        window.addEventListener('orientationchange', onUpdate, options)
         resizeEl._onResize = {
             callback,
             options,
@@ -41,6 +41,7 @@ const directive: DirectiveOptions = {
         const { callback, options } = resizeEl._onResize
 
         window.removeEventListener('resize', callback, options)
+        window.removeEventListener('orientationchange', callback, options)
         delete resizeEl._onResize
     },
 }
