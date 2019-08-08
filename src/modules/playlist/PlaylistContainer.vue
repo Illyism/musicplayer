@@ -21,6 +21,13 @@
                 @onClick="onClick(item)"
             />
         </GridLayout>
+
+        <div class="text-gray-500 font-light text-sm hover:bg-gray-900 mx-2 mb-2 cursor-pointer trans trans-bg text-center rounded"
+            @click="TOGGLE_PLAYLIST_EXPANDED">
+            <IconChevronDown v-if="!isPlaylistExpanded"  class="mdi-fix" />
+            <IconChevronUp v-else class="mdi-fix" />
+        </div>
+
     </div>
 </template>
 
@@ -45,6 +52,9 @@ export default class PlaylistContainer extends Vue {
     @State public activePost?: RawPostData
     @Getter public nextSong?: RawPostData
     @Getter public prevSong?: RawPostData
+    @State public isPlaylistExpanded!: boolean
+
+    @Action TOGGLE_PLAYLIST_EXPANDED!: () => void
 
     public onClick(post: RawPostData) {
         PlaylistController.toggleSong(post)

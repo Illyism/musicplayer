@@ -14,6 +14,8 @@ const icons = [
     require('vue-material-design-icons/Fullscreen.vue'),
     require('vue-material-design-icons/Menu.vue'),
     require('vue-material-design-icons/ArrowUpBold.vue'),
+    require('vue-material-design-icons/ChevronDown.vue'),
+    require('vue-material-design-icons/ChevronUp.vue'),
 ]
 import { VueConstructor } from 'vue'
 

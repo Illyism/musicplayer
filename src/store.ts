@@ -25,6 +25,7 @@ export interface State {
   progressLoaded: number
   isMenuOpen: boolean
   isHorizontalOrientation: boolean
+  isPlaylistExpanded: false
 }
 
 
@@ -45,13 +46,14 @@ export const defaultState: State = {
   progressLoaded: 0,
   isMenuOpen: true,
   isHorizontalOrientation: true,
+  isPlaylistExpanded: false,
 }
 
 
 const vuexLocal = new VuexPersistence< State>({
   storage: window.localStorage,
-  reducer: ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted }) =>
-           ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted }),
+  reducer: ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted, isPlaylistExpanded }) =>
+           ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted, isPlaylistExpanded }),
   filter: (mutation) => {
     switch (mutation.type) {
       case 'SET_ACTIVE_SORT':
@@ -61,6 +63,7 @@ const vuexLocal = new VuexPersistence< State>({
       case 'STORE_SUBS':
       case 'SET_VOLUME':
       case 'SET_MUTE_STATE':
+      case 'SET_PLAYLIST_EXPANDED':
         return true
       default:
         return false
@@ -84,9 +87,13 @@ const defaultGetters: GetterTree< State, any> = {
   nextSong({ redditMusic }, { currentIndex }) {
     return redditMusic[currentIndex + 1]
   },
-  playlist({ redditMusic }, { currentIndex }) {
-    const playlistCutoffStart = Math.max(0, currentIndex - 4)
-    return redditMusic.slice(playlistCutoffStart, playlistCutoffStart + 9)
+  playlist({ redditMusic, isPlaylistExpanded }, { currentIndex }) {
+    // amount of posts to show in the playlist before and after the current song
+    const SONGS_IN_PLAYLIST = isPlaylistExpanded ? 9 : 3
+    const SONGS_BEFORE_AFTER = (SONGS_IN_PLAYLIST - 1) / 2
+
+    const playlistCutoffStart = Math.max(0, currentIndex - SONGS_BEFORE_AFTER)
+    return redditMusic.slice(playlistCutoffStart, playlistCutoffStart + SONGS_IN_PLAYLIST)
   },
   isPlaying({ playerState }) {
     return playerState === PlayerStates.PLAYING
@@ -156,6 +163,9 @@ const mutationsTree: MutationTree< State> = {
     if (postIndex > -1) {
       state.redditMusic.splice(postIndex, 1)
     }
+  },
+  SET_PLAYLIST_EXPANDED(state, isPlaylistExpanded) {
+    state.isPlaylistExpanded = isPlaylistExpanded
   },
 }
 
@@ -231,6 +241,9 @@ const actionsTree: ActionTree< State, State> = {
     }
     dispatch('PLAY_POST', nextSong)
     console.log('POST_PLAY_ERROR', { err })
+  },
+  TOGGLE_PLAYLIST_EXPANDED({ commit, state }) {
+    commit('SET_PLAYLIST_EXPANDED', !state.isPlaylistExpanded)
   },
 }
 
