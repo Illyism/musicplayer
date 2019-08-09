@@ -1,5 +1,9 @@
 <template>
     <div class="p-4 leading-tight">
+      <div class="text-gray-100 font-light text-sm mx-2 mb-2">
+            Sort by
+        </div>
+
       <div class="flex">
         <SortToggleItem
           v-for="toggle in toggles"

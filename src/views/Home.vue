@@ -1,7 +1,7 @@
 <template>
   <div class="antialiased">
-    <SortToggle />
     <PlaylistContainer />
+    <SortToggle />
     <SubredditContainer />
   </div>
 </template>

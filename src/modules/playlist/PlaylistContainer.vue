@@ -1,9 +1,5 @@
 <template>
     <div v-if="playlist.length > 0" class="p-4">
-        <div class="text-gray-100 font-light text-sm mx-2 mb-2">
-            Playlist
-        </div>
-
         <GridLayout
             :list="playlist"
         >
@@ -54,7 +50,7 @@ export default class PlaylistContainer extends Vue {
     @Getter public prevSong?: RawPostData
     @State public isPlaylistExpanded!: boolean
 
-    @Action TOGGLE_PLAYLIST_EXPANDED!: () => void
+    @Action public TOGGLE_PLAYLIST_EXPANDED!: () => void
 
     public onClick(post: RawPostData) {
         PlaylistController.toggleSong(post)
