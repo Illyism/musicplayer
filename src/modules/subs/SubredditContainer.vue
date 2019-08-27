@@ -94,12 +94,13 @@ export default class SubredditContainer extends Vue {
   @Getter public activeSubsMap!: Dictionary< SubredditListItem >
   @Action public FETCH_SUBS!: () => void
 
+  public subredditSearch: string = ''
+
   public isSubredditsExpanded = true
   public TOGGLE_SUBREDDITS_EXPANDED() {
     this.isSubredditsExpanded = !this.isSubredditsExpanded
   }
 
-  public subredditSearch: string = ''
 
   private created() {
     this.FETCH_SUBS()
