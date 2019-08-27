@@ -107,6 +107,7 @@ import { formatDistanceToNow, toDate } from 'date-fns'
     },
     filters: {
         formatDistanceToNow,
+        toDate,
     },
 })
 export default class VideoOverlay extends Vue {
