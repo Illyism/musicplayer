@@ -16,7 +16,7 @@
                     <span class="text-orange-400">{{ activePost.ups }}</span> •
                     <span>{{ activePost.author }}</span> •
                     <span>{{ activePost.subreddit }}</span> •
-                    <span>{{ (activePost.created_utc * 1000) | distanceInWordsToNow }} ago</span> •
+                    <span>{{ (activePost.created_utc * 1000) | toDate | formatDistanceToNow }} ago</span> •
                     <span>{{ activePost.domain }}</span> •
                     <span class="text-teal-600">{{ activePost.num_comments }}</span>
                 </div>
@@ -98,7 +98,7 @@ import PlaylistController from '@/modules/playlist/PlaylistController'
 import VolumeControl from './VolumeControl.vue'
 import ProgressBar from './ProgressBar.vue'
 import debounce from 'lodash/debounce'
-import { distanceInWordsToNow } from 'date-fns'
+import { formatDistanceToNow, toDate } from 'date-fns'
 
 @Component({
     components: {
@@ -106,7 +106,7 @@ import { distanceInWordsToNow } from 'date-fns'
         ProgressBar,
     },
     filters: {
-        distanceInWordsToNow,
+        formatDistanceToNow,
     },
 })
 export default class VideoOverlay extends Vue {
