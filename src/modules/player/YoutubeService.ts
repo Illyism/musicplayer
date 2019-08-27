@@ -124,6 +124,13 @@ class YoutubeService extends StoreListener implements PlayerService {
         await this.player.unMute()
     }
 
+    public async seekTo(seconds: number, allowSeekAhead: boolean) {
+        if (!this.player) {
+            return
+        }
+        await this.player.seekTo(seconds, allowSeekAhead)
+    }
+
     private get isYoutubePlaying() {
         const post = store.state.activePost
         return isYoutubeType(post)

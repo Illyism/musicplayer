@@ -78,6 +78,13 @@ class PlayersController extends StoreListener {
         this.activeService.unMute()
     }
 
+    public seekTo(seconds: number, allowSeekAhead: boolean) {
+        if (!this.activeService) {
+            return
+        }
+        this.activeService.seekTo(seconds, allowSeekAhead)
+    }
+
     private get activeService() {
         const post = store.state.activePost
         if (!post) {

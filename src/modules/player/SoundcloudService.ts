@@ -114,6 +114,13 @@ class SoundcloudService extends StoreListener implements PlayerService {
         await this.setVolume(store.state.volume)
     }
 
+    public async seekTo(seconds: number, allowSeekAhead: boolean) {
+        if (!this.player) {
+            return
+        }
+        await this.player.seekTo(seconds * 1000) // in ms
+    }
+
     private get isSoundcloudPlaying() {
         const post = store.state.activePost
         return isSoundcloudType(post)
