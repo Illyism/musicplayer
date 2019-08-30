@@ -43,7 +43,7 @@
             <div class="mx-2 mb-2">
               <div class="w-full relative">
                 <input v-model="subredditSearch"
-                  class="bg-gray-900 text-gray-200 pr-16 text-xs w-full rounded-lg px-4 py-2 outline-none border border-gray-700 focus:border-yellow-500 focus:text-gray-100"
+                  class="bg-gray-900 text-gray-200 pr-16 text-xs w-full rounded-lg px-4 py-2 outline-none border border-gray-700 focus:border-primary-500 focus:text-gray-100"
                   placeholder="Search for subreddits..."
                   type="text" autocomplete="off" autocorrect="off">
                 <div class="absolute right-0 inset-y-0 mr-4 text-gray-700 flex items-center justify-center pointer-events-none">

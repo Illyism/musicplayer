@@ -96,35 +96,10 @@ body {
   margin-right: 0;
 }
 
-.popper.border-yellow-600[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.600') }
-.popper.border-yellow-600[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.600') }
-.popper.border-yellow-600[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.600') }
-.popper.border-yellow-600[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.600') }
-
-.popper.border-yellow-500[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.500') }
-.popper.border-yellow-500[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.500') }
-.popper.border-yellow-500[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.500') }
-.popper.border-yellow-500[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.500') }
-
-.popper.border-yellow-400[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.400') }
-.popper.border-yellow-400[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.400') }
-.popper.border-yellow-400[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.400') }
-.popper.border-yellow-400[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.400') }
-
-.popper.border-yellow-300[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.300') }
-.popper.border-yellow-300[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.300') }
-.popper.border-yellow-300[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.300') }
-.popper.border-yellow-300[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.300') }
-
-.popper.border-yellow-200[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.200') }
-.popper.border-yellow-200[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.200') }
-.popper.border-yellow-200[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.200') }
-.popper.border-yellow-200[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.200') }
-
-.popper.border-yellow-100[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.100') }
-.popper.border-yellow-100[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.100') }
-.popper.border-yellow-100[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.100') }
-.popper.border-yellow-100[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.100') }
+.popper.border-primary-500[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.primary.500') }
+.popper.border-primary-500[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.primary.500') }
+.popper.border-primary-500[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.primary.500') }
+.popper.border-primary-500[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.500') }
 
 .pace {
   -webkit-pointer-events: none;
@@ -140,7 +115,7 @@ body {
 }
 
 .pace .pace-progress {
-  background: #4a5568;
+  background: #FD2806;
   position: fixed;
   z-index: 2000;
   top: 0;

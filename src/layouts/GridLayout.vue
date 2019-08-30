@@ -42,7 +42,7 @@ const duration = 0.5
 })
 export default class GridLayout extends Vue {
     @Prop({ required: true }) public list!: any[]
-    @Prop() public isAnimated = false
+    @Prop({ default: false }) public isAnimated!: boolean
     public containerWidth: number = 0
 
     public get widthPerColumn() {

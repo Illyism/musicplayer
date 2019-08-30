@@ -2,8 +2,8 @@
     <div
         class="overflow-hidden h-full p-2 rounded border border-gray-800 bg-gray-900 text-white flex flex-col justify-end cursor-pointer trans"
         :class="{
-            'hover:border-yellow-800': !isActive,
-            'border-yellow-500 hover:border-yellow-600': isActive
+            'hover:border-primary-800': !isActive,
+            'border-primary-500 hover:border-primary-600': isActive
         }"
         @click="$emit('onClick')"
     >

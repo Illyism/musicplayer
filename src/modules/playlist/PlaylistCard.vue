@@ -91,13 +91,13 @@ export default class PlaylistCard extends Vue {
     @apply border-gray-800;
 }
 .queue-card:hover {
-    @apply border-yellow-800;
+    @apply border-primary-800;
 }
 .queue-card--active {
-    @apply border-yellow-800;
+    @apply border-primary-800;
 }
 .queue-card--playing,
 .queue-card--playing:hover {
-    @apply border-yellow-500;
+    @apply border-primary-500;
 }
 </style>
