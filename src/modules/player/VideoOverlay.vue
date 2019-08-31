@@ -9,31 +9,33 @@
         }"
         @mousemove="enableActiveState"
     >
-        <div class="xs:flex-1 p-2 flex items-start justify-between w-full">
-            <div class="flex flex-col w-full sm:w-auto">
-                <div class="text-xs sm:text-lg truncate sm:overflow-visible sm:whitespace-normal font-bold">{{ activePost.title }}</div>
-                <div class="hidden xs:inline-block text-xs sm:text-base font-medium text-grey-50">
-                    <span class="text-orange-400">{{ activePost.ups }}</span> •
-                    <span>{{ activePost.author }}</span> •
-                    <span>{{ activePost.subreddit }}</span> •
-                    <span>{{ (activePost.created_utc * 1000) | toDate | formatDistanceToNow }} ago</span> •
-                    <span>{{ activePost.domain }}</span> •
-                    <span class="text-teal-600">{{ activePost.num_comments }}</span>
+        <div class="xs:flex-1 flex items-start justify-between w-full">
+            <div class="p-2">
+                <div class="flex flex-col w-full sm:w-auto">
+                    <div class="text-xs sm:text-lg truncate sm:overflow-visible sm:whitespace-normal font-bold">{{ activePost.title }}</div>
+                    <div class="hidden xs:inline-block text-xs sm:text-base font-medium text-grey-50">
+                        <span class="text-orange-400">{{ activePost.ups }}</span> •
+                        <span>{{ activePost.author }}</span> •
+                        <span>{{ activePost.subreddit }}</span> •
+                        <span>{{ (activePost.created_utc * 1000) | toDate | formatDistanceToNow }} ago</span> •
+                        <span>{{ activePost.domain }}</span> •
+                        <span class="text-teal-600">{{ activePost.num_comments }}</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="hidden sm:flex text-center pointer-events-auto">
-                <div class="px-4 cursor-pointer trans opacity-75 hover:opacity-100">
-                    <IconArrowUpBold
-                        class="text-4xl"
-                    />
-                    <div class="text-xs font-medium">Upvote</div>
+                <div class="hidden sm:flex text-center pointer-events-auto">
+                    <div class="px-4 cursor-pointer trans opacity-75 hover:opacity-100">
+                        <IconArrowUpBold
+                            class="text-4xl"
+                        />
+                        <div class="text-xs font-medium">Upvote</div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="flex-1 flex items-center justify-between w-full">
-            <div class="xs:w-64"></div>
+            <div class="xs:w-64">&nbsp;</div>
             <div class="flex items-center">
                 <IconSkipPrevious
                     class="pointer-events-auto text-4xl cursor-pointer trans"
@@ -65,8 +67,8 @@
                 />
             </div>
 
-            <div class="xs:w-64 flex items-center justify-end mr-6">
-                <div class="group flex items-center" @click="SET_MENU_OPEN_STATE(!isMenuOpen)">
+            <div class="xs:w-64 flex items-center justify-end">
+                <div class="mr-6 group flex items-center" @click="SET_MENU_OPEN_STATE(!isMenuOpen)">
                     <div class="hidden sm:inline-block opacity-0 group-hover:opacity-100 trans text-white mr-4 text-xs">Toggle menu</div>
                     <IconMenu
                         v-if="isHorizontalOrientation"
