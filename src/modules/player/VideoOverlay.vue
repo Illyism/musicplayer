@@ -1,12 +1,11 @@
 <template>
-<div class="h-full w-full">
+<div class="h-full w-full" :class="{ 'pointer-events-none': activeState }">
    <div
         v-if="activePost"
         class="h-full w-full video-overlay text-gray-100 flex flex-col justify-between items-center trans trans-slow"
         :class="{
             'opacity-100': isOverlayVisible,
             'opacity-0': !isOverlayVisible,
-            'pointer-events-none': activeState
         }"
         @mousemove="enableActiveState"
     >
@@ -90,7 +89,7 @@
    </div>
 
    <MiniProgressBar
-        class="absolute bottom-0 pointer-events-none"
+        class="absolute bottom-0"
         :class="{
             'opacity-100': !isOverlayVisible,
             'opacity-0': isOverlayVisible,
