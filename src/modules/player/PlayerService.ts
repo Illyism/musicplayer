@@ -9,4 +9,6 @@ export default interface PlayerService {
     setVolume: (newVolume: number) => void
     mute: () => void
     unMute: () => void
+
+    seekTo: (seconds: number) => void
 }

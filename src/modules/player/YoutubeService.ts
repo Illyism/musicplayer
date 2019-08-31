@@ -124,6 +124,15 @@ class YoutubeService extends StoreListener implements PlayerService {
         await this.player.unMute()
     }
 
+    public async seekTo(seconds: number) {
+        if (!this.player) {
+            return
+        }
+        // allowSeekAhead is always set to true here, there seem to be issues with the video
+        // pausing if we set it to anything else when dragging
+        await this.player.seekTo(seconds, true)
+    }
+
     private get isYoutubePlaying() {
         const post = store.state.activePost
         return isYoutubeType(post)
