@@ -38,6 +38,7 @@ import { State } from 'vuex-class'
 import PlayersController from './PlayersController'
 import formatSeconds from './util/formatSeconds'
 import ProgressSliderButton from './ProgressSliderButton.vue'
+import { sleep } from '../../utils'
 
 @Component({
     components: {
@@ -60,6 +61,8 @@ export default class ProgressBar extends Vue {
     public draggingStartX = 0
     public draggingStartPercentage = 0
     public draggingCurrentPercentage = 0
+
+    public lastSentSeekToValue = -1
 
     public get progressLoadedStyles() {
         return {
@@ -148,25 +151,30 @@ export default class ProgressBar extends Vue {
         this.trySeekTo(clickedSeconds)
     }
 
-    public trySeekTo(seconds: number, allowSeekAhead = !this.dragging) {
+    public async trySeekTo(seconds: number, allowSeekAhead = !this.dragging) {
+        // constrain to left and right side
         if (seconds < 0) {
-            console.error('Tried to set upperBounds lower than lowerBounds')
-            return
+            seconds = 0
         }
-        if (seconds > this.progressDuration) {
-            this.seekTo(this.progressDuration, allowSeekAhead)
-            return
+        if (seconds >= this.progressDuration) {
+            seconds = this.progressDuration
         }
+
         if (isNaN(seconds)) {
             console.error('RangeSlider: Tried to set NaN')
             return
         }
-        this.seekTo(seconds, allowSeekAhead)
+
+        await this.seekTo(seconds, allowSeekAhead)
     }
 
     // always use trySeekTo in public code
-    public seekTo(seconds: number, allowSeekAhead: boolean) {
-        PlayersController.seekTo(seconds, allowSeekAhead)
+    public async seekTo(seconds: number, allowSeekAhead: boolean) {
+        if (this.lastSentSeekToValue === seconds) {
+            return
+        }
+        this.lastSentSeekToValue = seconds
+        await PlayersController.seekTo(seconds, allowSeekAhead)
     }
 
     public isTouchEvent(ev: MouseEvent | TouchEvent): ev is TouchEvent {
@@ -226,7 +234,9 @@ export default class ProgressBar extends Vue {
 
         const newSeconds = this.getSecondsForPercentage(this.draggingCurrentPercentage)
         this.trySeekTo( newSeconds, true )
-        await this.$nextTick()
+
+        // sleep instead of nextTick to prevent onSliderClick from triggering
+        await sleep(10)
 
         this.dragging = false
         this.draggingStartX = 0
