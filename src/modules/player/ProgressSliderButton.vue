@@ -1,6 +1,6 @@
 <template>
     <div
-        class="absolute h-4 w-4 -ml-1 -mt-1 rounded-full bg-yellow-600 cursor-grab"
+        class="absolute h-4 w-4 -ml-1 -mt-1 rounded-full bg-primary-600 cursor-grab"
 
         @mouseenter.prevent.stop="handleMouseEnter"
         @mouseleave.prevent.stop="handleMouseLeave"
