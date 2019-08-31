@@ -1,9 +1,9 @@
 <template>
-    <div v-if="playlist.length > 0" class="p-4">
-        <GridLayout
+    <div v-if="playlist.length > 0" class="py-4">
+        <ListLayout
             :list="playlist"
         >
-            <PlaylistCard
+            <PlaylistItemRow
                 :key="item.id"
                 slot-scope="{ item }"
                 :title="item.title"
@@ -16,7 +16,7 @@
                 :isNextSong="isNextSong(item)"
                 @onClick="onClick(item)"
             />
-        </GridLayout>
+        </ListLayout>
 
         <div class="text-gray-500 font-light text-sm hover:bg-gray-900 mx-2 mb-2 cursor-pointer trans trans-bg text-center rounded"
             @click="TOGGLE_PLAYLIST_EXPANDED">
@@ -33,14 +33,14 @@ import { State, Getter, Action, Mutation, namespace} from 'vuex-class'
 import { RawPostData } from '@/typings/reddit'
 import isPostEqual from '@/modules/playlist/util/isPostEqual'
 
-import GridLayout from '@/layouts/GridLayout.vue'
+import ListLayout from '@/layouts/ListLayout.vue'
 import PlaylistController from '@/modules/playlist/PlaylistController'
-import PlaylistCard from '@/modules/playlist/PlaylistCard.vue'
+import PlaylistItemRow from '@/modules/playlist/PlaylistItemRow.vue'
 
 @Component({
     components: {
-        GridLayout,
-        PlaylistCard,
+        ListLayout,
+        PlaylistItemRow,
     },
 })
 export default class PlaylistContainer extends Vue {

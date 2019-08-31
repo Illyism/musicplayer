@@ -15,7 +15,7 @@
                 :style="progressLoadedStyles"
             ></div>
             <div
-                class="absolute h-full rounded-full bg-yellow-600"
+                class="absolute h-full rounded-full bg-primary-600"
                 :style="progressCurrentStyles"
             ></div>
 

@@ -60,12 +60,12 @@ export default class SortToggle extends Vue {
     ]
 
     public topToggles: TopSortMethod[] = [
-      { id: 'hour', title: 'Last hour', color: 'yellow-100' },
-      { id: 'day', title: 'Today', color: 'yellow-200' },
-      { id: 'week', title: 'This week', color: 'yellow-300' },
-      { id: 'month', title: 'This month', color: 'yellow-400' },
-      { id: 'year', title: 'This year', color: 'yellow-500' },
-      { id: 'all', title: 'All time', color: 'yellow-600' },
+      { id: 'hour', title: 'Last hour', color: 'primary-500' },
+      { id: 'day', title: 'Today', color: 'primary-500' },
+      { id: 'week', title: 'This week', color: 'primary-500' },
+      { id: 'month', title: 'This month', color: 'primary-500' },
+      { id: 'year', title: 'This year', color: 'primary-500' },
+      { id: 'all', title: 'All time', color: 'primary-500' },
     ]
 }
 </script>

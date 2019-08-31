@@ -91,35 +91,13 @@ export default class PlaylistCard extends Vue {
     @apply border-gray-800;
 }
 .queue-card:hover {
-    @apply border-yellow-800;
+    @apply border-primary-800;
 }
 .queue-card--active {
-    @apply border-yellow-800;
+    @apply border-primary-800;
 }
 .queue-card--playing,
 .queue-card--playing:hover {
-    @apply border-yellow-500;
-}
-
-/* https://webkit.org/demos/backdrop-filter/ */
-@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-    .queue-card .queue-card-info{
-        background: rgba(26, 32, 44, .0);
-        backdrop-filter: blur(0px);
-        transition: backdrop-filter .5s cubic-bezier(0.0,0.0,0.2,1), background .5s cubic-bezier(0.0,0.0,0.2,1), opacity .5s cubic-bezier(0.0,0.0,0.2,1);
-    }
-    .queue-card:hover .queue-card-info{
-        backdrop-filter: blur(10px);
-        background: rgba(26, 32, 44, .8);
-    }
-    .queue-card--active .queue-card-info{
-        backdrop-filter: blur(5px);
-        background: rgba(26, 32, 44, .9);
-    }
-    .queue-card--playing .queue-card-info,
-    .queue-card--playing:hover .queue-card-info{
-        backdrop-filter: blur(10px);
-        background: rgba(26, 32, 44, 1);
-    }
+    @apply border-primary-500;
 }
 </style>

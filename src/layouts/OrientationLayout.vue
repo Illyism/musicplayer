@@ -26,7 +26,7 @@
 
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import { State } from 'vuex-class'
 import elementSize, { ResizeState } from '@/plugins/elementSize'
 import store from '@/store';
@@ -34,11 +34,6 @@ import store from '@/store';
 @Component({
   directives: {
     resize: elementSize,
-  },
-  watch: {
-      isHorizontalOrientation(value) {
-          store.dispatch('SET_ORIENTATION', value)
-      },
   },
 })
 export default class OrientationLayout extends Vue {
@@ -50,9 +45,19 @@ export default class OrientationLayout extends Vue {
         return this.containerWidth > this.containerHeight
     }
 
+    public mounted() {
+        this.updateOrientationStoreValue()
+    }
+
+    @Watch('isHorizontalOrientation') public updateOrientationStoreValue() {
+        store.dispatch('SET_ORIENTATION', this.isHorizontalOrientation)
+    }
+
     private handleResize({ width, height }: ResizeState) {
         this.containerWidth = width
         this.containerHeight = height
     }
+
+
 }
 </script>
