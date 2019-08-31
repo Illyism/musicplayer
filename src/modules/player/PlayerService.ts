@@ -10,5 +10,5 @@ export default interface PlayerService {
     mute: () => void
     unMute: () => void
 
-    seekTo: (seconds: number, allowSeekAhead: boolean) => void
+    seekTo: (seconds: number) => void
 }

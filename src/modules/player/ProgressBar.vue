@@ -151,7 +151,7 @@ export default class ProgressBar extends Vue {
         this.trySeekTo(clickedSeconds)
     }
 
-    public async trySeekTo(seconds: number, allowSeekAhead = !this.dragging) {
+    public async trySeekTo(seconds: number) {
         // constrain to left and right side
         if (seconds < 0) {
             seconds = 0
@@ -165,16 +165,16 @@ export default class ProgressBar extends Vue {
             return
         }
 
-        await this.seekTo(seconds, allowSeekAhead)
+        await this.seekTo(seconds)
     }
 
     // always use trySeekTo in public code
-    public async seekTo(seconds: number, allowSeekAhead: boolean) {
+    public async seekTo(seconds: number) {
         if (this.lastSentSeekToValue === seconds) {
             return
         }
         this.lastSentSeekToValue = seconds
-        await PlayersController.seekTo(seconds, allowSeekAhead)
+        await PlayersController.seekTo(seconds)
     }
 
     public isTouchEvent(ev: MouseEvent | TouchEvent): ev is TouchEvent {

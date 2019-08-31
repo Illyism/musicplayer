@@ -114,7 +114,7 @@ class SoundcloudService extends StoreListener implements PlayerService {
         await this.setVolume(store.state.volume)
     }
 
-    public async seekTo(seconds: number, allowSeekAhead: boolean) {
+    public async seekTo(seconds: number) {
         if (!this.player) {
             return
         }
