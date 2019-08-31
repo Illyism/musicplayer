@@ -12,7 +12,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@sentry/browser": "5.6.2",
+    "@sentry/browser": "5.6.3",
     "@sentry/integrations": "5.6.1",
     "@types/lodash": "4.14.138",
     "@types/youtube-player": "5.5.1",
