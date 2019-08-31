@@ -1,4 +1,5 @@
 <template>
+<div class="h-full w-full">
    <div
         v-if="activePost"
         class="h-full w-full video-overlay text-gray-100 flex flex-col justify-between items-center trans trans-slow"
@@ -87,6 +88,15 @@
             </div>
         </div>
    </div>
+
+   <MiniProgressBar
+        class="absolute bottom-0 pointer-events-none"
+        :class="{
+            'opacity-100': !isOverlayVisible,
+            'opacity-0': isOverlayVisible,
+        }"
+    />
+</div>
 </template>
 
 <script lang="ts">
@@ -96,6 +106,7 @@ import { RawPostData } from '@/typings/reddit'
 import PlayersController from './PlayersController'
 import PlaylistController from '@/modules/playlist/PlaylistController'
 import VolumeControl from './VolumeControl.vue'
+import MiniProgressBar from './MiniProgressBar.vue'
 import ProgressBar from './ProgressBar.vue'
 import debounce from 'lodash/debounce'
 import { formatDistanceToNow, toDate } from 'date-fns'
@@ -103,6 +114,7 @@ import { formatDistanceToNow, toDate } from 'date-fns'
 @Component({
     components: {
         VolumeControl,
+        MiniProgressBar,
         ProgressBar,
     },
     filters: {
