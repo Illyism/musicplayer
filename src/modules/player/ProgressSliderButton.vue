@@ -3,7 +3,7 @@
         class="absolute h-4 w-4 -ml-1 -mt-1 rounded-full bg-primary-600 shadow"
         :class="{
             'dragging cursor-grabbing': dragging,
-            'cursor-grab': !dragging,
+            'cursor-grab trans': !dragging,
         }"
 
         @mousedown.prevent.stop="onButtonDown"

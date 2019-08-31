@@ -39,6 +39,7 @@ import PlayersController from './PlayersController'
 import formatSeconds from './util/formatSeconds'
 import ProgressSliderButton from './ProgressSliderButton.vue'
 import { sleep } from '../../utils'
+import store from '@/store'
 
 @Component({
     components: {
@@ -53,9 +54,9 @@ export default class ProgressBar extends Vue {
     @State public progressCurrent!: number
     @State public progressLoaded!: number
 
-    private dragging = false
-    private sliderWidth = 1
-    private step = 1 // 1 seconds
+    public dragging = false
+    public sliderWidth = 1
+    public step = 1 // 1 seconds
 
     public draggingCurrentX = 0
     public draggingStartX = 0
@@ -233,10 +234,11 @@ export default class ProgressBar extends Vue {
         }
 
         const newSeconds = this.getSecondsForPercentage(this.draggingCurrentPercentage)
-        this.trySeekTo( newSeconds, true )
+        this.trySeekTo(newSeconds)
 
         // sleep instead of nextTick to prevent onSliderClick from triggering
-        await sleep(10)
+        // also sleep a bit longer so that the player can emit a progress update event
+        await sleep(1000)
 
         this.dragging = false
         this.draggingStartX = 0
