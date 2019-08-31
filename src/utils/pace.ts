@@ -1,10 +1,12 @@
+
+declare let Pace: any; // Magic
+
 export default {
     install() {
         require('./pace.pkg.js')
-        // @ts-ignore
-        window.Pace.start({
+        Pace.start({
             restartOnRequestAfter: true,
-            restartOnPushState: false,
+            restartOnPushState: false ,
             ajax: {
                 trackMethods: ['GET', 'POST'],
                 ignoreURLs: ['zendesk.com', 'pusher.com', /intercom/],

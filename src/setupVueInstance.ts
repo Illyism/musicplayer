@@ -6,7 +6,6 @@ import {
     toastOnErrors,
 } from '@/utils/interceptors'
 import axios from 'axios'
-// @ts-ignore
 import PortalVue from 'portal-vue'
 import Vue from 'vue'
 import Meta from 'vue-meta'

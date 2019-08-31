@@ -1,35 +1,45 @@
 <template>
-    <div v-if="playlist.length > 0" class="py-4">
-        <ListLayout
-            :list="playlist"
-        >
-            <PlaylistItemRow
-                :key="item.id"
-                slot-scope="{ item }"
-                :title="item.title"
-                :thumbnailHD="item.secure_media && item.secure_media.oembed ? item.secure_media.oembed.thumbnail_url : null"
-                :thumbnail="item.thumbnail"
-                :ups="item.ups"
-                :numComments="item.num_comments"
-                :isActivePost="isActivePost(item)"
-                :isPrevSong="isPrevSong(item)"
-                :isNextSong="isNextSong(item)"
-                @onClick="onClick(item)"
-            />
-        </ListLayout>
+  <div
+    v-if="playlist.length > 0"
+    class="py-4"
+  >
+    <ListLayout
+      :list="playlist"
+    >
+      <PlaylistItemRow
+        :key="item.id"
+        slot-scope="{ item }"
+        :title="item.title"
+        :thumbnail-h-d="item.secure_media && item.secure_media.oembed ? item.secure_media.oembed.thumbnail_url : null"
+        :thumbnail="item.thumbnail"
+        :ups="item.ups"
+        :num-comments="item.num_comments"
+        :is-active-post="isActivePost(item)"
+        :is-prev-song="isPrevSong(item)"
+        :is-next-song="isNextSong(item)"
+        @onClick="onClick(item)"
+      />
+    </ListLayout>
 
-        <div class="text-gray-500 font-light text-sm hover:bg-gray-900 mx-2 mb-2 cursor-pointer trans trans-bg text-center rounded"
-            @click="TOGGLE_PLAYLIST_EXPANDED">
-            <IconChevronDown v-if="!isPlaylistExpanded"  class="mdi-fix" />
-            <IconChevronUp v-else class="mdi-fix" />
-        </div>
-
+    <div
+      class="text-gray-500 font-light text-sm hover:bg-gray-900 mx-2 mb-2 cursor-pointer trans trans-bg text-center rounded"
+      @click="TOGGLE_PLAYLIST_EXPANDED"
+    >
+      <IconChevronDown
+        v-if="!isPlaylistExpanded"
+        class="mdi-fix"
+      />
+      <IconChevronUp
+        v-else
+        class="mdi-fix"
+      />
     </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { State, Getter, Action, Mutation, namespace} from 'vuex-class'
+import { State, Getter, Action } from 'vuex-class'
 import { RawPostData } from '@/typings/reddit'
 import isPostEqual from '@/modules/playlist/util/isPostEqual'
 

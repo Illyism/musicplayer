@@ -138,22 +138,22 @@ interface AllAwarding {
 }
 
 export enum AwardType {
-    Global = 'global'
+    Global = 'global',
 }
 
 export enum Description {
     GoldAward = 'Gold Award',
-    SilverAward = 'Silver Award'
+    SilverAward = 'Silver Award',
 }
 
 export enum ID {
     Gid1 = 'gid_1',
-    Gid2 = 'gid_2'
+    Gid2 = 'gid_2',
 }
 
 export enum Name {
     Gold = 'Gold',
-    Silver = 'Silver'
+    Silver = 'Silver',
 }
 
 interface ResizedIcon {
@@ -171,12 +171,12 @@ interface AuthorFlairRichtext {
 
 export enum FlairTextColor {
     Dark = 'dark',
-    Light = 'light'
+    Light = 'light',
 }
 
 export enum AuthorFlairType {
     Richtext = 'richtext',
-    Text = 'text'
+    Text = 'text',
 }
 
 interface Gildings {
@@ -235,14 +235,14 @@ export enum WhitelistStatus {
     AllAds = 'all_ads',
     HouseOnly = 'house_only',
     NoAds = 'no_ads',
-    PromoAdultNsfw = 'promo_adult_nsfw'
+    PromoAdultNsfw = 'promo_adult_nsfw',
 }
 
 export enum PostHint {
     HostedVideo = 'hosted:video',
     Image = 'image',
     Link = 'link',
-    RichVideo = 'rich:video'
+    RichVideo = 'rich:video',
 }
 
 interface Preview {
@@ -272,9 +272,9 @@ interface GIF {
 
 export enum SubredditType {
     Public = 'public',
-    Restricted = 'restricted'
+    Restricted = 'restricted',
 }
 
 export enum Kind {
-    T3 = 't3'
+    T3 = 't3',
 }

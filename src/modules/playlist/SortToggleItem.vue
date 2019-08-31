@@ -1,21 +1,23 @@
 <template>
-    <div class="p-2 flex-1">
-        <div
-            class="h-16 w-full trans flex flex-col items-center justify-center rounded border bg-gray-900 text-white"
-            :class="cardClasses"
-            @click="$emit('onClick')"
-        >
-            <img
-                :src="`/img/emoji/${image}.png`"
-                :alt="id"
-                class="h-5 inline-block w-auto"
-                :class="{
-                    'opacity-50': !isActive  
-                }"
-            >
-            <div class="text-xs font-bold tracking-widest mt-2 uppercase">{{ id }}</div>
-        </div>
+  <div class="p-2 flex-1">
+    <div
+      class="h-16 w-full trans flex flex-col items-center justify-center rounded border bg-gray-900 text-white"
+      :class="cardClasses"
+      @click="$emit('onClick')"
+    >
+      <img
+        :src="`/img/emoji/${image}.png`"
+        :alt="id"
+        class="h-5 inline-block w-auto"
+        :class="{
+          'opacity-50': !isActive  
+        }"
+      >
+      <div class="text-xs font-bold tracking-widest mt-2 uppercase">
+        {{ id }}
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts">

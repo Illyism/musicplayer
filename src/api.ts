@@ -14,7 +14,7 @@ export async function getRedditMusic(
     sortId: string,
     topSortId: string,
     after?: string,
-    limit: number = 100,
+    limit = 100,
 ): Promise< RawSubreddit> {
     const subsText = subs.map((s) => s.Subreddit).join('+')
     const params = {

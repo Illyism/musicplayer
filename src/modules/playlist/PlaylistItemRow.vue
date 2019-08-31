@@ -1,48 +1,67 @@
 <template>
+  <div
+    class="h-full text-white cursor-pointer px-6 py-2 flex items-center leading-none"
+    :class="{ 'bg-gray-900': isActivePost }"
+    @click="$emit('onClick')"
+  >
     <div
-        class="h-full text-white cursor-pointer px-6 py-2 flex items-center leading-none"
-        :class="{ 'bg-gray-900': isActivePost }"
-        @click="$emit('onClick')"
+      class="queue-card h-16 w-16 relative rounded border bg-gray-900 trans"
+      :class="{
+        'queue-card--active': isActivePost,
+        'queue-card--playing': isThisPlaying,
+      }"
     >
-    
-        <div
-            class="queue-card h-16 w-16 relative rounded border bg-gray-900 trans"
-            :class="{
-                'queue-card--active': isActivePost,
-                'queue-card--playing': isThisPlaying,
-            }"
-        >
-            <LazyImage
-                class="absolute rounded h-full w-full"
-                :thumbnail="thumbnail"
-                :thumbnailHD="thumbnailHD"
-            />
+      <LazyImage
+        class="absolute rounded h-full w-full"
+        :thumbnail="thumbnail"
+        :thumbnail-h-d="thumbnailHD"
+      />
 
-            <div class="z-20 queue-card-action absolute rounded w-full h-full flex items-center justify-center">
-                <IconPause v-if="isThisPlaying" class="text-4xl" />
-                <IconSkipPrevious v-else-if="isPrevSong" class="text-4xl" />
-                <IconSkipNext v-else-if="isNextSong" class="text-4xl" />
-                <IconYoutube v-else class="text-4xl" />
-            </div>
-        </div>
-
-        <div class="ml-4 flex-1">
-            <div class="queue-card-info rounded w-full h-full leading-tight">
-                <div class="text-gray-200">
-                    {{ title }}
-                </div>
-                <div class="flex text-xs">
-                    <div class="font-medium text-orange-400">
-                        {{ ups }} upvotes
-                    </div>
-                    <div v-if="numComments" class="px-2 text-gray-700">•</div>
-                    <div v-if="numComments" class="font-medium text-teal-600">
-                        {{ numComments }} comments
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div class="z-20 queue-card-action absolute rounded w-full h-full flex items-center justify-center">
+        <IconPause
+          v-if="isThisPlaying"
+          class="text-4xl"
+        />
+        <IconSkipPrevious
+          v-else-if="isPrevSong"
+          class="text-4xl"
+        />
+        <IconSkipNext
+          v-else-if="isNextSong"
+          class="text-4xl"
+        />
+        <IconYoutube
+          v-else
+          class="text-4xl"
+        />
+      </div>
     </div>
+
+    <div class="ml-4 flex-1">
+      <div class="queue-card-info rounded w-full h-full leading-tight">
+        <div class="text-gray-200">
+          {{ title }}
+        </div>
+        <div class="flex text-xs">
+          <div class="font-medium text-orange-400">
+            {{ ups }} upvotes
+          </div>
+          <div
+            v-if="numComments"
+            class="px-2 text-gray-700"
+          >
+            •
+          </div>
+          <div
+            v-if="numComments"
+            class="font-medium text-teal-600"
+          >
+            {{ numComments }} comments
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 

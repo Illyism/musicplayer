@@ -1,45 +1,49 @@
 <template>
-   <div class="w-full h-full flex items-center justify-center text-xs xs:text-base">
-       <div v-if="dragging">{{ draggingSeconds | formatSeconds }}</div>
-       <div v-else>{{ progressCurrent | formatSeconds }}</div>
-       <div class="relative w-full h-2 mx-4 pointer-events-auto"
-            @click.prevent.stop="onSliderClick"
-            ref="slider"
-            role="slider"
-            :aria-valuemin="0"
-            :aria-value="progressCurrent"
-            :aria-valuemax="progressDuration"
-        >
-            <div class="absolute w-full h-full rounded-full bg-gray-900"></div>
-            <div
-                class="absolute h-full rounded-full bg-gray-800"
-                :style="progressLoadedStyles"
-            ></div>
-            <div
-                class="absolute h-full rounded-full bg-primary-600"
-                :style="progressCurrentStyles"
-            ></div>
+  <div class="w-full h-full flex items-center justify-center text-xs xs:text-base">
+    <div v-if="dragging">
+      {{ draggingSeconds | formatSeconds }}
+    </div>
+    <div v-else>
+      {{ progressCurrent | formatSeconds }}
+    </div>
+    <div
+      class="relative w-full h-2 mx-4 pointer-events-auto"
+      @click.prevent.stop="onSliderClick"
+      ref="slider"
+      role="slider"
+      :aria-valuemin="0"
+      :aria-value="progressCurrent"
+      :aria-valuemax="progressDuration"
+    >
+      <div class="absolute w-full h-full rounded-full bg-gray-900" />
+      <div
+        class="absolute h-full rounded-full bg-gray-800"
+        :style="progressLoadedStyles"
+      />
+      <div
+        class="absolute h-full rounded-full bg-primary-600"
+        :style="progressCurrentStyles"
+      />
 
-            <ProgressSliderButton
-                :value="progressCurrent"
-                ref="progressSliderButton"
-                :dragging="dragging"
-                :style="circleCurrentStyle"
-                @onButtonDown="onButtonDown"
-            />
-       </div>
-       <div>{{ progressDuration | formatSeconds }}</div>
-   </div>
+      <ProgressSliderButton
+        :value="progressCurrent"
+        ref="progressSliderButton"
+        :dragging="dragging"
+        :style="circleCurrentStyle"
+        @onButtonDown="onButtonDown"
+      />
+    </div>
+    <div>{{ progressDuration | formatSeconds }}</div>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import PlayersController from './PlayersController'
 import formatSeconds from './util/formatSeconds'
 import ProgressSliderButton from './ProgressSliderButton.vue'
 import { sleep } from '../../utils'
-import store from '@/store'
 
 @Component({
     components: {

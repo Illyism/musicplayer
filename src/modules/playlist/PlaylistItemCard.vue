@@ -1,40 +1,52 @@
 <template>
-    <div
-        class="queue-card h-full w-full relative rounded border bg-gray-900 text-white cursor-pointer trans"
-        :class="{
-            'queue-card--active': isActivePost,
-            'queue-card--playing': isThisPlaying,
-        }"
-        @click="$emit('onClick')"
-    >
-        <LazyImage
-            class="absolute rounded h-full w-full"
-            :thumbnail="thumbnail"
-            :thumbnailHD="thumbnailHD"
-        />
+  <div
+    class="queue-card h-full w-full relative rounded border bg-gray-900 text-white cursor-pointer trans"
+    :class="{
+      'queue-card--active': isActivePost,
+      'queue-card--playing': isThisPlaying,
+    }"
+    @click="$emit('onClick')"
+  >
+    <LazyImage
+      class="absolute rounded h-full w-full"
+      :thumbnail="thumbnail"
+      :thumbnail-h-d="thumbnailHD"
+    />
 
-        <div class="z-10 queue-card-info rounded p-2 overflow-hidden absolute w-full h-full flex flex-col justify-between leading-tight">
-            <div class="flex justify-between">
-                <div class="font-medium text-orange-400">
-                    {{ ups }}
-                </div>
-                <div class="text-xs ml-2 font-medium text-teal-600">
-                    {{ numComments }}
-                </div>
-            </div>
-            <div>
-                <div class="text-xs h-8 overflow-hidden leading-tight text-gray-200 flex items-end">
-                    {{ title }}
-                </div>
-            </div>
+    <div class="z-10 queue-card-info rounded p-2 overflow-hidden absolute w-full h-full flex flex-col justify-between leading-tight">
+      <div class="flex justify-between">
+        <div class="font-medium text-orange-400">
+          {{ ups }}
         </div>
-        <div class="z-20 queue-card-action absolute rounded w-full h-full flex items-center justify-center">
-            <IconPause v-if="isThisPlaying" class="text-4xl" />
-            <IconSkipPrevious v-else-if="isPrevSong" class="text-4xl" />
-            <IconSkipNext v-else-if="isNextSong" class="text-4xl" />
-            <IconYoutube v-else class="text-4xl" />
+        <div class="text-xs ml-2 font-medium text-teal-600">
+          {{ numComments }}
         </div>
+      </div>
+      <div>
+        <div class="text-xs h-8 overflow-hidden leading-tight text-gray-200 flex items-end">
+          {{ title }}
+        </div>
+      </div>
     </div>
+    <div class="z-20 queue-card-action absolute rounded w-full h-full flex items-center justify-center">
+      <IconPause
+        v-if="isThisPlaying"
+        class="text-4xl"
+      />
+      <IconSkipPrevious
+        v-else-if="isPrevSong"
+        class="text-4xl"
+      />
+      <IconSkipNext
+        v-else-if="isNextSong"
+        class="text-4xl"
+      />
+      <IconYoutube
+        v-else
+        class="text-4xl"
+      />
+    </div>
+  </div>
 </template>
 
 
