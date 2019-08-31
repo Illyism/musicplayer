@@ -1,14 +1,14 @@
 <template>
-    <GridLayout
-      class="opacity-50 pointer-events-none"
-      :list="list"
-    >
-      <BottomCard
-        slot-scope="{ index }"
-        :title="randomString(index)"
-        :description="randomString(index)"
-      />
-    </GridLayout>
+  <GridLayout
+    class="opacity-50 pointer-events-none"
+    :list="list"
+  >
+    <BottomCard
+      slot-scope="{ index }"
+      :title="randomString(index)"
+      :description="randomString(index)"
+    />
+  </GridLayout>
 </template>
 
 <script lang="ts">

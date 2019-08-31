@@ -9,23 +9,23 @@ import PlayerStates from 'youtube-player/dist/constants/PlayerStates';
 Vue.use(Vuex)
 
 export interface State {
-  subs: SubredditListItem[]
-  subsLoaded: boolean
-  activeSubs: SubredditListItem[]
-  activeSort: 'hot'|'top'|'new'
-  activeTopSort: 'hour'|'day'|'week'|'month'|'year'|'all'
-  redditMusic: RawPostData[]
-  activePost: RawPostData | null
-  playerState: PlayerStates
-  playerReady: boolean
-  volume: number // from 0 to 100
-  isMuted: boolean
-  progressDuration: number
-  progressCurrent: number
-  progressLoaded: number
-  isMenuOpen: boolean
-  isHorizontalOrientation: boolean
-  isPlaylistExpanded: false
+  subs: SubredditListItem[];
+  subsLoaded: boolean;
+  activeSubs: SubredditListItem[];
+  activeSort: 'hot'|'top'|'new';
+  activeTopSort: 'hour'|'day'|'week'|'month'|'year'|'all';
+  redditMusic: RawPostData[];
+  activePost: RawPostData | null;
+  playerState: PlayerStates;
+  playerReady: boolean;
+  volume: number; // from 0 to 100
+  isMuted: boolean;
+  progressDuration: number;
+  progressCurrent: number;
+  progressLoaded: number;
+  isMenuOpen: boolean;
+  isHorizontalOrientation: boolean;
+  isPlaylistExpanded: false;
 }
 
 

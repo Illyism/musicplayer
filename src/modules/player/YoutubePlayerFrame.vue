@@ -1,8 +1,8 @@
 <template>
-   <div
-        ref="player"
-        class="h-full w-full"
-    />
+  <div
+    ref="player"
+    class="h-full w-full"
+  />
 </template>
 
 <script lang="ts">

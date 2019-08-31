@@ -1,19 +1,19 @@
 <template>
-    <div class="relative w-full h-px">
-        <div class="absolute w-full h-full bg-gray-900"></div>
-        <div
-            class="absolute h-full bg-gray-800"
-            :style="loadedVolumeStyles"
-        ></div>
-        <div
-            class="absolute h-full bg-primary-600"
-            :style="currentVolumeStyles"
-        ></div>
-    </div>
+  <div class="relative w-full h-px">
+    <div class="absolute w-full h-full bg-gray-900" />
+    <div
+      class="absolute h-full bg-gray-800"
+      :style="loadedVolumeStyles"
+    />
+    <div
+      class="absolute h-full bg-primary-600"
+      :style="currentVolumeStyles"
+    />
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import PlayersController from './PlayersController'
 import formatSeconds from './util/formatSeconds'

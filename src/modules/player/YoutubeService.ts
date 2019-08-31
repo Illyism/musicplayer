@@ -41,7 +41,10 @@ class YoutubeService extends StoreListener implements PlayerService {
         })
 
         this.player.on('stateChange', async () => {
-            const newState = await this.player!.getPlayerState()
+            if (!this.player) {
+                return
+            }
+            const newState = await this.player.getPlayerState()
             store.dispatch('SET_PLAYER_STATE', newState)
             switch (newState) {
                 case PlayerStates.UNSTARTED: console.log('UNSTARTED'); break;
@@ -73,7 +76,7 @@ class YoutubeService extends StoreListener implements PlayerService {
         }
 
         const post = store.state.activePost
-        const id = getYoutubeIdForPost(post!)
+        const id = getYoutubeIdForPost(post)
         if (!id) {
             return
         }
@@ -174,7 +177,7 @@ class YoutubeService extends StoreListener implements PlayerService {
     }
 
     // events
-    private async onPlayerStateChanged() {
+    private onPlayerStateChanged() {
         if (store.getters.isPlaying) {
             if (!this.isYoutubePlaying) {
                 return

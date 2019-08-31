@@ -2,14 +2,14 @@ import { DirectiveOptions } from 'vue';
 
 export interface ResizeElement extends HTMLElement {
     _onResize: {
-        callback: any,
-        options: any,
-    }
+        callback: any;
+        options: any;
+    };
 }
 
 export interface ResizeState extends HTMLElement {
-    width: number
-    height: number
+    width: number;
+    height: number;
 }
 
 const directive: DirectiveOptions = {

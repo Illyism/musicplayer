@@ -1,30 +1,36 @@
 <template>
-    <div class="list-layout">
-        <transition-group
-            v-if="isAnimated"
-            name="fade"
-        >
-            <div
-                v-for="(item, index) in list"
-                :key="index + 0"
-                class="list-layout-column"
-                :class="columnClasses"
-            >
-                <slot :item="item" :index="index" />
-            </div>
-        </transition-group>
+  <div class="list-layout">
+    <transition-group
+      v-if="isAnimated"
+      name="fade"
+    >
+      <div
+        v-for="(item, index) in list"
+        :key="index + 0"
+        class="list-layout-column"
+        :class="columnClasses"
+      >
+        <slot
+          :item="item"
+          :index="index"
+        />
+      </div>
+    </transition-group>
 
-        <template v-else>
-            <div
-                v-for="(item, index) in list"
-                :key="item.id || index + 0"
-                class="list-layout-column"
-                :class="columnClasses"
-            >
-                <slot :item="item" :index="index" />
-            </div>
-        </template>
-    </div>
+    <template v-else>
+      <div
+        v-for="(item, index) in list"
+        :key="item.id || index + 0"
+        class="list-layout-column"
+        :class="columnClasses"
+      >
+        <slot
+          :item="item"
+          :index="index"
+        />
+      </div>
+    </template>
+  </div>
 </template>
 
 <script lang="ts">

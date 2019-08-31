@@ -1,27 +1,31 @@
 <template>
-    <div class="p-1 w-full">
-         <popper
-            trigger="hover"
-            :options="{
-                    placement: 'top',
-                    modifiers: { offset: { offset: '0,10px' } }
-            }">
-            <div class="popper z-10 bg-gray-900 border shadow-lg pointer-events-none py-1 px-2 text-sm rounded-lg"
-                :class="popperClasses">
-                {{ title }}
-            </div>
+  <div class="p-1 w-full">
+    <popper
+      trigger="hover"
+      :options="{
+        placement: 'top',
+        modifiers: { offset: { offset: '0,10px' } }
+      }"
+    >
+      <div
+        class="popper z-10 bg-gray-900 border shadow-lg pointer-events-none py-1 px-2 text-sm rounded-lg"
+        :class="popperClasses"
+      >
+        {{ title }}
+      </div>
 
-            <div
-                class="h-6 w-full trans flex flex-col items-center justify-center rounded border bg-gray-900 text-white"
-                slot="reference"
-                :class="cardClasses"
-                @click="$emit('onClick')"
-            >
-                <div class="text-sm font-bold uppercase leading-none">{{ id }}</div>
-                
-            </div>
-        </popper>
-    </div>
+      <div
+        class="h-6 w-full trans flex flex-col items-center justify-center rounded border bg-gray-900 text-white"
+        slot="reference"
+        :class="cardClasses"
+        @click="$emit('onClick')"
+      >
+        <div class="text-sm font-bold uppercase leading-none">
+          {{ id }}
+        </div>
+      </div>
+    </popper>
+  </div>
 </template>
 
 <script lang="ts">

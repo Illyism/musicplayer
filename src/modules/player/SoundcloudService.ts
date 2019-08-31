@@ -7,14 +7,14 @@ import isSoundcloudType from '../playlist/util/isSoundcloudType'
 import { getSoundcloudTrack } from '../playlist/util/getSoundcloudTrack'
 import { SoundcloudTrack, SoundcloudProgressData } from '@/typings/soundcloud'
 
-declare var SC: any; // Magic
+declare let SC: any; // Magic
 
 class SoundcloudService extends StoreListener implements PlayerService {
     /** @see https://github.com/gajus/youtube-player */
     public player?: any
     public soundCloudTrack?: SoundcloudTrack
 
-    public init(element: HTMLElement, attempts: number = 0) {
+    public init(element: HTMLElement, attempts = 0) {
         if (this.player) {
             return
         }
@@ -41,7 +41,7 @@ class SoundcloudService extends StoreListener implements PlayerService {
         this.player.bind(SC.Widget.Events.ERROR, this.onPlayerError.bind(this))
     }
 
-    public async beforeDestroy() {
+    public beforeDestroy() {
         console.log('SoundcloudService :: beforeDestroy')
         this.player.unbind(SC.Widget.Events.PLAY_PROGRESS)
         this.player.unbind(SC.Widget.Events.PLAY)

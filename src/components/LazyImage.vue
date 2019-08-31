@@ -1,12 +1,12 @@
 <template>
-    <img
-        :src="src"
-        class="trans"
-        :class="{ 'opacity-0': !loaded }"
-        alt=""
-        @load="onLoad"
-        @error="onError"
-    />
+  <img
+    :src="src"
+    class="trans"
+    :class="{ 'opacity-0': !loaded }"
+    alt=""
+    @load="onLoad"
+    @error="onError"
+  >
 </template>
 
 
