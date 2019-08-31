@@ -1,13 +1,13 @@
 <template>
     <div
-        class="absolute h-4 w-4 -ml-1 -mt-1 rounded-full bg-primary-600 cursor-grab"
+        class="absolute h-4 w-4 -ml-1 -mt-1 rounded-full bg-primary-600 shadow"
+        :class="{
+            'dragging cursor-grabbing': dragging,
+            'cursor-grab': !dragging,
+        }"
 
-        @mouseenter.prevent.stop="handleMouseEnter"
-        @mouseleave.prevent.stop="handleMouseLeave"
         @mousedown.prevent.stop="onButtonDown"
         @touchstart.prevent.stop="onButtonDown"
-
-        :class="{ 'hover': hovering, 'dragging': dragging }"
     ></div>
 </template>
 
@@ -25,12 +25,6 @@ export default class ProgressSliderButton extends Vue {
 
     public onButtonDown($event: MouseEvent | TouchEvent) {
         this.$emit('onButtonDown', $event)
-    }
-    public handleMouseEnter() {
-        this.$emit('onHoveringChanged', true)
-    }
-    public handleMouseLeave() {
-        this.$emit('onHoveringChanged', false )
     }
 }
 </script>

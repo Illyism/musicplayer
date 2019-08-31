@@ -1,6 +1,7 @@
 <template>
    <div class="w-full h-full flex items-center justify-center text-xs xs:text-base">
-       <div>{{ progressCurrent | formatSeconds }}</div>
+       <div v-if="dragging">{{ draggingSeconds | formatSeconds }}</div>
+       <div v-else>{{ progressCurrent | formatSeconds }}</div>
        <div class="relative w-full h-2 mx-4 pointer-events-auto"
             @click.prevent.stop="onSliderClick"
             ref="slider"
@@ -23,9 +24,7 @@
                 :value="progressCurrent"
                 ref="progressSliderButton"
                 :dragging="dragging"
-                :hovering="hovering"
                 :style="circleCurrentStyle"
-                @onHoveringChanged="onHoveringChanged"
                 @onButtonDown="onButtonDown"
             />
        </div>
@@ -55,8 +54,7 @@ export default class ProgressBar extends Vue {
 
     private dragging = false
     private sliderWidth = 1
-    private step = 5 // 5 seconds
-    private hovering = false
+    private step = 1 // 1 seconds
 
     public draggingCurrentX = 0
     public draggingStartX = 0
@@ -79,6 +77,13 @@ export default class ProgressBar extends Vue {
         return {
             left: `${this.progressCurrentPercentage * 100}%`,
         }
+    }
+
+    public get draggingSeconds() {
+        if (!this.dragging) {
+            return 0
+        }
+        return this.getSecondsForPercentage(this.draggingCurrentPercentage)
     }
 
     public get progressCurrentPercentage() {
@@ -162,10 +167,6 @@ export default class ProgressBar extends Vue {
     // always use trySeekTo in public code
     public seekTo(seconds: number, allowSeekAhead: boolean) {
         PlayersController.seekTo(seconds, allowSeekAhead)
-    }
-
-    public onHoveringChanged(isHovering: boolean) {
-        this.hovering = isHovering
     }
 
     public isTouchEvent(ev: MouseEvent | TouchEvent): ev is TouchEvent {
