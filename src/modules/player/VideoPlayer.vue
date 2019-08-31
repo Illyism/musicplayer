@@ -27,7 +27,6 @@ import { RawPostData } from '@/typings/reddit'
 import YoutubePlayerFrame from '@/modules/player/YoutubePlayerFrame.vue'
 import SoundcloudPlayerFrame from '@/modules/player/SoundcloudPlayerFrame.vue'
 import VideoOverlay from '@/modules/player/VideoOverlay.vue'
-import VolumeControl from './VolumeControl.vue'
 import './PlayersController'
 import isYoutubeType from '../playlist/util/isYoutubeType';
 import isSoundcloudType from '../playlist/util/isSoundcloudType';
@@ -37,7 +36,6 @@ import isSoundcloudType from '../playlist/util/isSoundcloudType';
         YoutubePlayerFrame,
         SoundcloudPlayerFrame,
         VideoOverlay,
-        VolumeControl,
     },
 })
 export default class VideoPlayer extends Vue {
