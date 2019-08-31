@@ -21,15 +21,15 @@ class PlaylistController extends StoreListener {
     /**
      * Plays a song
      */
-    public loadSong(post: RawPostData) {
+    public async loadSong(post: RawPostData) {
         store.dispatch('PLAY_POST', post)
-        this.getMoreMusicIfPlaylistEnding()
+        await this.getMoreMusicIfPlaylistEnding()
     }
 
     /**
      * Plays a new song, or pauses current song
      */
-    public toggleSong(post: RawPostData) {
+    public async toggleSong(post: RawPostData) {
 
         // if we clicked on the current post, just play or pause it
         if (isPostEqual(store.state.activePost, post)) {
@@ -42,7 +42,7 @@ class PlaylistController extends StoreListener {
             return
         }
 
-        this.loadSong(post)
+        await this.loadSong(post)
     }
 
     public async getMusic({ activeSubs, activeSort, activeTopSort }: State = store.state) {
@@ -69,7 +69,7 @@ class PlaylistController extends StoreListener {
             return
         }
 
-        this.loadSong(nextSong)
+        await this.loadSong(nextSong)
     }
 
     public async playPrevSong() {
@@ -79,7 +79,7 @@ class PlaylistController extends StoreListener {
             return
         }
 
-        this.loadSong(prevSong)
+        await this.loadSong(prevSong)
     }
 
     private async getMoreMusic({ redditMusic, activeSubs, activeSort, activeTopSort }: State = store.state) {
@@ -110,7 +110,7 @@ class PlaylistController extends StoreListener {
         const currentIndex = store.getters.currentIndex
         const songsCount = store.state.redditMusic.length
         if (currentIndex >= songsCount - 6) { // first column of previous row
-            this.getMoreMusic()
+            await this.getMoreMusic()
         }
     }
 

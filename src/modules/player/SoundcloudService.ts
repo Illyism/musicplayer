@@ -41,7 +41,7 @@ class SoundcloudService extends StoreListener implements PlayerService {
         this.player.bind(SC.Widget.Events.ERROR, this.onPlayerError.bind(this))
     }
 
-    public async beforeDestroy() {
+    public beforeDestroy() {
         console.log('SoundcloudService :: beforeDestroy')
         this.player.unbind(SC.Widget.Events.PLAY_PROGRESS)
         this.player.unbind(SC.Widget.Events.PLAY)

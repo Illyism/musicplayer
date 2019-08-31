@@ -165,7 +165,7 @@ export default class VideoOverlay extends Vue {
         PlaylistController.playPrevSong()
     }
 
-    public async toggleFullscreen() {
+    public toggleFullscreen() {
         try {
             if (document.fullscreenElement) {
                 document.exitFullscreen()

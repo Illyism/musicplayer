@@ -3,10 +3,9 @@ module.exports = {
   parser: "vue-eslint-parser",
   parserOptions: {
     parser: "@typescript-eslint/parser",
-    ecmaVersoin: 2018,
+    ecmaVersion: 2018,
     sourceType: "module"
   },
-
   env: {
     browser: true,
     jest: true,
@@ -43,6 +42,7 @@ module.exports = {
     "@typescript-eslint/camelcase": 0, // ignore => some api calls, settings use _
     "@typescript-eslint/no-var-requires": 0, // allow require('') => used by config files
     "@typescript-eslint/no-empty-interface": 0, // ignore => needed in some typings
-    "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": true }] // false => functions are hoisted
+    "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": true }], // false => functions are hoisted
+    'require-await': 'error',
   }
 };

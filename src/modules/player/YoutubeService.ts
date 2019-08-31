@@ -177,7 +177,7 @@ class YoutubeService extends StoreListener implements PlayerService {
     }
 
     // events
-    private async onPlayerStateChanged() {
+    private onPlayerStateChanged() {
         if (store.getters.isPlaying) {
             if (!this.isYoutubePlaying) {
                 return
