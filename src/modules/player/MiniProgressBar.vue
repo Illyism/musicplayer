@@ -1,12 +1,12 @@
 <template>
-    <div class="relative w-full h-1">
-        <div class="absolute w-full h-full rounded-full bg-gray-900"></div>
+    <div class="relative w-full h-px">
+        <div class="absolute w-full h-full bg-gray-900"></div>
         <div
-            class="absolute h-full rounded-full bg-gray-800"
+            class="absolute h-full bg-gray-800"
             :style="loadedVolumeStyles"
         ></div>
         <div
-            class="absolute h-full rounded-full bg-primary-600"
+            class="absolute h-full bg-primary-600"
             :style="currentVolumeStyles"
         ></div>
     </div>
