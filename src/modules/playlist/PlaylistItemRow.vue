@@ -50,7 +50,7 @@
             v-if="numComments"
             class="px-2 text-gray-700"
           >
-            •
+            /
           </div>
           <div
             v-if="numComments"
