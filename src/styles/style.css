@@ -154,4 +154,8 @@ body {
   opacity: 0;
 }
 
+.overflow-y-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
 @tailwind utilities;
