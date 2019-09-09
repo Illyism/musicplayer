@@ -28,7 +28,7 @@
     "vue": "2.6.10",
     "vue-class-component": "7.1.0",
     "vue-match-media": "1.0.3",
-    "vue-material-design-icons": "3.4.0",
+    "vue-material-design-icons": "4.0.0",
     "vue-meta": "2.2.2",
     "vue-popperjs": "2.1.0",
     "vue-property-decorator": "8.2.2",
