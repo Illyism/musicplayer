@@ -3,6 +3,10 @@
 @tailwind components;
 
 body {
+  user-select: none; /* don't allow text selecting */
+  -webkit-tap-highlight-color: transparent; /* to avoid android selection flash */
+  touch-action: manipulation; /* disable double-tap to zoom */
+   -webkit-touch-callout: none; /* disable ios callout */
   @apply bg-black font-sans;
 }
 
