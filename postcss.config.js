@@ -1,9 +1,4 @@
 const purgecss = require("@fullhuman/postcss-purgecss")
-class TailwindExtractor {
-    static extract(content) {
-        return content.match(/[A-Za-z0-9-_:/]+/g) || []
-    }
-}
 
 module.exports = {
     "plugins": [
@@ -15,12 +10,7 @@ module.exports = {
                 "./src/**/*.html",
                 "./src/**/*.vue"
             ],
-            extractors: [
-                {
-                    extractor: TailwindExtractor,
-                    extensions: ['vue'],
-                },
-            ],
+            defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
             whitelist: ['html', 'body'],
             whitelistPatterns: [
                 /material-design-icon/,
