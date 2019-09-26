@@ -1,0 +1,25 @@
+name: Tests
+on: push
+jobs:
+  jest:
+    name: Jest
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Dependencies
+      uses: actions/npm@master
+      with:
+        args: ci
+    - name: Eslint
+      uses: gimenete/eslint-action@1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Jest
+      uses: actions/npm@master
+      with:
+        args: run test:ci
+    - name: Codecov
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run:
+        curl -s https://codecov.io/bash | bash -s -- -t $CODECOV_TOKEN
