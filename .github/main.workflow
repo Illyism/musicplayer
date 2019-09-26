@@ -12,14 +12,11 @@ action "Eslint" {
   uses = "gimenete/eslint-action@1.0"
   args = ""
   secrets = ["GITHUB_TOKEN"]
+  needs = ["Dependencies"]
 }
 
 action "Jest" {
-  uses = "docker://rkusa/jest-action:latest"
-  args = "--ci --collectCoverageFrom='src/**/*{js,vue}'"
+  uses = "actions/npm@master"
+  args = "test:ci"
   needs = ["Dependencies"]
-  secrets = ["GITHUB_TOKEN"]
-  env = {
-    JEST_CMD = "npm run test:unit"
-  }
 }
