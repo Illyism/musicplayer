@@ -5,6 +5,7 @@ import pace from '@/utils/pace.ts'
 import setupVueInstance from './setupVueInstance'
 import './styles/style.css';
 import './registerServiceWorker';
+import '@/utils/installSentry'
 
 const Vue = setupVueInstance()
 pace.install()

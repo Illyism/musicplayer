@@ -1,7 +1,10 @@
 import { RawPostData } from '@/typings/reddit'
 import getYoutubeId from './getYoutubeId';
 
-export default function getYoutubeIdForPost(post: RawPostData) {
+export default function getYoutubeIdForPost(post: RawPostData | null) {
+    if (!post) {
+        return null
+    }
     const urlId = getYoutubeId(post.url)
     if (urlId) {
         return urlId

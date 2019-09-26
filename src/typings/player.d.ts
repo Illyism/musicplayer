@@ -1,4 +1,4 @@
-import { RawPostData } from "./reddit"
+import { RawPostData } from './reddit'
 
 interface YoutubePostData extends RawPostData {}
 interface SoundcloudPostData extends RawPostData {}

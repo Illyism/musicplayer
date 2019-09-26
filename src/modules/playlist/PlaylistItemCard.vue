@@ -1,0 +1,115 @@
+<template>
+  <div
+    class="queue-card h-full w-full relative rounded border bg-gray-900 text-white cursor-pointer trans"
+    :class="{
+      'queue-card--active': isActivePost,
+      'queue-card--playing': isThisPlaying,
+    }"
+    @click="$emit('onClick')"
+  >
+    <LazyImage
+      class="absolute rounded h-full w-full"
+      :thumbnail="thumbnail"
+      :thumbnail-h-d="thumbnailHD"
+    />
+
+    <div class="z-10 queue-card-info rounded p-2 overflow-hidden absolute w-full h-full flex flex-col justify-between leading-tight">
+      <div class="flex justify-between">
+        <div class="font-medium text-orange-400">
+          {{ ups }}
+        </div>
+        <div class="text-xs ml-2 font-medium text-teal-600">
+          {{ numComments }}
+        </div>
+      </div>
+      <div>
+        <div class="text-xs h-8 overflow-hidden leading-tight text-gray-200 flex items-end">
+          {{ title }}
+        </div>
+      </div>
+    </div>
+    <div class="z-20 queue-card-action absolute rounded w-full h-full flex items-center justify-center">
+      <IconPause
+        v-if="isThisPlaying"
+        class="text-4xl"
+      />
+      <IconSkipPrevious
+        v-else-if="isPrevSong"
+        class="text-4xl"
+      />
+      <IconSkipNext
+        v-else-if="isNextSong"
+        class="text-4xl"
+      />
+      <IconYoutube
+        v-else
+        class="text-4xl"
+      />
+    </div>
+  </div>
+</template>
+
+
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Getter } from 'vuex-class'
+import LazyImage from '@/components/LazyImage.vue'
+
+@Component({
+    components: {
+        LazyImage,
+    },
+})
+export default class PlaylistCard extends Vue {
+    @Prop({ default: false }) public isActivePost!: boolean
+    @Prop({ default: false }) public isPrevSong!: boolean
+    @Prop({ default: false }) public isNextSong!: boolean
+    @Prop({}) public title!: string
+    @Prop({}) public thumbnailHD!: string
+    @Prop({}) public thumbnail!: string
+    @Prop({}) public numComments!: number
+    @Prop({}) public ups!: number
+    @Getter public isPlaying!: boolean
+
+    get isThisPlaying() {
+        return this.isActivePost && this.isPlaying
+    }
+}
+</script>
+
+<style scoped>
+.queue-card .queue-card-info {
+    background: rgba(26, 32, 44, .5);
+    opacity: 0.8;
+    transition: background .25s cubic-bezier(0.0,0.0,0.2,1), opacity .25s cubic-bezier(0.0,0.0,0.2,1);
+}
+.queue-card-action {
+    opacity: 0;
+    transition: opacity .5s cubic-bezier(0.0,0.0,0.2,1);
+}
+
+
+.queue-card:hover .queue-card-info,
+.queue-card--active .queue-card-info {
+    opacity: 1;
+    background: rgba(26, 32, 44, .9);
+}
+.queue-card:hover .queue-card-action,
+.queue-card--active .queue-card-action {
+    opacity: 1;
+}
+
+.queue-card {
+    @apply border-gray-800;
+}
+.queue-card:hover {
+    @apply border-primary-800;
+}
+.queue-card--active {
+    @apply border-primary-800;
+}
+.queue-card--playing,
+.queue-card--playing:hover {
+    @apply border-primary-500;
+}
+</style>

@@ -1,30 +1,36 @@
 <template>
-    <div class="p-4 leading-tight">
-      <div class="flex">
-        <SortToggleItem
-          v-for="toggle in toggles"
-          :key="toggle.id"
-          :image="toggle.image"
-          :id="toggle.id"
-          :color="toggle.color"
-          :isActive="activeSort === toggle.id"
-          @onClick="SET_ACTIVE_SORT(toggle)"
-        />
-      </div>
-
-      <div v-if="activeSort === 'top'" class="flex">
-        <TopSortToggleItem
-          v-for="toggle in topToggles"
-          :key="toggle.id"
-          :id="toggle.id[0]"
-          :title="toggle.title"
-          :color="toggle.color"
-          :isActive="activeTopSort === toggle.id"
-          @onClick="SET_ACTIVE_TOP_SORT(toggle)"
-        />
-      </div>
-
+  <div class="p-4 leading-tight">
+    <div class="text-gray-100 font-light text-sm mx-2 mb-2">
+      Sort by
     </div>
+
+    <div class="flex">
+      <SortToggleItem
+        v-for="toggle in toggles"
+        :key="toggle.id"
+        :image="toggle.image"
+        :id="toggle.id"
+        :color="toggle.color"
+        :is-active="activeSort === toggle.id"
+        @onClick="SET_ACTIVE_SORT(toggle)"
+      />
+    </div>
+
+    <div
+      v-if="activeSort === 'top'"
+      class="flex"
+    >
+      <TopSortToggleItem
+        v-for="toggle in topToggles"
+        :key="toggle.id"
+        :id="toggle.id[0]"
+        :title="toggle.title"
+        :color="toggle.color"
+        :is-active="activeTopSort === toggle.id"
+        @onClick="SET_ACTIVE_TOP_SORT(toggle)"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -56,12 +62,12 @@ export default class SortToggle extends Vue {
     ]
 
     public topToggles: TopSortMethod[] = [
-      { id: 'hour', title: 'Last hour', color: 'yellow-100' },
-      { id: 'day', title: 'Today', color: 'yellow-200' },
-      { id: 'week', title: 'This week', color: 'yellow-300' },
-      { id: 'month', title: 'This month', color: 'yellow-400' },
-      { id: 'year', title: 'This year', color: 'yellow-500' },
-      { id: 'all', title: 'All time', color: 'yellow-600' },
+      { id: 'hour', title: 'Last hour', color: 'primary-500' },
+      { id: 'day', title: 'Today', color: 'primary-500' },
+      { id: 'week', title: 'This week', color: 'primary-500' },
+      { id: 'month', title: 'This month', color: 'primary-500' },
+      { id: 'year', title: 'This year', color: 'primary-500' },
+      { id: 'all', title: 'All time', color: 'primary-500' },
     ]
 }
 </script>

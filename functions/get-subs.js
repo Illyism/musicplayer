@@ -80,9 +80,9 @@ function handler() {
                     allSubs = _a.sent();
                     rows = allSubs.map(function (result) { return Object.assign({}, result.fields, { id: result.id }); });
                     body = JSON.stringify(rows);
-                    return [4 /*yield*/, setCache('musicplayer-subs', body, 'EX', 60 * 24)];
+                    return [4 /*yield*/, setCache('musicplayer-subs', body, 'EX', 60 * 24)]; // EX = expire in seconds
                 case 3:
-                    _a.sent();
+                    _a.sent(); // EX = expire in seconds
                     console.log('cache miss');
                     console.timeEnd('get-subs');
                     return [2 /*return*/, { statusCode: 200, body: body }];

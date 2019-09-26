@@ -1,68 +1,98 @@
 <template>
-    <div v-if="!subsLoaded" class="p-4">
-        <div class="text-gray-100 font-light text-sm mx-2 mb-2">
-            Loading subreddits...
-        </div>
-        <LoadingCardGrid :count="15" />
+  <div
+    v-if="!subsLoaded"
+    class="p-4"
+  >
+    <div class="text-gray-100 font-light text-sm mx-2 mb-2">
+      Loading channels...
+    </div>
+    <LoadingCardGrid :count="15" />
+  </div>
+
+  <div
+    v-else
+    class="p-4"
+  >
+    <div v-if="activeSubs.length > 0">
+      <div class="text-gray-100 font-light text-sm mx-2 mb-2">
+        Active channels
+        <span
+          class="text-gray-200 font-bold text-xs bg-gray-900 hover:bg-gray-800 ml-1 py-1 px-1 cursor-pointer trans trans-bg rounded"
+          @click="TOGGLE_SUBREDDITS_EXPANDED"
+        >
+          {{ activeSubs.length }}
+          <IconChevronDown
+            v-if="!isSubredditsExpanded"
+            class="mdi-fix"
+          />
+          <IconChevronUp
+            v-else
+            class="mdi-fix"
+          />
+        </span>
+      </div>
+            
+      <GridLayout
+        v-if="isSubredditsExpanded"
+        :list="activeSubs"
+        class="mb-8"
+        :is-animated="true"
+      >
+        <BottomCard
+          slot-scope="{ item }"
+          :title="item.Subreddit"
+          :description="item.Genre"
+          :is-active="true"
+          @onClick="toggleActiveSub(item)"
+        />
+      </GridLayout>
     </div>
 
-    <div v-else class="p-4">
-        <div v-if="activeSubs.length > 0">
-            <div class="text-gray-100 font-light text-sm mx-2 mb-2">
-                Subreddits in playlist
-            </div>
-            <GridLayout
-                :list="activeSubs"
-                class="mb-8"
-            >
-              <BottomCard
-                slot-scope="{ item }"
-                :title="item.Subreddit"
-                :description="item.Genre"
-                :isActive="true"
-                @onClick="toggleActiveSub(item)"
-              />
-            </GridLayout>
-        </div>
+    <template v-if="isSubredditsExpanded">
+      <div class="text-gray-100 font-light text-sm mx-2 mb-2">
+        All channels
+      </div>
 
-        <div class="text-gray-100 font-light text-sm mx-2 mb-2">
-            All subreddits
-        </div>
-
-        <div class="mx-2 mb-2">
-          <div class="w-full relative">
-            <input v-model="subredditSearch"
-              class="bg-gray-900 text-gray-200 pr-16 text-xs w-full rounded-lg px-4 py-2 outline-none border border-gray-700 focus:border-yellow-500 focus:text-gray-100"
-              placeholder="Search for subreddits..."
-              type="text" autocomplete="off" autocorrect="off">
-            <div class="absolute right-0 inset-y-0 mr-4 text-gray-700 flex items-center justify-center pointer-events-none">
-              <IconMagnify class="" />
-            </div>
+      <div class="mx-2 mb-2">
+        <div class="w-full relative">
+          <input
+            v-model="subredditSearch"
+            class="bg-gray-900 text-gray-200 pr-16 text-xs w-full rounded-lg px-4 py-2 outline-none border border-gray-700 focus:border-primary-500 focus:text-gray-100"
+            placeholder="Search for subreddits..."
+            type="text"
+            autocomplete="off"
+            autocorrect="off"
+          >
+          <div class="absolute right-0 inset-y-0 mr-4 text-gray-700 flex items-center justify-center pointer-events-none">
+            <IconMagnify class="" />
           </div>
         </div>
+      </div>
 
-        <GridLayout
-            :list="inactiveSubs"
-        >
-            <BottomCard
-                slot-scope="{ item }"
-                :title="item.Subreddit"
-                :description="item.Genre"
-                @onClick="toggleActiveSub(item)"
-            />
-        </GridLayout>
-    </div>
+      <GridLayout
+        :list="inactiveSubs"
+        :is-animated="true"
+      >
+        <BottomCard
+          slot-scope="{ item }"
+          :title="item.Subreddit"
+          :description="item.Genre"
+          @onClick="toggleActiveSub(item)"
+        />
+      </GridLayout>
+    </template>
+  </div>
 </template>
 
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
-import { mapState, mapGetters } from 'vuex'
+import { Component, Vue } from 'vue-property-decorator'
+import { mapState } from 'vuex'
 import GridLayout from '@/layouts/GridLayout.vue'
 import LoadingCardGrid from '@/components/loading/LoadingCardGrid.vue'
 import BottomCard from '@/components/BottomCard.vue'
 import { Dictionary } from 'lodash';
-import { State, Getter, Action, Mutation, namespace} from 'vuex-class'
+import { State, Getter, Action } from 'vuex-class'
 
 @Component({
   components: {
@@ -81,7 +111,13 @@ export default class SubredditContainer extends Vue {
   @Getter public activeSubsMap!: Dictionary< SubredditListItem >
   @Action public FETCH_SUBS!: () => void
 
-  public subredditSearch: string = ''
+  public subredditSearch = ''
+
+  public isSubredditsExpanded = true
+  public TOGGLE_SUBREDDITS_EXPANDED() {
+    this.isSubredditsExpanded = !this.isSubredditsExpanded
+  }
+
 
   private created() {
     this.FETCH_SUBS()

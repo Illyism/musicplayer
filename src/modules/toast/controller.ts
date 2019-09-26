@@ -43,10 +43,10 @@ const controller = {
 }
 
 export interface ToastMessage {
-    title: string
-    description: string
-    color: string
-    timeOut?: number
+    title: string;
+    description: string;
+    color: string;
+    timeOut?: number;
 }
 
 export default controller

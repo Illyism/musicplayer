@@ -6,13 +6,16 @@ import {
     toastOnErrors,
 } from '@/utils/interceptors'
 import axios from 'axios'
-// @ts-ignore
 import PortalVue from 'portal-vue'
 import Vue from 'vue'
 import Meta from 'vue-meta'
 import MQ from 'vue-match-media/src'
 
 export default function setupVueInstance() {
+    if (process.env.NODE_ENV !== 'production') {
+        Vue.config.performance = true
+    }
+
     // vendor plugins
     Vue.use(Meta)
     Vue.use(PortalVue)

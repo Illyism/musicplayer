@@ -1,115 +1,143 @@
 <template>
-   <div
-        v-if="activePost"
-        class="h-full w-full video-overlay text-gray-100 flex flex-col justify-between items-center bg-black trans trans-slow"
-        :class="{
-            'opacity-100': isOverlayVisible,
-            'opacity-0': !isOverlayVisible,
-            'pointer-events-none': activeState
-        }"
-        @mousemove="enableActiveState"
+  <div
+    class="h-full w-full"
+    :class="{ 'pointer-events-none': activeState }"
+  >
+    <div
+      v-if="activePost"
+      class="h-full w-full video-overlay text-gray-100 flex flex-col justify-between items-center trans trans-slow"
+      :class="{
+        'opacity-100': isOverlayVisible,
+        'opacity-0': !isOverlayVisible,
+      }"
+      @mousemove="enableActiveState"
     >
-        <div class="flex-1 p-2 flex items-start justify-between w-full">
-            <div class="flex flex-col">
-                <div class="text-xl font-bold">{{ activePost.title }}</div>
-                <div class="font-medium text-grey-50">
-                    <span class="text-orange-400">{{ activePost.ups }}</span> •
-                    <span>{{ activePost.author }}</span> •
-                    <span>{{ activePost.subreddit }}</span> •
-                    <span>{{ (activePost.created_utc * 1000) | distanceInWordsToNow }} ago</span> •
-                    <span>{{ activePost.domain }}</span> •
-                    <span class="text-teal-600">{{ activePost.num_comments }}</span>
-                </div>
+      <div class="xs:flex-1 flex items-start justify-between w-full">
+        <div class="p-2">
+          <div class="flex flex-col w-full sm:w-auto">
+            <div class="text-xs sm:text-lg truncate sm:overflow-visible sm:whitespace-normal font-bold">
+              {{ activePost.title }}
             </div>
+            <div class="hidden xs:inline-block text-xs sm:text-base font-medium text-grey-50">
+              <span class="text-orange-400">{{ activePost.ups }}</span> •
+              <span>{{ activePost.author }}</span> •
+              <span>{{ activePost.subreddit }}</span> •
+              <span>{{ (activePost.created_utc * 1000) | toDate | formatDistanceToNow }} ago</span> •
+              <span>{{ activePost.domain }}</span> •
+              <span class="text-teal-600">{{ activePost.num_comments }}</span>
+            </div>
+          </div>
 
-            <div class="flex text-center pointer-events-auto">
-                <div class="px-4 cursor-pointer trans opacity-75 hover:opacity-100">
-                    <IconArrowUpBold
-                        class="text-4xl"
-                    />
-                    <div class="text-xs font-medium">Upvote</div>
-                </div>
+          <div class="hidden sm:flex text-center pointer-events-auto">
+            <div class="px-4 cursor-pointer trans opacity-75 hover:opacity-100">
+              <IconArrowUpBold
+                class="text-4xl"
+              />
+              <div class="text-xs font-medium">
+                Upvote
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-1 flex items-center justify-between w-full">
+        <div class="xs:w-64">
+&nbsp;
+        </div>
+        <div class="flex items-center">
+          <IconSkipPrevious
+            class="pointer-events-auto text-4xl cursor-pointer trans"
+            :class="{
+              'opacity-50 pointer-events-none': !prevSong,
+              'opacity-75 hover:opacity-100': !!prevSong,
+            }"
+            @click="playPrevSong"
+          />
+
+          <IconPause
+            v-if="isPlaying"
+            class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
+            @click="playPause"
+          />
+          <IconPlay
+            v-else
+            class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
+            @click="playPause"
+          />
+
+          <IconSkipNext
+            class="pointer-events-auto text-4xl cursor-pointer trans"
+            :class="{
+              'opacity-50 pointer-events-none': !nextSong,
+              'opacity-75 hover:opacity-100': !!nextSong,
+            }"
+            @click="playNextSong" 
+          />
         </div>
 
-        <div class="flex-1 flex items-center justify-between w-full">
-            <div class="w-64"></div>
-            <div class="flex items-center">
-                <IconSkipPrevious
-                    class="pointer-events-auto text-4xl cursor-pointer trans"
-                    :class="{
-                        'opacity-50 pointer-events-none': !prevSong,
-                        'opacity-75 hover:opacity-100': !!prevSong,
-                    }"
-                    @click="playPrevSong"
-                />
-
-                <IconPause
-                    v-if="isPlaying"
-                    class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
-                    @click="playPause"
-                />
-                <IconPlay
-                    v-else
-                    class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
-                    @click="playPause"
-                />
-
-                <IconSkipNext
-                    class="pointer-events-auto text-4xl cursor-pointer trans"
-                    :class="{
-                        'opacity-50 pointer-events-none': !nextSong,
-                        'opacity-75 hover:opacity-100': !!nextSong,
-                    }"
-                    @click="playNextSong" 
-                />
+        <div class="xs:w-64 flex items-center justify-end">
+          <div
+            v-if="isHorizontalOrientation"
+            class="mr-6 group flex items-center"
+            @click="SET_MENU_OPEN_STATE(!isMenuOpen)"
+          >
+            <div class="hidden sm:inline-block opacity-0 group-hover:opacity-100 trans text-white mr-4 text-xs">
+              Toggle menu
             </div>
-
-            <div class="w-64 flex items-center justify-end mr-6">
-                <div class="group flex items-center" @click="SET_MENU_OPEN_STATE(!isMenuOpen)">
-                    <div class="opacity-0 group-hover:opacity-100 trans text-white mr-4">Toggle menu</div>
-                    <IconMenu
-                        v-if="isHorizontalOrientation"
-                        class="pointer-events-auto text-4xl cursor-pointer trans opacity-75 group-hover:opacity-100"
-                    />
-                </div>
-            </div>
+            <IconMenu
+              class="pointer-events-auto text-lg xs:text-4xl cursor-pointer trans opacity-75 group-hover:opacity-100"
+            />
+          </div>
         </div>
+      </div>
 
-        <div class="flex-1 flex items-end w-full">
-            <div class="pointer-events-auto flex items-center w-full p-6">
-                <VolumeControl />
-                <ProgressBar class="flex-1 mx-8" />
-                <PresentationControl class="mr-4" />
-                <IconFullscreen
-                    class="cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
-                    @click="toggleFullscreen"
-                />
-            </div>
+      <div class="xs:flex-1 flex items-end w-full">
+        <div class="pointer-events-auto flex items-center w-full p-2 xs:p-4 sm:p-6">
+          <VolumeControl />
+          <ProgressBar class="flex-1 xs:mx-4 sm:mx-8" />
+          <PresentationControl class="mr-4" />
+          <IconFullscreen
+            class="hidden xs:inline-flex cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
+            @click="toggleFullscreen"
+          />
         </div>
-   </div>
+      </div>
+    </div>
+
+    <MiniProgressBar
+      class="absolute bottom-0"
+      :class="{
+        'opacity-100': !isOverlayVisible,
+        'opacity-0': isOverlayVisible,
+      }"
+    />
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { Getter, State, Action } from 'vuex-class'
 import { RawPostData } from '@/typings/reddit'
 import PlayersController from './PlayersController'
 import PlaylistController from '@/modules/playlist/PlaylistController'
 import VolumeControl from './VolumeControl.vue'
+import MiniProgressBar from './MiniProgressBar.vue'
 import ProgressBar from './ProgressBar.vue'
 import PresentationControl from './PresentationControl.vue'
 import debounce from 'lodash/debounce'
-import { distanceInWordsToNow } from 'date-fns'
+import { formatDistanceToNow, toDate } from 'date-fns'
 
 @Component({
     components: {
         VolumeControl,
+        MiniProgressBar,
         ProgressBar,
         PresentationControl,
     },
     filters: {
-        distanceInWordsToNow,
+        formatDistanceToNow,
+        toDate,
     },
 })
 export default class VideoOverlay extends Vue {
@@ -121,7 +149,7 @@ export default class VideoOverlay extends Vue {
     @Getter public nextSong?: RawPostData
     @Action public SET_MENU_OPEN_STATE!: () => void
 
-    public activeState: boolean = false
+    public activeState = false
 
     constructor() {
         super()
@@ -140,9 +168,8 @@ export default class VideoOverlay extends Vue {
         PlaylistController.playPrevSong()
     }
 
-    public async toggleFullscreen() {
+    public toggleFullscreen() {
         try {
-            // @ts-ignore
             if (document.fullscreenElement) {
                 document.exitFullscreen()
             } else {
@@ -177,9 +204,3 @@ export default class VideoOverlay extends Vue {
     }
 }
 </script>
-
-<style scoped>
-.video-overlay {
-    background: linear-gradient(rgba(0,0,0,.9) 10%,rgba(0,0,0,.2) 35%, rgba(0,0,0,.2) 70%,rgba(0,0,0,.8) 100%);
-}
-</style>

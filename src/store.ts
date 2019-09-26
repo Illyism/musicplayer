@@ -5,27 +5,27 @@ import Vue from 'vue';
 import Vuex, { GetterTree, MutationTree, ActionTree } from 'vuex';
 import VuexPersistence from 'vuex-persist';
 import PlayerStates from 'youtube-player/dist/constants/PlayerStates';
-import localforage from 'localforage'
 
 Vue.use(Vuex)
 
 export interface State {
-  subs: SubredditListItem[]
-  subsLoaded: boolean
-  activeSubs: SubredditListItem[]
-  activeSort: 'hot'|'top'|'new'
-  activeTopSort: 'h'|'d'|'m'|'y'|'a'
-  redditMusic: RawPostData[]
-  activePost: RawPostData | null
-  playerState: PlayerStates
-  playerReady: boolean
-  volume: number
-  isMuted: boolean
-  progressDuration: number
-  progressCurrent: number
-  progressLoaded: number
-  isMenuOpen: boolean
-  isHorizontalOrientation: boolean
+  subs: SubredditListItem[];
+  subsLoaded: boolean;
+  activeSubs: SubredditListItem[];
+  activeSort: 'hot'|'top'|'new';
+  activeTopSort: 'hour'|'day'|'week'|'month'|'year'|'all';
+  redditMusic: RawPostData[];
+  activePost: RawPostData | null;
+  playerState: PlayerStates;
+  playerReady: boolean;
+  volume: number; // from 0 to 100
+  isMuted: boolean;
+  progressDuration: number;
+  progressCurrent: number;
+  progressLoaded: number;
+  isMenuOpen: boolean;
+  isHorizontalOrientation: boolean;
+  isPlaylistExpanded: false;
 }
 
 
@@ -34,7 +34,7 @@ export const defaultState: State = {
   subsLoaded: false ,
   activeSubs: [],
   activeSort: 'hot',
-  activeTopSort: 'm',
+  activeTopSort: 'month',
   redditMusic: [],
   activePost: null,
   playerState: PlayerStates.UNSTARTED,
@@ -46,13 +46,14 @@ export const defaultState: State = {
   progressLoaded: 0,
   isMenuOpen: true,
   isHorizontalOrientation: true,
+  isPlaylistExpanded: false,
 }
 
 
 const vuexLocal = new VuexPersistence< State>({
-  storage: localforage,
-  reducer: ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted }) =>
-           ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted }),
+  storage: window.localStorage,
+  reducer: ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted, isPlaylistExpanded }) =>
+           ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted, isPlaylistExpanded }),
   filter: (mutation) => {
     switch (mutation.type) {
       case 'SET_ACTIVE_SORT':
@@ -62,6 +63,7 @@ const vuexLocal = new VuexPersistence< State>({
       case 'STORE_SUBS':
       case 'SET_VOLUME':
       case 'SET_MUTE_STATE':
+      case 'SET_PLAYLIST_EXPANDED':
         return true
       default:
         return false
@@ -85,9 +87,13 @@ const defaultGetters: GetterTree< State, any> = {
   nextSong({ redditMusic }, { currentIndex }) {
     return redditMusic[currentIndex + 1]
   },
-  playlist({ redditMusic }, { currentIndex }) {
-    const playlistCutoffStart = Math.max(0, currentIndex - 4)
-    return redditMusic.slice(playlistCutoffStart, playlistCutoffStart + 9)
+  playlist({ redditMusic, isPlaylistExpanded }, { currentIndex }) {
+    // amount of posts to show in the playlist before and after the current song
+    const SONGS_IN_PLAYLIST = isPlaylistExpanded ? 9 : 3
+    const SONGS_BEFORE_AFTER = (SONGS_IN_PLAYLIST - 1) / 2
+
+    const playlistCutoffStart = Math.max(0, currentIndex - SONGS_BEFORE_AFTER)
+    return redditMusic.slice(playlistCutoffStart, playlistCutoffStart + SONGS_IN_PLAYLIST)
   },
   isPlaying({ playerState }) {
     return playerState === PlayerStates.PLAYING
@@ -152,13 +158,24 @@ const mutationsTree: MutationTree< State> = {
   SET_ORIENTATION(state, isHorizontalOrientation) {
     state.isHorizontalOrientation = isHorizontalOrientation
   },
+  REMOVE_POST(state, post) {
+    const postIndex = state.redditMusic.indexOf(post)
+    if (postIndex > -1) {
+      state.redditMusic.splice(postIndex, 1)
+    }
+  },
+  SET_PLAYLIST_EXPANDED(state, isPlaylistExpanded) {
+    state.isPlaylistExpanded = isPlaylistExpanded
+  },
 }
 
 const actionsTree: ActionTree< State, State> = {
   async FETCH_SUBS({ commit, state, getters }) {
-    commit('SET_SUBS_LOADED', false )
-    const allSubs = await getSubs()
-    commit('STORE_SUBS', allSubs)
+    if (state.subs.length === 0) {
+      commit('SET_SUBS_LOADED', false )
+      const allSubs = await getSubs()
+      commit('STORE_SUBS', allSubs)
+    }
 
     const activeSubs = []
     for (const oldActiveSub of state.activeSubs) {
@@ -215,6 +232,18 @@ const actionsTree: ActionTree< State, State> = {
   },
   SET_ORIENTATION({ commit }, isHorizontalOrientation) {
     commit('SET_ORIENTATION', isHorizontalOrientation)
+  },
+  POST_PLAY_ERROR({ commit, state, getters, dispatch }, err) {
+    const offendingPost = state.activePost
+    const nextSong = getters.nextSong
+    if (offendingPost) {
+      commit('REMOVE_POST', offendingPost)
+    }
+    dispatch('PLAY_POST', nextSong)
+    console.log('POST_PLAY_ERROR', { err })
+  },
+  TOGGLE_PLAYLIST_EXPANDED({ commit, state }) {
+    commit('SET_PLAYLIST_EXPANDED', !state.isPlaylistExpanded)
   },
 }
 

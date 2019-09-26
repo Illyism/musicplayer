@@ -1,41 +1,56 @@
 <template>
-    <div v-if="playlist.length > 0" class="p-4">
-        <div class="text-gray-100 font-light text-sm mx-2 mb-2">
-            Queue
-        </div>
+  <div
+    v-if="playlist.length > 0"
+    class="py-4"
+  >
+    <ListLayout
+      :list="playlist"
+    >
+      <PlaylistItemRow
+        :key="item.id"
+        slot-scope="{ item }"
+        :title="item.title"
+        :thumbnail-h-d="item.secure_media && item.secure_media.oembed ? item.secure_media.oembed.thumbnail_url : null"
+        :thumbnail="item.thumbnail"
+        :ups="item.ups"
+        :num-comments="item.num_comments"
+        :is-active-post="isActivePost(item)"
+        :is-prev-song="isPrevSong(item)"
+        :is-next-song="isNextSong(item)"
+        @onClick="onClick(item)"
+      />
+    </ListLayout>
 
-        <GridLayout
-            :list="playlist"
-        >
-            <PlaylistCard
-                slot-scope="{ item }"
-                :title="item.title"
-                :thumbnail="item.thumbnail"
-                :ups="item.ups"
-                :numComments="item.num_comments"
-                :isActivePost="isActivePost(item)"
-                :isPrevSong="isPrevSong(item)"
-                :isNextSong="isNextSong(item)"
-                @onClick="onClick(item)"
-            />
-        </GridLayout>
+    <div
+      class="text-gray-500 font-light text-sm hover:bg-gray-900 mx-2 mb-2 cursor-pointer trans trans-bg text-center rounded"
+      @click="TOGGLE_PLAYLIST_EXPANDED"
+    >
+      <IconChevronDown
+        v-if="!isPlaylistExpanded"
+        class="mdi-fix"
+      />
+      <IconChevronUp
+        v-else
+        class="mdi-fix"
+      />
     </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { State, Getter, Action, Mutation, namespace} from 'vuex-class'
+import { State, Getter, Action } from 'vuex-class'
 import { RawPostData } from '@/typings/reddit'
 import isPostEqual from '@/modules/playlist/util/isPostEqual'
 
-import GridLayout from '@/layouts/GridLayout.vue'
+import ListLayout from '@/layouts/ListLayout.vue'
 import PlaylistController from '@/modules/playlist/PlaylistController'
-import PlaylistCard from '@/modules/playlist/PlaylistCard.vue'
+import PlaylistItemRow from '@/modules/playlist/PlaylistItemRow.vue'
 
 @Component({
     components: {
-        GridLayout,
-        PlaylistCard,
+        ListLayout,
+        PlaylistItemRow,
     },
 })
 export default class PlaylistContainer extends Vue {
@@ -43,10 +58,9 @@ export default class PlaylistContainer extends Vue {
     @State public activePost?: RawPostData
     @Getter public nextSong?: RawPostData
     @Getter public prevSong?: RawPostData
+    @State public isPlaylistExpanded!: boolean
 
-    public async mounted() {
-        await PlaylistController.init()
-    }
+    @Action public TOGGLE_PLAYLIST_EXPANDED!: () => void
 
     public onClick(post: RawPostData) {
         PlaylistController.toggleSong(post)

@@ -29,6 +29,11 @@ module.exports = {
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname'
   ],
+  collectCoverage: true,
+  coverageReporters: [
+    "text-summary",
+    "lcov"
+  ],
   globals: {
     'ts-jest': {
       babelConfig: true

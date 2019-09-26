@@ -2,9 +2,11 @@
 
 @tailwind components;
 
-@tailwind utilities;
-
 body {
+  user-select: none; /* don't allow text selecting */
+  -webkit-tap-highlight-color: transparent; /* to avoid android selection flash */
+  touch-action: manipulation; /* disable double-tap to zoom */
+   -webkit-touch-callout: none; /* disable ios callout */
   @apply bg-black font-sans;
 }
 
@@ -32,7 +34,15 @@ body {
     transition-duration: .075s;
 }
 
+.video-overlay {
+  background: linear-gradient(rgba(0,0,0,.9) 10%,rgba(0,0,0,.2) 35%, rgba(0,0,0,.2) 70%,rgba(0,0,0,.8) 100%);
+  overflow: hidden;
+}
 
+.hide-player {
+  z-index: -1;
+  position: relative;
+}
 
 .popper {
   display: inline-block;
@@ -90,35 +100,10 @@ body {
   margin-right: 0;
 }
 
-.popper.border-yellow-600[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.600') }
-.popper.border-yellow-600[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.600') }
-.popper.border-yellow-600[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.600') }
-.popper.border-yellow-600[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.600') }
-
-.popper.border-yellow-500[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.500') }
-.popper.border-yellow-500[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.500') }
-.popper.border-yellow-500[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.500') }
-.popper.border-yellow-500[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.500') }
-
-.popper.border-yellow-400[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.400') }
-.popper.border-yellow-400[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.400') }
-.popper.border-yellow-400[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.400') }
-.popper.border-yellow-400[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.400') }
-
-.popper.border-yellow-300[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.300') }
-.popper.border-yellow-300[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.300') }
-.popper.border-yellow-300[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.300') }
-.popper.border-yellow-300[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.300') }
-
-.popper.border-yellow-200[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.200') }
-.popper.border-yellow-200[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.200') }
-.popper.border-yellow-200[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.200') }
-.popper.border-yellow-200[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.200') }
-
-.popper.border-yellow-100[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.yellow.100') }
-.popper.border-yellow-100[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.yellow.100') }
-.popper.border-yellow-100[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.yellow.100') }
-.popper.border-yellow-100[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.100') }
+.popper.border-primary-500[x-placement^="top"] .popper__arrow { border-top-color: theme('colors.primary.500') }
+.popper.border-primary-500[x-placement^="bottom"] .popper__arrow { border-bottom-color: theme('colors.primary.500') }
+.popper.border-primary-500[x-placement^="right"] .popper__arrow { border-right-color: theme('colors.primary.500') }
+.popper.border-primary-500[x-placement^="left"] .popper__arrow { border-left-color: theme('colors.yellow.500') }
 
 .pace {
   -webkit-pointer-events: none;
@@ -134,7 +119,7 @@ body {
 }
 
 .pace .pace-progress {
-  background: #4a5568;
+  background: #FD2806;
   position: fixed;
   z-index: 2000;
   top: 0;
@@ -162,3 +147,19 @@ body {
 .mdi-fix > .material-design-icon__svg {
   bottom: -0.05em;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.overflow-y-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+@tailwind utilities;

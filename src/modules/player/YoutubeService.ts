@@ -10,7 +10,7 @@ import StoreListener from '@/utils/StoreListener';
 
 class YoutubeService extends StoreListener implements PlayerService {
     /** @see https://github.com/gajus/youtube-player */
-    public player: YouTubePlayer | null = null
+    public player?: YouTubePlayer
 
     protected on = {
         SET_PLAYER_STATE: this.onPlayerStateChanged,
@@ -36,12 +36,15 @@ class YoutubeService extends StoreListener implements PlayerService {
             store.commit('SET_PLAYER_READY')
         })
 
-        this.player.on('error', (e) => {
-            console.log('error', e)
+        this.player.on('error', (err) => {
+            store.dispatch('POST_PLAY_ERROR', err)
         })
 
         this.player.on('stateChange', async () => {
-            const newState = await this.player!.getPlayerState()
+            if (!this.player) {
+                return
+            }
+            const newState = await this.player.getPlayerState()
             store.dispatch('SET_PLAYER_STATE', newState)
             switch (newState) {
                 case PlayerStates.UNSTARTED: console.log('UNSTARTED'); break;
@@ -73,7 +76,7 @@ class YoutubeService extends StoreListener implements PlayerService {
         }
 
         const post = store.state.activePost
-        const id = getYoutubeIdForPost(post!)
+        const id = getYoutubeIdForPost(post)
         if (!id) {
             return
         }
@@ -124,6 +127,15 @@ class YoutubeService extends StoreListener implements PlayerService {
         await this.player.unMute()
     }
 
+    public async seekTo(seconds: number) {
+        if (!this.player) {
+            return
+        }
+        // allowSeekAhead is always set to true here, there seem to be issues with the video
+        // pausing if we set it to anything else when dragging
+        await this.player.seekTo(seconds, true)
+    }
+
     private get isYoutubePlaying() {
         const post = store.state.activePost
         return isYoutubeType(post)
@@ -144,8 +156,8 @@ class YoutubeService extends StoreListener implements PlayerService {
         store.dispatch('SET_PROGRESS_DURATION', await this.player.getDuration()) // secs
         this.updateProgressState()
 
-        // and continue updating every 200ms, because there are no events to watch
-        this.interval = window.setInterval(() => this.updateProgressState(), 200)
+        // and continue updating every 500ms, because there are no events to watch
+        this.interval = window.setInterval(() => this.updateProgressState(), 500)
     }
 
     private async updateProgressState() {
@@ -165,7 +177,7 @@ class YoutubeService extends StoreListener implements PlayerService {
     }
 
     // events
-    private async onPlayerStateChanged() {
+    private onPlayerStateChanged() {
         if (store.getters.isPlaying) {
             if (!this.isYoutubePlaying) {
                 return

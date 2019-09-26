@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { RawSubreddit } from './typings/reddit'
+import { SoundcloudTrack } from './typings/soundcloud';
 
 export async function getSubs(): Promise< SubredditListItem[]> {
     const res = await axios.get('/.netlify/functions/get-subs')
@@ -13,7 +14,7 @@ export async function getRedditMusic(
     sortId: string,
     topSortId: string,
     after?: string,
-    limit: number = 100,
+    limit = 100,
 ): Promise< RawSubreddit> {
     const subsText = subs.map((s) => s.Subreddit).join('+')
     const params = {
@@ -23,5 +24,15 @@ export async function getRedditMusic(
         limit,
     }
     const res = await axios.get(`${BASE_REDDIT_URL}/r/${subsText}/${sortId}.json`, { params })
+    return res.data
+}
+
+const BASE_SOUNDCLOUD_URL = 'https://api.soundcloud.com'
+export async function getSoundcloudTrackJSON(
+    type: string,
+    id: string,
+): Promise< SoundcloudTrack> {
+    const params = { client_id: '5441b373256bae7895d803c7c23e59d9' }
+    const res = await axios.get(`${BASE_SOUNDCLOUD_URL}/${type}/${id}.json`, { params })
     return res.data
 }

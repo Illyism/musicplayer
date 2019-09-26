@@ -15,28 +15,21 @@ class PlaylistController extends StoreListener {
         SET_ACTIVE_SORT: this.onActiveSubsChanged,
         SET_ACTIVE_TOP_SORT: this.onActiveSubsChanged,
         SET_PLAYER_STATE: this.onPlayerStateChanged,
-    }
-
-    /**
-     * On app start, load all the songs and play the first one
-     */
-    public async init() {
-        await this.getMusic()
-        this.playFirstSong()
+        SET_REDDIT_MUSIC: this.onNewPlaylistLoaded,
     }
 
     /**
      * Plays a song
      */
-    public loadSong(post: RawPostData) {
+    public async loadSong(post: RawPostData) {
         store.dispatch('PLAY_POST', post)
-        this.getMoreMusicIfPlaylistEnding()
+        await this.getMoreMusicIfPlaylistEnding()
     }
 
     /**
      * Plays a new song, or pauses current song
      */
-    public toggleSong(post: RawPostData) {
+    public async toggleSong(post: RawPostData) {
 
         // if we clicked on the current post, just play or pause it
         if (isPostEqual(store.state.activePost, post)) {
@@ -49,7 +42,7 @@ class PlaylistController extends StoreListener {
             return
         }
 
-        this.loadSong(post)
+        await this.loadSong(post)
     }
 
     public async getMusic({ activeSubs, activeSort, activeTopSort }: State = store.state) {
@@ -76,7 +69,7 @@ class PlaylistController extends StoreListener {
             return
         }
 
-        this.loadSong(nextSong)
+        await this.loadSong(nextSong)
     }
 
     public async playPrevSong() {
@@ -86,7 +79,7 @@ class PlaylistController extends StoreListener {
             return
         }
 
-        this.loadSong(prevSong)
+        await this.loadSong(prevSong)
     }
 
     private async getMoreMusic({ redditMusic, activeSubs, activeSort, activeTopSort }: State = store.state) {
@@ -117,11 +110,15 @@ class PlaylistController extends StoreListener {
         const currentIndex = store.getters.currentIndex
         const songsCount = store.state.redditMusic.length
         if (currentIndex >= songsCount - 6) { // first column of previous row
-            this.getMoreMusic()
+            await this.getMoreMusic()
         }
     }
 
-    private async playFirstSong({ redditMusic }: State = store.state) {
+    private async playFirstSongIfNoActivePost({ redditMusic, activePost }: State = store.state) {
+        if (activePost) {
+            return // already have a song loaded
+        }
+
         const firstSong = redditMusic[0]
         if (!firstSong) {
             console.error('No firstSong to play')
@@ -131,18 +128,21 @@ class PlaylistController extends StoreListener {
         await this.loadSong(firstSong)
     }
 
-
     // events
-    private async onActiveSubsChanged(state: State) {
-        this.getMusic(state)
+    private onActiveSubsChanged(state: State) {
+        this.getMusic(state) // will cause onNewPlaylistLoaded to trigger
     }
 
-    private async onSongEnded() {
+    private onNewPlaylistLoaded() {
+        this.playFirstSongIfNoActivePost()
+    }
+
+    private onSongEnded() {
         this.playNextSong()
         this.getMoreMusic()
     }
 
-    private async onPlayerStateChanged({ playerState }: State) {
+    private onPlayerStateChanged({ playerState }: State) {
         if (playerState === PlayerStates.ENDED) {
             this.onSongEnded()
         }

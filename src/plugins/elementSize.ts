@@ -2,14 +2,14 @@ import { DirectiveOptions } from 'vue';
 
 export interface ResizeElement extends HTMLElement {
     _onResize: {
-        callback: any,
-        options: any,
-    }
+        callback: any;
+        options: any;
+    };
 }
 
 export interface ResizeState extends HTMLElement {
-    width: number
-    height: number
+    width: number;
+    height: number;
 }
 
 const directive: DirectiveOptions = {
@@ -25,20 +25,23 @@ const directive: DirectiveOptions = {
         }
 
         window.addEventListener('resize', onUpdate, options)
+        window.addEventListener('orientationchange', onUpdate, options)
         resizeEl._onResize = {
             callback,
             options,
         }
 
-        if (!binding.modifiers || !binding.modifiers.quiet) {
+        onUpdate()
+        setTimeout(() => {
             onUpdate()
-        }
+        }, 100)
     },
     unbind(el) {
         const resizeEl = el as ResizeElement
         const { callback, options } = resizeEl._onResize
 
         window.removeEventListener('resize', callback, options)
+        window.removeEventListener('orientationchange', callback, options)
         delete resizeEl._onResize
     },
 }
