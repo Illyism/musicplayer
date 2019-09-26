@@ -1,6 +1,6 @@
 workflow "Tests" {
-  on = "push"
   resolves = ["Jest"]
+  on = "push"
 }
 
 action "Dependencies" {
