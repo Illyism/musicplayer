@@ -18,5 +18,6 @@ action "Eslint" {
 action "Jest" {
   uses = "actions/npm@master"
   args = "run test:ci"
+  secrets = ["CODECOV_TOKEN"]
   needs = ["Dependencies"]
 }
