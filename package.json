@@ -10,7 +10,7 @@
     "build:functions": "tsc src/functions/**/*.ts --esModuleInterop --outDir functions",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "test:ci": "vue-cli-service test:unit --ci --collectCoverageFrom='src/**/*{ts,vue}'"
+    "test:ci": "vue-cli-service test:unit --ci --collectCoverageFrom='src/**/*{ts,vue}' && codecov"
   },
   "dependencies": {
     "@sentry/browser": "5.6.3",
@@ -55,6 +55,7 @@
     "@vue/eslint-config-typescript": "4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-core": "7.0.0-bridge.0",
+    "codecov": "3.6.1",
     "cssnano": "4.1.10",
     "eslint": "5.16.0",
     "eslint-plugin-vue": "5.2.3",
