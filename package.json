@@ -10,7 +10,7 @@
     "build:functions": "tsc src/functions/**/*.ts --esModuleInterop --outDir functions",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "test:ci": "vue-cli-service test:unit --ci --collectCoverageFrom='src/**/*{js,vue}'"
+    "test:ci": "vue-cli-service test:unit --ci --collectCoverageFrom='src/**/*{ts,vue}'"
   },
   "dependencies": {
     "@sentry/browser": "5.6.3",

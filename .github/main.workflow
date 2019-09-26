@@ -17,6 +17,6 @@ action "Eslint" {
 
 action "Jest" {
   uses = "actions/npm@master"
-  args = "test:ci"
+  args = "run test:ci"
   needs = ["Dependencies"]
 }
