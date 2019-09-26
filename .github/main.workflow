@@ -1,11 +1,11 @@
 workflow "Tests" {
-  resolves = ["Eslint", "Jest"]
+  resolves = ["Eslint", "Codecov"]
   on = "push"
 }
 
 action "Dependencies" {
   uses = "actions/npm@master"
-  args = "install"
+  args = "ci"
 }
 
 action "Eslint" {
@@ -18,6 +18,11 @@ action "Eslint" {
 action "Jest" {
   uses = "actions/npm@master"
   args = "run test:ci"
-  secrets = ["CODECOV_TOKEN"]
   needs = ["Dependencies"]
+}
+
+action "Codecov" {
+  uses = "codecov/codecov-action@v1.0.2"
+  needs = ["Jest"]
+  secrets = ["CODECOV_TOKEN"]
 }
