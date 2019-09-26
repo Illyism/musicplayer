@@ -20,6 +20,6 @@ action "Jest" {
   needs = ["Dependencies"]
   secrets = ["GITHUB_TOKEN"]
   env = {
-    JEST_CMD = "vue-cli-service test:unit"
+    JEST_CMD = "npm run test:unit"
   }
 }
