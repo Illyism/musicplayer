@@ -19,4 +19,7 @@ action "Jest" {
   args = "--ci --collectCoverageFrom='src/**/*{js,vue}'"
   needs = ["Dependencies"]
   secrets = ["GITHUB_TOKEN"]
+  env = {
+    JEST_CMD = "vue-cli-service test:unit"
+  }
 }
