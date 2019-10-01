@@ -1,10 +1,10 @@
 
 import PlayerStates from 'youtube-player/dist/constants/PlayerStates'
-import PlayerService from './PlayerService'
+import PlayerService from '@/modules/player/services/PlayerService'
 import store from '@/store'
 import StoreListener from '@/utils/StoreListener'
-import isSoundcloudType from '../playlist/util/isSoundcloudType'
-import { getSoundcloudTrack } from '../playlist/util/getSoundcloudTrack'
+import isSoundcloudType from '@/modules/playlist/util/isSoundcloudType'
+import { getSoundcloudTrack } from '@/modules/playlist/util/getSoundcloudTrack'
 import { SoundcloudTrack, SoundcloudProgressData } from '@/typings/soundcloud'
 
 declare let SC: any; // Magic

@@ -26,7 +26,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { State } from 'vuex-class'
-import PlayersController from './PlayersController'
+import PlayersController from '@/modules/player/PlayersController'
 
 @Component
 export default class VolumeControl extends Vue {

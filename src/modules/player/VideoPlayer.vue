@@ -24,8 +24,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { RawPostData } from '@/typings/reddit'
-import YoutubePlayerFrame from '@/modules/player/YoutubePlayerFrame.vue'
-import SoundcloudPlayerFrame from '@/modules/player/SoundcloudPlayerFrame.vue'
+import YoutubePlayerFrame from '@/modules/player/services/youtube/YoutubePlayerFrame.vue'
+import SoundcloudPlayerFrame from '@/modules/player/services/soundcloud/SoundcloudPlayerFrame.vue'
 import VideoOverlay from '@/modules/player/VideoOverlay.vue'
 import './PlayersController'
 import isYoutubeType from '../playlist/util/isYoutubeType';

@@ -2,10 +2,10 @@
 import initYoutubePlayer from 'youtube-player'
 import { YouTubePlayer } from 'youtube-player/dist/types'
 import PlayerStates from 'youtube-player/dist/constants/PlayerStates'
-import getYoutubeIdForPost from '../playlist/util/getYoutubeIdForPost';
-import PlayerService from './PlayerService'
+import getYoutubeIdForPost from '@/modules/playlist/util/getYoutubeIdForPost';
+import PlayerService from '@/modules/player/services/PlayerService'
 import store from '@/store';
-import isYoutubeType from '../playlist/util/isYoutubeType';
+import isYoutubeType from '@/modules/playlist/util/isYoutubeType';
 import StoreListener from '@/utils/StoreListener';
 
 class YoutubeService extends StoreListener implements PlayerService {

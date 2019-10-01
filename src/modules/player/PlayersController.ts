@@ -1,12 +1,12 @@
 import store, { State } from '@/store'
-import isYoutubeType from '../playlist/util/isYoutubeType';
-import YoutubeService from './YoutubeService';
-import SoundcloudService from './SoundcloudService';
-import PlayerService from './PlayerService';
-import isSoundcloudType from '../playlist/util/isSoundcloudType';
-import isVimeoType from '../playlist/util/isVimeoType';
-import isMP3Type from '../playlist/util/isMP3Type';
-import StoreListener from '@/utils/StoreListener';
+import isYoutubeType from '@/modules/playlist/util/isYoutubeType'
+import YoutubeService from '@/modules/player/services/youtube/YoutubeService'
+import SoundcloudService from '@/modules/player/services/soundcloud/SoundcloudService'
+import PlayerService from '@/modules/player/services/PlayerService'
+import isSoundcloudType from '@/modules/playlist/util/isSoundcloudType'
+import isVimeoType from '@/modules/playlist/util/isVimeoType'
+import isMP3Type from '@/modules/playlist/util/isMP3Type'
+import StoreListener from '@/utils/StoreListener'
 
 class PlayersController extends StoreListener {
     protected on = {

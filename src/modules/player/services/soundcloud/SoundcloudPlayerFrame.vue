@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import SoundcloudService from '@/modules/player/SoundcloudService'
+import SoundcloudService from '@/modules/player/services/soundcloud/SoundcloudService'
 
 @Component
 export default class SoundcloudPlayerFrame extends Vue {
