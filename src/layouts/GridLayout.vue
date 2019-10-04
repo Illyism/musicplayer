@@ -11,7 +11,7 @@
       <div
         v-for="(item, index) in list"
         :key="index + 0"
-        class="p-2 h-32"
+        class="p-2 h-20"
         :style="{ width: widthPerColumn }"
       >
         <slot
@@ -28,7 +28,7 @@
       <div
         v-for="(item, index) in list"
         :key="item.id || index + 0"
-        class="p-2 h-32"
+        class="p-2 h-20"
         :style="{ width: widthPerColumn }"
       >
         <slot

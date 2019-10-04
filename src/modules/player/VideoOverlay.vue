@@ -1,98 +1,69 @@
 <template>
   <div
-    class="h-full w-full"
+    class="VideoOverlay h-full w-full"
     :class="{ 'pointer-events-none': activeState }"
   >
     <div
-      v-if="activePost"
-      class="h-full w-full video-overlay text-gray-100 flex flex-col justify-between items-center trans trans-slow"
+      class="h-full w-full video-overlay text-gray-100 flex flex-col justify-between items-center trans"
       :class="{
         'opacity-100': isOverlayVisible,
         'opacity-0': !isOverlayVisible,
       }"
       @mousemove="enableActiveState"
     >
-      <div class="xs:flex-1 flex items-start justify-between w-full">
+      <!-- top: title -->
+      <div
+        v-if="activePost"
+        class="VideoOverlay-top xs:flex-1 flex items-start justify-between w-full"
+      >
         <div class="p-2">
           <div class="flex flex-col w-full sm:w-auto">
             <div class="text-xs sm:text-lg truncate sm:overflow-visible sm:whitespace-normal font-bold">
               {{ activePost.title }}
             </div>
             <div class="hidden xs:inline-block text-xs sm:text-base font-medium text-grey-50">
-              <span class="text-orange-400">{{ activePost.ups }}</span> •
               <span>{{ activePost.author }}</span> •
-              <span>{{ activePost.subreddit }}</span> •
-              <span>{{ (activePost.created_utc * 1000) | toDate | formatDistanceToNow }} ago</span> •
-              <span>{{ activePost.domain }}</span> •
-              <span class="text-teal-600">{{ activePost.num_comments }}</span>
-            </div>
-          </div>
-
-          <div class="hidden sm:flex text-center pointer-events-auto">
-            <div class="px-4 cursor-pointer trans opacity-75 hover:opacity-100">
-              <IconArrowUpBold
-                class="text-4xl"
-              />
-              <div class="text-xs font-medium">
-                Upvote
-              </div>
+              <span class="text-orange-400">{{ activePost.ups }} votes</span> •
+              <span class="text-teal-600">{{ activePost.num_comments }} comments</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="flex-1 flex items-center justify-between w-full">
-        <div class="xs:w-64">
-&nbsp;
-        </div>
-        <div class="flex items-center">
-          <IconSkipPrevious
-            class="pointer-events-auto text-4xl cursor-pointer trans"
-            :class="{
-              'opacity-50 pointer-events-none': !prevSong,
-              'opacity-75 hover:opacity-100': !!prevSong,
-            }"
-            @click="playPrevSong"
-          />
+      <!-- middle: prev, play, next -->
+      <div class="VideoOverlay-middle flex-1 flex items-center justify-center w-full">
+        <IconSkipPrevious
+          class="pointer-events-auto text-4xl cursor-pointer trans"
+          :class="{
+            'opacity-50 pointer-events-none': !prevSong,
+            'opacity-75 hover:opacity-100': !!prevSong,
+          }"
+          @click="playPrevSong"
+        />
 
-          <IconPause
-            v-if="isPlaying"
-            class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
-            @click="playPause"
-          />
-          <IconPlay
-            v-else
-            class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100"
-            @click="playPause"
-          />
+        <IconPause
+          v-if="isPlaying"
+          class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100 sm:mx-8"
+          @click="playPause"
+        />
+        <IconPlay
+          v-else
+          class="pointer-events-auto text-6xl cursor-pointer trans opacity-75 hover:opacity-100 sm:mx-8"
+          @click="playPause"
+        />
 
-          <IconSkipNext
-            class="pointer-events-auto text-4xl cursor-pointer trans"
-            :class="{
-              'opacity-50 pointer-events-none': !nextSong,
-              'opacity-75 hover:opacity-100': !!nextSong,
-            }"
-            @click="playNextSong" 
-          />
-        </div>
-
-        <div class="xs:w-64 flex items-center justify-end">
-          <div
-            v-if="isHorizontalOrientation"
-            class="mr-6 group flex items-center"
-            @click="SET_MENU_OPEN_STATE(!isMenuOpen)"
-          >
-            <div class="hidden sm:inline-block opacity-0 group-hover:opacity-100 trans text-white mr-4 text-xs">
-              Toggle menu
-            </div>
-            <IconMenu
-              class="pointer-events-auto text-lg xs:text-4xl cursor-pointer trans opacity-75 group-hover:opacity-100"
-            />
-          </div>
-        </div>
+        <IconSkipNext
+          class="pointer-events-auto text-4xl cursor-pointer trans"
+          :class="{
+            'opacity-50 pointer-events-none': !nextSong,
+            'opacity-75 hover:opacity-100': !!nextSong,
+          }"
+          @click="playNextSong" 
+        />
       </div>
 
-      <div class="xs:flex-1 flex items-end w-full">
+      <!-- bottom: volume, seeker, fullscreen -->
+      <div class="VideoOverlay-bottom xs:flex-1 flex flex-col justify-end w-full">
         <div class="pointer-events-auto flex items-center w-full p-2 xs:p-4 sm:p-6">
           <VolumeControl />
           <ProgressBar class="flex-1 xs:mx-4 sm:mx-8" />
@@ -101,10 +72,14 @@
             @click="toggleFullscreen"
           />
         </div>
+
+        <!-- bottom components via slot -->
+        <slot name="bottom" />
       </div>
     </div>
 
     <MiniProgressBar
+      v-if="activePost"
       class="absolute bottom-0"
       :class="{
         'opacity-100': !isOverlayVisible,
@@ -116,7 +91,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { Getter, State, Action } from 'vuex-class'
+import { Getter, State } from 'vuex-class'
 import { RawPostData } from '@/typings/reddit'
 import PlayersController from '@/modules/player/PlayersController'
 import PlaylistController from '@/modules/playlist/PlaylistController'
@@ -139,18 +114,16 @@ import { formatDistanceToNow, toDate } from 'date-fns'
 })
 export default class VideoOverlay extends Vue {
     @State public activePost?: RawPostData
-    @State public isMenuOpen!: boolean
-    @State public isHorizontalOrientation!: boolean
     @Getter public isPlaying!: boolean
     @Getter public prevSong?: RawPostData
     @Getter public nextSong?: RawPostData
-    @Action public SET_MENU_OPEN_STATE!: () => void
 
     public activeState = false
 
     constructor() {
         super()
-        this.disableActiveState = debounce(this.disableActiveState.bind(this), 5000)
+        const FADE_DURATION = process.env.NODE_ENV === 'production' ? 5000 : 30000
+        this.disableActiveState = debounce(this.disableActiveState.bind(this), FADE_DURATION)
     }
 
     public playPause() {

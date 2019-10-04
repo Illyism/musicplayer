@@ -1,10 +1,6 @@
 <template>
-  <div class="p-4 leading-tight">
-    <div class="text-gray-100 font-light text-sm mx-2 mb-2">
-      Sort by
-    </div>
-
-    <div class="flex">
+  <div class="flex leading-tight">
+    <div class="flex items-center">
       <SortToggleItem
         v-for="toggle in toggles"
         :key="toggle.id"
@@ -14,21 +10,20 @@
         :is-active="activeSort === toggle.id"
         @onClick="SET_ACTIVE_SORT(toggle)"
       />
-    </div>
-
-    <div
-      v-if="activeSort === 'top'"
-      class="flex"
-    >
-      <TopSortToggleItem
-        v-for="toggle in topToggles"
-        :key="toggle.id"
-        :id="toggle.id[0]"
-        :title="toggle.title"
-        :color="toggle.color"
-        :is-active="activeTopSort === toggle.id"
-        @onClick="SET_ACTIVE_TOP_SORT(toggle)"
-      />
+      <div
+        v-if="activeSort === 'top'"
+        class="pr-2 flex flex-col flex-wrap items-center content-center h-24 w-16"
+      >
+        <TopSortToggleItem
+          v-for="toggle in topToggles"
+          :key="toggle.id"
+          :id="toggle.id[0]"
+          :title="toggle.title"
+          :color="toggle.color"
+          :is-active="activeTopSort === toggle.id"
+          @onClick="SET_ACTIVE_TOP_SORT(toggle)"
+        />
+      </div>
     </div>
   </div>
 </template>

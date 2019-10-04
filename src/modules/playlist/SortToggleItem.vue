@@ -1,7 +1,7 @@
 <template>
   <div class="p-2 flex-1">
     <div
-      class="h-16 w-full trans flex flex-col items-center justify-center rounded border bg-gray-900 text-white"
+      class="h-24 w-24 trans flex flex-col items-center justify-center rounded border bg-gray-900 text-white"
       :class="cardClasses"
       @click="$emit('onClick')"
     >

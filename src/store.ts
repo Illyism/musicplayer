@@ -23,9 +23,6 @@ export interface State {
   progressDuration: number;
   progressCurrent: number;
   progressLoaded: number;
-  isMenuOpen: boolean;
-  isHorizontalOrientation: boolean;
-  isPlaylistExpanded: false;
 }
 
 
@@ -44,16 +41,13 @@ export const defaultState: State = {
   progressDuration: 1,
   progressCurrent: 0,
   progressLoaded: 0,
-  isMenuOpen: true,
-  isHorizontalOrientation: true,
-  isPlaylistExpanded: false,
 }
 
 
 const vuexLocal = new VuexPersistence< State>({
   storage: window.localStorage,
-  reducer: ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted, isPlaylistExpanded }) =>
-           ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted, isPlaylistExpanded }),
+  reducer: ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted }) =>
+           ({ activeSort, activeTopSort, activeSubs, subs, volume, isMuted }),
   filter: (mutation) => {
     switch (mutation.type) {
       case 'SET_ACTIVE_SORT':
@@ -87,9 +81,9 @@ const defaultGetters: GetterTree< State, any> = {
   nextSong({ redditMusic }, { currentIndex }) {
     return redditMusic[currentIndex + 1]
   },
-  playlist({ redditMusic, isPlaylistExpanded }, { currentIndex }) {
+  playlist({ redditMusic }, { currentIndex }) {
     // amount of posts to show in the playlist before and after the current song
-    const SONGS_IN_PLAYLIST = isPlaylistExpanded ? 9 : 3
+    const SONGS_IN_PLAYLIST = 9
     const SONGS_BEFORE_AFTER = (SONGS_IN_PLAYLIST - 1) / 2
 
     const playlistCutoffStart = Math.max(0, currentIndex - SONGS_BEFORE_AFTER)
@@ -152,20 +146,11 @@ const mutationsTree: MutationTree< State> = {
   SET_PROGRESS_LOADED(state, loadedPercentage) {
     state.progressLoaded = loadedPercentage
   },
-  SET_MENU_OPEN_STATE(state, isMenuOpen) {
-    state.isMenuOpen = isMenuOpen
-  },
-  SET_ORIENTATION(state, isHorizontalOrientation) {
-    state.isHorizontalOrientation = isHorizontalOrientation
-  },
   REMOVE_POST(state, post) {
     const postIndex = state.redditMusic.indexOf(post)
     if (postIndex > -1) {
       state.redditMusic.splice(postIndex, 1)
     }
-  },
-  SET_PLAYLIST_EXPANDED(state, isPlaylistExpanded) {
-    state.isPlaylistExpanded = isPlaylistExpanded
   },
 }
 
@@ -227,12 +212,6 @@ const actionsTree: ActionTree< State, State> = {
   SET_PROGRESS_LOADED({ commit }, loadedPercentage) {
     commit('SET_PROGRESS_LOADED', loadedPercentage)
   },
-  SET_MENU_OPEN_STATE({ commit }, isMenuOpen) {
-    commit('SET_MENU_OPEN_STATE', isMenuOpen)
-  },
-  SET_ORIENTATION({ commit }, isHorizontalOrientation) {
-    commit('SET_ORIENTATION', isHorizontalOrientation)
-  },
   POST_PLAY_ERROR({ commit, state, getters, dispatch }, err) {
     const offendingPost = state.activePost
     const nextSong = getters.nextSong
@@ -241,9 +220,6 @@ const actionsTree: ActionTree< State, State> = {
     }
     dispatch('PLAY_POST', nextSong)
     console.log('POST_PLAY_ERROR', { err })
-  },
-  TOGGLE_PLAYLIST_EXPANDED({ commit, state }) {
-    commit('SET_PLAYLIST_EXPANDED', !state.isPlaylistExpanded)
   },
 }
 

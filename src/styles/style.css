@@ -11,31 +11,15 @@ body {
 }
 
 .trans {
-    transition: all .25s cubic-bezier(0.0,0.0,0.2,1);
+    transition: all .2s ease-in-out;
 }
 
 .trans-bg {
     transition-property: background;
 }
 
-.trans-slow {
-    transition-duration: .5s;
-}
-
-.trans-slower {
-    transition-duration: .5s;
-}
-
-.trans-fast {
-    transition-duration: .15s;
-}
-
-.trans-faster {
-    transition-duration: .075s;
-}
-
 .video-overlay {
-  background: linear-gradient(rgba(0,0,0,.9) 10%,rgba(0,0,0,.2) 35%, rgba(0,0,0,.2) 70%,rgba(0,0,0,.8) 100%);
+  background: linear-gradient(rgba(0,0,0,.9) 10%,rgba(0,0,0,.2) 30%, rgba(0,0,0,.2) 65%,rgba(0,0,0,.9) 80%);
   overflow: hidden;
 }
 
@@ -150,7 +134,7 @@ body {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: opacity .2s ease-in-out;
 }
 
 .fade-enter,
@@ -160,6 +144,10 @@ body {
 
 .overflow-y-scroll {
   -webkit-overflow-scrolling: touch;
+}
+
+.bg-overlay-floating {
+  background: rgba(0, 0, 0, .5);
 }
 
 @tailwind utilities;
