@@ -1,30 +1,13 @@
 <template>
-  <div class="p-1">
-    <popper
-      trigger="hover"
-      :options="{
-        placement: 'top',
-        modifiers: { offset: { offset: '0,10px' } }
-      }"
-    >
-      <div
-        class="popper z-10 bg-gray-900 border shadow-lg pointer-events-none py-1 px-2 text-sm rounded-lg"
-        :class="popperClasses"
-      >
-        {{ title }}
-      </div>
-
-      <div
-        class="h-6 w-6 trans flex flex-col items-center justify-center rounded border bg-gray-900 text-white"
-        slot="reference"
-        :class="cardClasses"
-        @click="$emit('onClick')"
-      >
-        <div class="text-sm font-bold uppercase leading-none">
-          {{ id }}
-        </div>
-      </div>
-    </popper>
+  <div
+    class="flex-1 mx-1 p-1 flex flex-col items-center justify-center rounded border bg-gray-900 text-white"
+    slot="reference"
+    :class="cardClasses"
+    @click="$emit('onClick')"
+  >
+    <div class="text-xs font-bold leading-none">
+      {{ title }}
+    </div>
   </div>
 </template>
 
@@ -37,7 +20,7 @@ import Popper from 'vue-popperjs'
         Popper,
     },
 })
-export default class SortToggleItem extends Vue {
+export default class TopSortToggleItem extends Vue {
     @Prop({ required: true }) public id!: string
     @Prop({ required: true }) public title!: string
     @Prop({ default: false }) public isActive!: boolean

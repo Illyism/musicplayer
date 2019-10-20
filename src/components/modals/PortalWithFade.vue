@@ -1,7 +1,12 @@
 <template>
   <portal :disabled="disablePortal">
     <transition
-      name="fade" 
+      enter-class="opacity-0 scale-90"
+      enter-active-class="ease-out transition-fastest"
+      enter-to-class="opacity-100 scale-100"
+      leave-class="opacity-100 scale-100"
+      leave-active-class="ease-in transition-fastest"
+      leave-to-class="opacity-0 scale-90"
       appear
       @afterLeave="disablePortal = true"
     >

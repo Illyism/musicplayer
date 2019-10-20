@@ -1,19 +1,19 @@
 <template>
   <div class="p-2 flex-1">
     <div
-      class="h-24 w-24 trans flex flex-col items-center justify-center rounded border bg-gray-900 text-white"
+      class="p-2 trans flex items-center justify-center rounded border bg-gray-900 text-white"
       :class="cardClasses"
       @click="$emit('onClick')"
     >
       <img
         :src="`/img/emoji/${image}.png`"
         :alt="id"
-        class="h-5 inline-block w-auto"
+        class="h-4 inline-block w-auto mr-2"
         :class="{
           'opacity-50': !isActive  
         }"
       >
-      <div class="text-xs font-bold tracking-widest mt-2 uppercase">
+      <div class="text-xs font-bold tracking-widest uppercase">
         {{ id }}
       </div>
     </div>

@@ -1,6 +1,9 @@
 <template>
-  <div class="flex leading-tight">
-    <div class="flex items-center">
+  <div class="leading-tight">
+    <div class="text-gray-100 font-light text-sm mx-2">
+      Sort Reddit posts by
+    </div>
+    <div class="flex items-center w-full">
       <SortToggleItem
         v-for="toggle in toggles"
         :key="toggle.id"
@@ -10,9 +13,19 @@
         :is-active="activeSort === toggle.id"
         @onClick="SET_ACTIVE_SORT(toggle)"
       />
+    </div>
+
+    <transition
+      enter-class="opacity-0 scale-90"
+      enter-active-class="ease-out transition-fastest"
+      enter-to-class="opacity-100 scale-100"
+      leave-class="opacity-100 scale-100"
+      leave-active-class="ease-in transition-fastest"
+      leave-to-class="opacity-0 scale-90"
+    >
       <div
         v-if="activeSort === 'top'"
-        class="pr-2 flex flex-col flex-wrap items-center content-center h-24 w-16"
+        class="px-1 w-full flex items-center justify-stretch"
       >
         <TopSortToggleItem
           v-for="toggle in topToggles"
@@ -24,14 +37,14 @@
           @onClick="SET_ACTIVE_TOP_SORT(toggle)"
         />
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import SortToggleItem from '@/modules/playlist/SortToggleItem.vue'
-import TopSortToggleItem from '@/modules/playlist/TopSortToggleItem.vue'
+import SortToggleItem from '@/modules/channels/SortToggleItem.vue'
+import TopSortToggleItem from '@/modules/channels/TopSortToggleItem.vue'
 import { mapState, mapActions } from 'vuex'
 
 @Component({
@@ -57,12 +70,12 @@ export default class SortToggle extends Vue {
     ]
 
     public topToggles: TopSortMethod[] = [
-      { id: 'hour', title: 'Last hour', color: 'primary-500' },
+      { id: 'hour', title: 'Hour', color: 'primary-500' },
       { id: 'day', title: 'Today', color: 'primary-500' },
-      { id: 'week', title: 'This week', color: 'primary-500' },
-      { id: 'month', title: 'This month', color: 'primary-500' },
-      { id: 'year', title: 'This year', color: 'primary-500' },
-      { id: 'all', title: 'All time', color: 'primary-500' },
+      { id: 'week', title: 'Week', color: 'primary-500' },
+      { id: 'month', title: 'Month', color: 'primary-500' },
+      { id: 'year', title: 'Year', color: 'primary-500' },
+      { id: 'all', title: 'All', color: 'primary-500' },
     ]
 }
 </script>
