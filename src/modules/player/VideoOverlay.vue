@@ -96,6 +96,7 @@
         <div class="pointer-events-auto flex items-center w-full p-2 xs:p-4 sm:p-6">
           <VolumeControl />
           <ProgressBar class="flex-1 xs:mx-4 sm:mx-8" />
+          <PresentationControl class="mr-4" />
           <IconFullscreen
             class="hidden xs:inline-flex cursor-pointer text-4xl trans opacity-75 hover:opacity-100"
             @click="toggleFullscreen"
@@ -123,6 +124,7 @@ import PlaylistController from '@/modules/playlist/PlaylistController'
 import VolumeControl from './VolumeControl.vue'
 import MiniProgressBar from './MiniProgressBar.vue'
 import ProgressBar from './ProgressBar.vue'
+import PresentationControl from './PresentationControl.vue'
 import debounce from 'lodash/debounce'
 import { formatDistanceToNow, toDate } from 'date-fns'
 
@@ -131,6 +133,7 @@ import { formatDistanceToNow, toDate } from 'date-fns'
         VolumeControl,
         MiniProgressBar,
         ProgressBar,
+        PresentationControl,
     },
     filters: {
         formatDistanceToNow,

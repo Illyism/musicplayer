@@ -14,6 +14,9 @@ const icons = [
     require('vue-material-design-icons/Fullscreen.vue'),
     require('vue-material-design-icons/Menu.vue'),
     require('vue-material-design-icons/ArrowUpBold.vue'),
+    require('vue-material-design-icons/Cast.vue'),
+    require('vue-material-design-icons/CastConnected.vue'),
+    require('vue-material-design-icons/CastOff.vue'),
     require('vue-material-design-icons/ChevronDown.vue'),
     require('vue-material-design-icons/ChevronUp.vue'),
 ]
