@@ -2,6 +2,7 @@
   <FullscreenPopup
     :isMenuOpen="isMenuOpen"
     @onCloseMenuClicked="onCloseMenuClicked"
+    @onMenuOpenFinished="onMenuOpenFinished"
   >
     <div class="flex items-center justify-between pl-6 pr-2 bg-gray-800 rounded-t-lg">
       <div class="text-gray-100 font-medium py-2">
@@ -14,9 +15,8 @@
         <IconClose class="" />
       </div>
     </div>
-    <div class="overflow-y-scroll">
-      <slot />
-    </div>
+      
+    <slot />
   </FullscreenPopup>
 </template>
 
@@ -32,8 +32,13 @@ import FullscreenPopup from '@/components/modals/FullscreenPopup.vue'
 export default class FullscreenPopupWithScroll extends Vue {
   @Prop({ default: false }) public isMenuOpen!: boolean
   @Prop({ default: '' }) public title!: string
+
   public onCloseMenuClicked() {
     this.$emit('onCloseMenuClicked')
+  }
+
+  public onMenuOpenFinished() {
+    this.$emit('onMenuOpenFinished')
   }
 }
 </script>

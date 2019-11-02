@@ -4,7 +4,7 @@
     :isMenuOpen="isMenuOpen"
     @onCloseMenuClicked="onCloseMenuClicked"
   >
-    <div class="p-4">
+    <div class="overflow-y-scroll p-4">
       <SortToggle />
 
       <div class="text-gray-100 font-light text-sm mx-2 mt-8">

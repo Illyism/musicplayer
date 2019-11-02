@@ -1,6 +1,7 @@
 <template>
   <PortalWithFade
     :isMenuOpen="isMenuOpen"
+    @onMenuOpenFinished="onMenuOpenFinished"
   >
     <div
       class="fixed inset-0 px-2 py-2 sm:py-12 z-30 bg-overlay-floating" 
@@ -27,8 +28,13 @@ import PortalWithFade from '@/components/modals/PortalWithFade.vue'
 })
 export default class FullscreenPopup extends Vue {
   @Prop({ default: false }) public isMenuOpen!: boolean
+  
   public onCloseMenuClicked() {
     this.$emit('onCloseMenuClicked')
+  }
+
+  public onMenuOpenFinished() {
+    this.$emit('onMenuOpenFinished')
   }
 }
 </script>

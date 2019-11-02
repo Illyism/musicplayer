@@ -23,6 +23,7 @@ export interface State {
   progressDuration: number;
   progressCurrent: number;
   progressLoaded: number;
+  shouldTrimPlaylist: boolean;
 }
 
 
@@ -41,6 +42,7 @@ export const defaultState: State = {
   progressDuration: 1,
   progressCurrent: 0,
   progressLoaded: 0,
+  shouldTrimPlaylist: false, // not set for now
 }
 
 
@@ -81,13 +83,17 @@ const defaultGetters: GetterTree< State, any> = {
   nextSong({ redditMusic }, { currentIndex }) {
     return redditMusic[currentIndex + 1]
   },
-  playlist({ redditMusic }, { currentIndex }) {
-    // amount of posts to show in the playlist before and after the current song
-    const SONGS_IN_PLAYLIST = 9
-    const SONGS_BEFORE_AFTER = (SONGS_IN_PLAYLIST - 1) / 2
+  playlist({ redditMusic, shouldTrimPlaylist }, { currentIndex }) {
+    if (shouldTrimPlaylist) {
+      // amount of posts to show in the playlist before and after the current song
+      const SONGS_IN_PLAYLIST = 9
+      const SONGS_BEFORE_AFTER = (SONGS_IN_PLAYLIST - 1) / 2
 
-    const playlistCutoffStart = Math.max(0, currentIndex - SONGS_BEFORE_AFTER)
-    return redditMusic.slice(playlistCutoffStart, playlistCutoffStart + SONGS_IN_PLAYLIST)
+      const playlistCutoffStart = Math.max(0, currentIndex - SONGS_BEFORE_AFTER)
+      return redditMusic.slice(playlistCutoffStart, playlistCutoffStart + SONGS_IN_PLAYLIST)
+    }
+
+    return redditMusic
   },
   isPlaying({ playerState }) {
     return playerState === PlayerStates.PLAYING

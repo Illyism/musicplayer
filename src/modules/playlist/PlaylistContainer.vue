@@ -7,31 +7,37 @@
       class="xs:h-24 xs:w-24 text-xs xs:text-sm leading-tight p-2 rounded border border-gray-800 bg-gray-900 text-white flex flex-col justify-end cursor-pointer trans hover:border-primary-800"
       @click="openMenu"
     >
-      {{ playlist.length }} <span class="hidden xs:inline">songs queued</span>
+      {{ playlist.length }} <span class="hidden xs:inline">songs in playlist</span>
     </div>
 
     <FullscreenPopupWithScroll
       title="Playlist"
       :isMenuOpen="isMenuOpen"
       @onCloseMenuClicked="closeMenu"
+      @onMenuOpenFinished="scrollToActivePostOnMenuOpen"
     >
-      <ListLayout
-        :list="playlist"
+      <div
+        class="overflow-y-scroll"
       >
-        <PlaylistItemRow
-          :key="item.id"
-          slot-scope="{ item }"
-          :title="item.title"
-          :thumbnail-h-d="item.secure_media && item.secure_media.oembed ? item.secure_media.oembed.thumbnail_url : null"
-          :thumbnail="item.thumbnail"
-          :ups="item.ups"
-          :num-comments="item.num_comments"
-          :is-active-post="isActivePost(item)"
-          :is-prev-song="isPrevSong(item)"
-          :is-next-song="isNextSong(item)"
-          @onClick="onClick(item)"
-        />
-      </ListLayout>
+        <ListLayout
+          :list="playlist"
+        >
+          <PlaylistItemRow
+            :key="item.id"
+            :ref="`song_${item.id}`"
+            slot-scope="{ item }"
+            :title="item.title"
+            :thumbnail-h-d="item.secure_media && item.secure_media.oembed ? item.secure_media.oembed.thumbnail_url : null"
+            :thumbnail="item.thumbnail"
+            :ups="item.ups"
+            :num-comments="item.num_comments"
+            :is-active-post="isActivePost(item)"
+            :is-prev-song="isPrevSong(item)"
+            :is-next-song="isNextSong(item)"
+            @onClick="onClick(item)"
+          />
+        </ListLayout>
+      </div>
     </FullscreenPopupWithScroll>
   </div>
 </template>
@@ -67,6 +73,19 @@ export default class PlaylistContainer extends Vue {
     }
     public closeMenu() {
       this.isMenuOpen = false
+    }
+    public scrollToActivePostOnMenuOpen() {
+      if (!this.activePost) {
+          return
+      }
+      let activePostRef = this.$refs[`song_${this.activePost.id}`] as Vue[] | Vue
+      if (Array.isArray(activePostRef)) {
+        activePostRef = activePostRef[0] // scroll to first in list if there are multiple
+      }
+      if (!activePostRef) {
+        return // active element not rendered somehow
+      }
+      activePostRef.$el.scrollIntoView()
     }
 
     public onClick(post: RawPostData) {

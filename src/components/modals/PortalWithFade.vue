@@ -8,6 +8,7 @@
       leave-active-class="ease-in transition-fastest"
       leave-to-class="opacity-0 scale-90"
       appear
+      @enter="enter"
       @afterLeave="disablePortal = true"
     >
       <slot v-if="showTransitionContent" />
@@ -39,6 +40,10 @@ export default class PortalWithFade extends Vue {
 
       // setting this to false will trigger the afterLeave transition
       this.showTransitionContent = false
+    }
+
+    public enter() {
+      this.$emit('onMenuOpenFinished')
     }
 }
 </script>
