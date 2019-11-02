@@ -28,7 +28,7 @@ import PortalWithFade from '@/components/modals/PortalWithFade.vue'
 })
 export default class FullscreenPopup extends Vue {
   @Prop({ default: false }) public isMenuOpen!: boolean
-  
+
   public onCloseMenuClicked() {
     this.$emit('onCloseMenuClicked')
   }
