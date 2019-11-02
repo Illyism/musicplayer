@@ -4,7 +4,7 @@ import { getRedditMusic } from '@/api';
 import isPlayable from './util/isPlayable';
 import { RawPostData } from '@/typings/reddit';
 import isPostEqual from './util/isPostEqual';
-import PlayersController from '../player/PlayersController';
+import PlayersController from '@/modules/player/PlayersController'
 import PlayerStates from 'youtube-player/dist/constants/PlayerStates';
 
 class PlaylistController extends StoreListener {

@@ -44,5 +44,6 @@ module.exports = {
     "@typescript-eslint/no-empty-interface": 0, // ignore => needed in some typings
     "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": true }], // false => functions are hoisted
     'require-await': 'error',
+    'vue/attribute-hyphenation': 0,
   }
 };

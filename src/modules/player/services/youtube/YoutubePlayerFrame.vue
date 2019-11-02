@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import YoutubeService from '@/modules/player/YoutubeService'
+import YoutubeService from '@/modules/player/services/youtube/YoutubeService'
 
 @Component
 export default class YoutubePlayerFrame extends Vue {

@@ -1,11 +1,14 @@
 <template>
   <div
     class="h-full text-white cursor-pointer px-6 py-2 flex items-center leading-none"
-    :class="{ 'bg-gray-900': isActivePost }"
+    :class="{
+      'bg-gray-800': isActivePost,
+      'hover:bg-gray-800': !isActivePost,
+    }"
     @click="$emit('onClick')"
   >
     <div
-      class="queue-card h-16 w-16 relative rounded border bg-gray-900 trans"
+      class="queue-card h-16 w-16 relative rounded border bg-gray-800 trans"
       :class="{
         'queue-card--active': isActivePost,
         'queue-card--playing': isThisPlaying,

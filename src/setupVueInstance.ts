@@ -6,19 +6,21 @@ import {
     toastOnErrors,
 } from '@/utils/interceptors'
 import axios from 'axios'
-import PortalVue from 'portal-vue'
+import VuePortal from '@linusborg/vue-simple-portal'
 import Vue from 'vue'
 import Meta from 'vue-meta'
 import MQ from 'vue-match-media/src'
 
 export default function setupVueInstance() {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.ENABLE_PERFORMANCE_DEBUG) {
+        // allows you to see the performance debugging for Vue components
+        // in the chrome devtools profiler
         Vue.config.performance = true
     }
 
     // vendor plugins
     Vue.use(Meta)
-    Vue.use(PortalVue)
+    Vue.use(VuePortal)
     Vue.use(MQ)
 
     axios.defaults.baseURL = process.env.BASE_URL

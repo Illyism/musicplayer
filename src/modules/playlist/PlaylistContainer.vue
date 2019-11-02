@@ -1,56 +1,63 @@
 <template>
   <div
     v-if="playlist.length > 0"
-    class="py-4"
+    class="pr-2"
   >
-    <ListLayout
-      :list="playlist"
-    >
-      <PlaylistItemRow
-        :key="item.id"
-        slot-scope="{ item }"
-        :title="item.title"
-        :thumbnail-h-d="item.secure_media && item.secure_media.oembed ? item.secure_media.oembed.thumbnail_url : null"
-        :thumbnail="item.thumbnail"
-        :ups="item.ups"
-        :num-comments="item.num_comments"
-        :is-active-post="isActivePost(item)"
-        :is-prev-song="isPrevSong(item)"
-        :is-next-song="isNextSong(item)"
-        @onClick="onClick(item)"
-      />
-    </ListLayout>
-
     <div
-      class="text-gray-500 font-light text-sm hover:bg-gray-900 mx-2 mb-2 cursor-pointer trans trans-bg text-center rounded"
-      @click="TOGGLE_PLAYLIST_EXPANDED"
+      class="xs:h-24 xs:w-24 text-xs xs:text-sm leading-tight p-2 rounded border border-gray-800 bg-gray-900 text-white flex flex-col justify-end cursor-pointer trans hover:border-primary-800"
+      @click="openMenu"
     >
-      <IconChevronDown
-        v-if="!isPlaylistExpanded"
-        class="mdi-fix"
-      />
-      <IconChevronUp
-        v-else
-        class="mdi-fix"
-      />
+      {{ playlist.length }} <span class="hidden xs:inline">songs in playlist</span>
     </div>
+
+    <FullscreenPopupWithScroll
+      title="Playlist"
+      :isMenuOpen="isMenuOpen"
+      @onCloseMenuClicked="closeMenu"
+      @onMenuOpenFinished="scrollToActivePostOnMenuOpen"
+    >
+      <div
+        class="overflow-y-scroll"
+      >
+        <ListLayout
+          :list="playlist"
+        >
+          <PlaylistItemRow
+            :key="item.id"
+            :ref="`song_${item.id}`"
+            slot-scope="{ item }"
+            :title="item.title"
+            :thumbnail-h-d="item.secure_media && item.secure_media.oembed ? item.secure_media.oembed.thumbnail_url : null"
+            :thumbnail="item.thumbnail"
+            :ups="item.ups"
+            :num-comments="item.num_comments"
+            :is-active-post="isActivePost(item)"
+            :is-prev-song="isPrevSong(item)"
+            :is-next-song="isNextSong(item)"
+            @onClick="onClick(item)"
+          />
+        </ListLayout>
+      </div>
+    </FullscreenPopupWithScroll>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { State, Getter, Action } from 'vuex-class'
+import { State, Getter } from 'vuex-class'
 import { RawPostData } from '@/typings/reddit'
 import isPostEqual from '@/modules/playlist/util/isPostEqual'
 
 import ListLayout from '@/layouts/ListLayout.vue'
 import PlaylistController from '@/modules/playlist/PlaylistController'
 import PlaylistItemRow from '@/modules/playlist/PlaylistItemRow.vue'
+import FullscreenPopupWithScroll from '@/components/modals/FullscreenPopupWithScroll.vue'
 
 @Component({
     components: {
         ListLayout,
         PlaylistItemRow,
+        FullscreenPopupWithScroll,
     },
 })
 export default class PlaylistContainer extends Vue {
@@ -58,12 +65,32 @@ export default class PlaylistContainer extends Vue {
     @State public activePost?: RawPostData
     @Getter public nextSong?: RawPostData
     @Getter public prevSong?: RawPostData
-    @State public isPlaylistExpanded!: boolean
 
-    @Action public TOGGLE_PLAYLIST_EXPANDED!: () => void
+    public isMenuOpen = false
+
+    public openMenu() {
+      this.isMenuOpen = true
+    }
+    public closeMenu() {
+      this.isMenuOpen = false
+    }
+    public scrollToActivePostOnMenuOpen() {
+      if (!this.activePost) {
+          return
+      }
+      let activePostRef = this.$refs[`song_${this.activePost.id}`] as Vue[] | Vue
+      if (Array.isArray(activePostRef)) {
+        activePostRef = activePostRef[0] // scroll to first in list if there are multiple
+      }
+      if (!activePostRef) {
+        return // active element not rendered somehow
+      }
+      activePostRef.$el.scrollIntoView()
+    }
 
     public onClick(post: RawPostData) {
         PlaylistController.toggleSong(post)
+        this.closeMenu()
     }
 
     private isActivePost(post: RawPostData) {

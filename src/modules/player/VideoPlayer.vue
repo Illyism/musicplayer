@@ -1,56 +1,35 @@
 <template>
-  <div class="h-full w-full relative">
-    <div :class="{ 'hide-player': !isYoutubePlaying }">
-      <YoutubePlayerFrame
-        class="absolute"
-        :style="{ background: '#000' }"
-      />
-    </div>
-    <div :class="{ 'hide-player': !isSoundcloudPlaying }">
-      <SoundcloudPlayerFrame
-        class="absolute"
-        :style="{ background: '#000' }"
-      />
-    </div>
-    <div
-      v-if="notPlaying"
-      class="absolute w-full h-full bg-black"
-    />
-    <VideoOverlay class="absolute z-10" />
+  <div class="VideoPlayer h-screen w-full relative">
+    <ServiceFrames class="absolute z-10" />
+    <VideoOverlay class="absolute z-20">
+      <div
+        slot="bottom"
+        class="flex items-center p-2 xs:p-4 sm:p-6 pt-0 xs:pt-0 sm:pt-0"
+      >
+        <PlaylistContainer class="pointer-events-auto" />
+        <ChannelsPicker class="pointer-events-auto" />
+      </div>
+    </VideoOverlay>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { State } from 'vuex-class'
-import { RawPostData } from '@/typings/reddit'
-import YoutubePlayerFrame from '@/modules/player/YoutubePlayerFrame.vue'
-import SoundcloudPlayerFrame from '@/modules/player/SoundcloudPlayerFrame.vue'
 import VideoOverlay from '@/modules/player/VideoOverlay.vue'
-import './PlayersController'
-import isYoutubeType from '../playlist/util/isYoutubeType';
-import isSoundcloudType from '../playlist/util/isSoundcloudType';
+import ServiceFrames from '@/modules/player/ServiceFrames.vue'
+import ChannelsPicker from '@/modules/channels/ChannelsPicker.vue'
+import SortToggle from '@/modules/channels/SortToggle.vue'
+import PlaylistContainer from '@/modules/playlist/PlaylistContainer.vue'
 
 @Component({
     components: {
-        YoutubePlayerFrame,
-        SoundcloudPlayerFrame,
         VideoOverlay,
+        ServiceFrames,
+        ChannelsPicker,
+        SortToggle,
+        PlaylistContainer,
     },
 })
 export default class VideoPlayer extends Vue {
-    @State public activePost?: RawPostData
-
-    public get isYoutubePlaying() {
-        return isYoutubeType(this.activePost)
-    }
-
-    public get isSoundcloudPlaying() {
-        return isSoundcloudType(this.activePost)
-    }
-
-    public get notPlaying() {
-        return !this.isYoutubePlaying && !this.isSoundcloudPlaying
-    }
 }
 </script>

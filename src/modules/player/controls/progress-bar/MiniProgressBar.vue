@@ -15,8 +15,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { State } from 'vuex-class'
-import PlayersController from './PlayersController'
-import formatSeconds from './util/formatSeconds'
+import PlayersController from '@/modules/player/PlayersController'
+import formatSeconds from '@/modules/player/util/formatSeconds'
 
 @Component({
     filters: {
