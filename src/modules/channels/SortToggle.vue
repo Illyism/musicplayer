@@ -3,7 +3,7 @@
     <div class="text-gray-100 font-light text-sm mx-2">
       Sort Reddit posts by
     </div>
-    <div class="flex items-center w-full">
+    <div class="flex flex-wrap items-center w-full">
       <SortToggleItem
         v-for="toggle in toggles"
         :key="toggle.id"
@@ -25,7 +25,7 @@
     >
       <div
         v-if="activeSort === 'top'"
-        class="px-1 w-full flex items-center justify-stretch"
+        class="px-1 w-full flex flex-wrap items-center justify-stretch"
       >
         <TopSortToggleItem
           v-for="toggle in topToggles"

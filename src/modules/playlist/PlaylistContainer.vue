@@ -4,10 +4,10 @@
     class="pr-2"
   >
     <div
-      class="h-24 w-24 p-2 rounded border border-gray-800 bg-gray-900 text-white flex flex-col justify-end cursor-pointer trans hover:border-primary-800"
+      class="xs:h-24 xs:w-24 text-xs xs:text-sm leading-tight p-2 rounded border border-gray-800 bg-gray-900 text-white flex flex-col justify-end cursor-pointer trans hover:border-primary-800"
       @click="openMenu"
     >
-      {{ playlist.length }} songs queued
+      {{ playlist.length }} <span class="hidden xs:inline">songs queued</span>
     </div>
 
     <FullscreenPopupWithScroll

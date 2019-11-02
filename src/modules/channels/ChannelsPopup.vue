@@ -4,55 +4,57 @@
     :isMenuOpen="isMenuOpen"
     @onCloseMenuClicked="onCloseMenuClicked"
   >
-    <SortToggle />
+    <div class="p-4">
+      <SortToggle />
 
-    <div class="text-gray-100 font-light text-sm mx-2 mt-8">
-      Active subreddits
-    </div>
-    <GridLayout
-      :list="activeSubs"
-      class="mb-8"
-      :is-animated="true"
-    >
-      <BottomCard
-        slot-scope="{ item }"
-        :title="item.Subreddit"
-        :description="item.Genre"
-        :is-active="true"
-        @onClick="toggleActiveSub(item)"
-      />
-    </GridLayout>
-    <div class="text-gray-100 font-light text-sm mx-2 mb-2">
-      All channels
-    </div>
+      <div class="text-gray-100 font-light text-sm mx-2 mt-8">
+        Active subreddits
+      </div>
+      <GridLayout
+        :list="activeSubs"
+        class="mb-8"
+        :is-animated="true"
+      >
+        <BottomCard
+          slot-scope="{ item }"
+          :title="item.Subreddit"
+          :description="item.Genre"
+          :is-active="true"
+          @onClick="toggleActiveSub(item)"
+        />
+      </GridLayout>
+      <div class="text-gray-100 font-light text-sm mx-2 mb-2">
+        All channels
+      </div>
 
-    <div class="mx-2 mb-2">
-      <div class="w-full relative">
-        <input
-          v-model="subredditSearch"
-          class="bg-gray-900 text-gray-200 pr-16 text-xs w-full rounded-lg px-4 py-2 outline-none border border-gray-700 focus:border-primary-500 focus:text-gray-100"
-          placeholder="Search for subreddits..."
-          type="text"
-          autocomplete="off"
-          autocorrect="off"
-        >
-        <div class="absolute right-0 inset-y-0 mr-4 text-gray-700 flex items-center justify-center pointer-events-none">
-          <IconMagnify class="" />
+      <div class="mx-2 mb-2">
+        <div class="w-full relative">
+          <input
+            v-model="subredditSearch"
+            class="bg-gray-900 text-gray-200 pr-16 text-xs w-full rounded-lg px-4 py-2 outline-none border border-gray-700 focus:border-primary-500 focus:text-gray-100"
+            placeholder="Search for subreddits..."
+            type="text"
+            autocomplete="off"
+            autocorrect="off"
+          >
+          <div class="absolute right-0 inset-y-0 mr-4 text-gray-700 flex items-center justify-center pointer-events-none">
+            <IconMagnify class="" />
+          </div>
         </div>
       </div>
-    </div>
 
-    <GridLayout
-      :list="inactiveSubs"
-      :is-animated="true"
-    >
-      <BottomCard
-        slot-scope="{ item }"
-        :title="item.Subreddit"
-        :description="item.Genre"
-        @onClick="toggleActiveSub(item)"
-      />
-    </GridLayout>
+      <GridLayout
+        :list="inactiveSubs"
+        :is-animated="true"
+      >
+        <BottomCard
+          slot-scope="{ item }"
+          :title="item.Subreddit"
+          :description="item.Genre"
+          @onClick="toggleActiveSub(item)"
+        />
+      </GridLayout>
+    </div>
   </FullscreenPopupWithScroll>
 </template>
 

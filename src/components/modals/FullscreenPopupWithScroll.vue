@@ -14,7 +14,7 @@
         <IconClose class="" />
       </div>
     </div>
-    <div class="overflow-y-scroll p-4">
+    <div class="overflow-y-scroll">
       <slot />
     </div>
   </FullscreenPopup>
