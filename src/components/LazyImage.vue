@@ -1,7 +1,7 @@
 <template>
   <img
     :src="src"
-    class="trans"
+    class="transition-opacity transition-slow ease-out"
     :class="{ 'opacity-0': !loaded }"
     alt=""
     @load="onLoad"
@@ -21,7 +21,13 @@ export default class LazyImage extends Vue {
     public quality: 'hd' | 'low' = 'hd'
     public loaded = false
 
+    public observer?: IntersectionObserver
+    public hasBeenInViewport = false
+
     public get src() {
+        if (!this.hasBeenInViewport) {
+            return // hide it for now
+        }
         if (this.quality === 'hd') {
             return this.thumbnailHD
         }
@@ -30,6 +36,26 @@ export default class LazyImage extends Vue {
 
     public created() {
         this.observeImage()
+    }
+
+    public mounted() {
+        this.observer = new IntersectionObserver(entries => {
+            const image = entries[0]
+            if (image.isIntersecting) {
+                this.hasBeenInViewport = true
+                if (this.observer) {
+                    this.observer.disconnect()
+                }
+            }
+        })
+
+        this.observer.observe(this.$el)
+    }
+
+    public destroyed() {
+        if (this.observer) {
+            this.observer.disconnect()
+        }
     }
 
     @Watch('thumbnail') public observeImage() {

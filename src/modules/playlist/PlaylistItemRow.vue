@@ -78,7 +78,7 @@ import LazyImage from '@/components/LazyImage.vue'
         LazyImage,
     },
 })
-export default class PlaylistCard extends Vue {
+export default class PlaylistItemRow extends Vue {
     @Prop({ default: false }) public isActivePost!: boolean
     @Prop({ default: false }) public isPrevSong!: boolean
     @Prop({ default: false }) public isNextSong!: boolean
