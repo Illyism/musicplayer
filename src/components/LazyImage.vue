@@ -44,7 +44,7 @@ export default class LazyImage extends Vue {
     }
 
     public mounted() {
-        this.observer = new IntersectionObserver(entries => {
+        this.observer = new IntersectionObserver((entries) => {
             const image = entries[0]
             if (image.isIntersecting) {
                 this.hasBeenInViewport = true
