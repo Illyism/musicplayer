@@ -13,6 +13,11 @@
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 
+/**
+ * Starts loading the image when it's first visible in viewport
+ * Then waits until the image is fully loaded and increases opacity
+ * If the hd quality image fails somehow, load the low quality version
+ */
 @Component
 export default class LazyImage extends Vue {
     @Prop() public thumbnailHD?: string
@@ -69,7 +74,7 @@ export default class LazyImage extends Vue {
     }
 
     public onError() {
-        this.quality = 'low' // failed to low high
+        this.quality = 'low' // failed to load high
     }
 }
 </script>
