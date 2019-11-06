@@ -4,12 +4,14 @@
     @onMenuOpenFinished="onMenuOpenFinished"
   >
     <div
-      class="fixed inset-0 px-2 py-2 sm:py-12 z-30 bg-overlay-floating" 
-      @click="onCloseMenuClicked"
+      class="fixed inset-0 px-2 py-2 sm:py-12 z-30" 
     >
       <div
-        class="w-full h-full max-w-xl mx-auto pointer-events-auto shadow-xl rounded-lg bg-gray-900 flex flex-col"
-        @click.prevent.stop=""
+        class="fixed inset-0 bg-overlay-floating"
+        @click="onCloseMenuClicked"
+      />
+      <div
+        class="relative w-full h-full max-w-xl mx-auto pointer-events-auto shadow-xl rounded-lg bg-gray-900 flex flex-col"
       >
         <slot />
       </div>

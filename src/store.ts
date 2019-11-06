@@ -1,6 +1,7 @@
 import { getSubs } from '@/api';
 import { RawPostData } from '@/typings/reddit';
 import keyBy from 'lodash/keyBy';
+import uniq from 'lodash/uniq';
 import Vue from 'vue';
 import Vuex, { GetterTree, MutationTree, ActionTree } from 'vuex';
 import VuexPersistence from 'vuex-persist';
@@ -73,6 +74,9 @@ const defaultGetters: GetterTree< State, any> = {
   },
   subsMap({ subs }) {
     return keyBy(subs, 'Subreddit')
+  },
+  genres({ subs }) {
+    return uniq(subs.map((sub) => sub.Genre))
   },
   currentIndex({ redditMusic, activePost }) {
     return activePost ? redditMusic.indexOf(activePost) : -1
