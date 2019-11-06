@@ -7,7 +7,7 @@
     <div class="overflow-y-scroll scrollbar-blue h-full p-4">
       <SortToggle />
 
-      <div class="mt-8 flex items-center text-sm">
+      <div class="mt-8 mb-4 flex items-center text-sm">
         <div class="mx-2 flex flex-1">
           <Dropdown
             ref="dropdown"
@@ -53,18 +53,20 @@
         </div>
       </div>
 
-      <GridLayout
+      <ListLayout
+        class="-mx-4"
         :list="filteredSubs"
         :is-animated="true"
       >
-        <BottomCard
+        <ListItemRow
           slot-scope="{ item }"
+          class="px-6"
           :title="item.Subreddit"
-          :description="item.Genre"
+          :description="!filterGenre && item.Genre"
           :is-active="activeSubsMap[item.Subreddit]"
           @onClick="toggleActiveSub(item)"
         />
-      </GridLayout>
+      </ListLayout>
     </div>
   </FullscreenPopupWithScroll>
 </template>
@@ -72,9 +74,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import GridLayout from '@/layouts/GridLayout.vue'
-import LoadingCardGrid from '@/components/loading/LoadingCardGrid.vue'
-import BottomCard from '@/components/BottomCard.vue'
+import ListLayout from '@/layouts/ListLayout.vue'
+import ListItemRow from '@/components/ListItemRow.vue'
 import Dropdown from '@/components/input/Dropdown.vue'
 import DropdownSection from '@/components/input/DropdownSection.vue'
 import DropdownItem from '@/components/input/DropdownItem.vue'
@@ -85,9 +86,8 @@ import SortToggle from '@/modules/channels/SortToggle.vue'
 
 @Component({
   components: {
-    GridLayout,
-    LoadingCardGrid,
-    BottomCard,
+    ListLayout,
+    ListItemRow,
     FullscreenPopupWithScroll,
     SortToggle,
     Dropdown,
