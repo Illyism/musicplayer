@@ -8,6 +8,9 @@
       >
         <PlaylistContainer class="pointer-events-auto" />
         <ChannelsPicker class="pointer-events-auto" />
+        <div class="ml-4 xs:h-24 xs:w-24 text-xs xs:text-sm leading-tight p-2 rounded border border-gray-800 bg-gray-900 text-white flex flex-col justify-end cursor-pointer trans hover:border-primary-800">
+          Hello JAM
+        </div>
       </div>
     </VideoOverlay>
   </div>
