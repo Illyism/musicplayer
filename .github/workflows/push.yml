@@ -7,17 +7,13 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Dependencies
-      uses: actions/npm@master
-      with:
-        args: ci
+      run: npm ci
     - name: Eslint
       uses: gimenete/eslint-action@1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Jest
-      uses: actions/npm@master
-      with:
-        args: run test:ci
+      run: npm run test:ci
     - name: Codecov
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
