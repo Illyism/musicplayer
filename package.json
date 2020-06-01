@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "2.2.0",
-    "@types/airtable": "0.5.7",
+    "@types/airtable": "0.8.0",
     "@types/jest": "25.2.3",
     "@types/lodash": "4.14.152",
     "@types/redis": "2.8.21",
