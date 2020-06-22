@@ -59,7 +59,7 @@
     "eslint-plugin-vue": "6.2.2",
     "postcss-import": "12.0.1",
     "tailwindcss": "1.4.6",
-    "ts-jest": "25.5.1",
+    "ts-jest": "26.1.0",
     "typescript": "3.9.5",
     "vue-template-compiler": "2.6.11"
   },
