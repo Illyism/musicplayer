@@ -39,7 +39,7 @@
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "2.3.0",
     "@types/airtable": "0.8.0",
-    "@types/jest": "26.0.4",
+    "@types/jest": "26.0.5",
     "@types/lodash": "4.14.157",
     "@types/redis": "2.8.25",
     "@types/youtube-player": "5.5.3",
