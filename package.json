@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@linusborg/vue-simple-portal": "0.1.4",
-    "@sentry/browser": "5.15.5",
-    "@sentry/integrations": "5.15.5",
+    "@sentry/browser": "5.20.1",
+    "@sentry/integrations": "5.20.1",
     "airtable": "0.8.1",
     "axios": "0.19.2",
     "core-js": "2.6.11",
