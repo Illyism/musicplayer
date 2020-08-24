@@ -41,7 +41,7 @@
     "@types/airtable": "0.8.0",
     "@types/jest": "26.0.10",
     "@types/lodash": "4.14.159",
-    "@types/redis": "2.8.25",
+    "@types/redis": "2.8.26",
     "@types/youtube-player": "5.5.3",
     "@typescript-eslint/eslint-plugin": "2.33.0",
     "@typescript-eslint/parser": "2.33.0",
