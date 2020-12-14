@@ -37,7 +37,7 @@
     "youtube-player": "5.5.2"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "3.0.0",
+    "@fullhuman/postcss-purgecss": "3.1.0",
     "@types/airtable": "0.8.0",
     "@types/jest": "26.0.16",
     "@types/lodash": "4.14.165",
